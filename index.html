@@ -1,0 +1,576 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="rnrmfdlapdlf의 Xbox 360·PC 한글패치, 세이브 에디터와 게임 유틸리티 프로젝트 모음">
+  <title>rnrmfdlapdlf의 프로젝트</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230e151b'/%3E%3Cpath d='M8 9h16v3H11v8h10v-3h-5v-3h8v9H8z' fill='%23b9f46c'/%3E%3C/svg%3E">
+  <style>
+    :root { color-scheme: dark; --bg:#0e1319; --surface:#171e27; --line:#2b3542; --text:#f0f3f5; --muted:#a3afbd; --accent:#b9f46c; --blue:#92b9fa; --font: "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif; }
+    * { box-sizing:border-box; }
+    body { margin:0; background:var(--bg); color:var(--text); font:1rem/1.7 var(--font); -webkit-font-smoothing:antialiased; }
+    button, a { -webkit-tap-highlight-color:transparent; }
+    button { font:inherit; cursor:pointer; }
+    a { color:inherit; text-decoration:none; }
+    button:focus-visible, a:focus-visible, .gallery:focus-visible { outline:2px solid var(--accent); outline-offset:4px; }
+    [hidden] { display:none !important; }
+    .container { width:min(1200px, calc(100% - 80px)); margin-inline:auto; }
+    .skip-link { position:absolute; top:-100px; left:20px; z-index:20; padding:10px 16px; color:var(--bg); background:var(--accent); }
+    .skip-link:focus { top:12px; }
+    .site-header { border-bottom:1px solid var(--line); }
+    .header-inner { min-height:78px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
+    .brand { display:flex; align-items:center; gap:12px; min-width:0; }
+    .brand-mark { width:32px; height:32px; display:grid; place-items:center; border:1px solid #6b8848; border-radius:8px; color:var(--accent); font:bold 19px/1 var(--font); }
+    .brand-name { font-size:1.0625rem; font-weight:650; letter-spacing:-.3px; }
+    .brand-name small { color:var(--muted); font-size:.8125rem; font-weight:400; margin-left:12px; letter-spacing:1.2px; }
+    .profile-link { display:flex; align-items:center; gap:9px; color:#c7d0da; font-size:.875rem; }
+    .profile-link svg { width:18px; height:18px; }
+    .profile-link:hover { color:var(--accent); }
+    .intro { display:flex; align-items:center; justify-content:space-between; gap:40px; padding:40px 0 32px; }
+    .eyebrow { margin:0 0 12px; font:600 .8125rem/1.4 Consolas, monospace; letter-spacing:2px; color:var(--accent); }
+    h1 { margin:0; font-size:clamp(2.1rem, 4vw, 3.125rem); line-height:1.3; font-weight:750; letter-spacing:-1.7px; word-break:keep-all; }
+    h1 span { color:var(--accent); }
+    h1 br { display:none; }
+    .intro-description { margin:16px 0 0; color:var(--muted); font-size:1rem; word-break:keep-all; }
+    .project-stats { display:flex; gap:0; padding-top:30px; flex-shrink:0; }
+    .stat { min-width:105px; padding:0 25px; border-left:1px solid var(--line); }
+    .stat:first-child { border-left:0; }
+    .stat strong { display:block; font:400 2.25rem/1.2 Consolas, monospace; letter-spacing:-1px; }
+    .stat span { display:block; margin-top:10px; color:var(--muted); font-size:.875rem; }
+    .filter-panel { border-top:1px solid var(--line); padding-top:24px; }
+    .filter-row { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .category-filters { display:flex; flex-wrap:wrap; gap:8px; }
+    .filter-button { min-height:42px; border:1px solid transparent; border-radius:7px; padding:8px 14px; background:transparent; color:var(--muted); font-size:.9375rem; white-space:nowrap; transition:background .2s, color .2s; }
+    .filter-button:hover { color:var(--text); background:#202832; }
+    .filter-button[aria-pressed="true"] { color:#142107; background:var(--accent); font-weight:650; }
+    .filter-count { margin-left:6px; font:.8125rem/1 Consolas, monospace; opacity:.8; }
+    .platform-filters { display:flex; align-items:center; gap:4px; padding:3px; border:1px solid var(--line); border-radius:8px; flex-shrink:0; }
+    .platform-filter { min-height:36px; padding:5px 12px; border:0; border-radius:5px; color:var(--muted); background:transparent; font-size:.875rem; font-weight:600; }
+    .platform-filter:hover { color:var(--text); }
+    .platform-filter[aria-pressed="true"] { color:var(--text); background:#303b48; }
+    .results-toolbar { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:22px 0 17px; font-size:.875rem; color:var(--muted); }
+    .results-toolbar p { margin:0; }
+    .results-toolbar strong { font-weight:600; color:#dce2e8; }
+    .project-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:24px; align-items:stretch; }
+    .project-card { min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:12px; background:var(--surface); display:flex; flex-direction:column; transition:border-color .25s; }
+    .project-card:hover { border-color:#56674b; }
+    .gallery { background:var(--surface); }
+    .gallery-images { position:relative; aspect-ratio:16/9; background:#080b10; overflow:hidden; isolation:isolate; }
+    .slide { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity 900ms ease-in-out; }
+    .slide.is-active { opacity:1; }
+    .slide-dots, .description-controls { display:flex; justify-content:center; padding:4px 0; }
+    .slide-dots { border-bottom:1px solid var(--line); }
+    .slide-dot, .description-dot { display:grid; place-items:center; width:32px; height:32px; padding:0; background:transparent; border:0; }
+    .slide-dot span, .description-dot span { width:6px; height:6px; border-radius:5px; background:#fff8; transition:width .3s, background .3s; }
+    .slide-dot.is-active span, .description-dot.is-active span { width:20px; background:var(--accent); }
+    .gallery-fallback { position:absolute; inset:0; display:grid; place-items:center; padding:25px; text-align:center; color:var(--muted); font-size:.875rem; }
+    .tool-cover { position:relative; aspect-ratio:16/9; padding:20px 24px; display:flex; flex-direction:column; justify-content:space-between; margin-bottom:41px; }
+    .tool-cover::after { content:""; position:absolute; top:100%; left:0; right:0; height:41px; background:var(--surface); border-bottom:1px solid var(--line); }
+    .save-cover { background:linear-gradient(115deg, #203248, #142130); color:#afd0fd; }
+    .other-cover { background:linear-gradient(115deg, #2a283d, #1b1d2c); color:#c5b8f4; }
+    .tool-cover-top { display:flex; justify-content:space-between; gap:12px; color:#c0ccdac2; font:400 .75rem/1.4 Consolas, monospace; letter-spacing:1.3px; }
+    .tool-cover-center { display:flex; align-items:center; justify-content:center; gap:14px; padding:12px 0; }
+    .tool-cover-center svg { width:38px; height:38px; flex-shrink:0; }
+    .tool-cover-center span { font-size:1.25rem; font-weight:650; }
+    .tool-cover-bottom { color:#acb7c6; font:.75rem/1.4 Consolas, monospace; letter-spacing:.5px; }
+    .card-body { padding:22px 23px 20px; display:flex; flex-direction:column; flex:1; }
+    .card-meta { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:11px; }
+    .category-label { font-size:.875rem; font-weight:600; }
+    .category-label.patch { color:var(--accent); }
+    .category-label.save { color:#afd0fd; }
+    .category-label.other { color:#c5b8f4; }
+    .platform-badges { display:flex; gap:5px; flex-wrap:wrap; justify-content:flex-end; }
+    .platform-badge { padding:2px 7px; border:1px solid #424e5e; border-radius:4px; color:#c1cad4; font:500 .75rem/1.5 Consolas, monospace; white-space:nowrap; }
+    .platform-badge.xbox { color:#c7dfb5; border-color:#43523d; }
+    .platform-badge.pc { color:#bdd4fa; border-color:#40536b; }
+    .card-body h2 { font-size:1.25rem; line-height:1.4; font-weight:700; margin:0; letter-spacing:-.5px; word-break:keep-all; }
+    .english-title { margin:5px 0 14px; color:#96a4b5; font:400 .75rem/1.6 Consolas, monospace; letter-spacing:.35px; overflow-wrap:anywhere; }
+    .card-description { font-size:1rem; line-height:1.85; color:#b9c3d0; margin:0 0 18px; word-break:keep-all; }
+    .card-body > .card-description { flex:1; margin-bottom:12px; }
+    .description-rotator { display:flex; flex-direction:column; flex:1; margin-bottom:18px; }
+    .description-controls { min-height:40px; flex-shrink:0; margin-top:auto; }
+    .description-controls-placeholder { margin-top:0; margin-bottom:18px; }
+    .description-panels { display:grid; }
+    .description-panel { grid-area:1/1; min-width:0; opacity:0; visibility:hidden; transition:opacity 650ms ease-in-out, visibility 650ms; }
+    .description-panel.is-active { opacity:1; visibility:visible; }
+    .description-panel .card-description { margin-bottom:12px; }
+    .description-heading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:0 0 9px; color:#a3b1c3; font-size:.875rem; }
+    .description-heading span { font:.75rem/1.4 Consolas, monospace; color:#8c9aad; }
+    .feature-tags { display:flex; flex-wrap:wrap; gap:6px; min-height:calc(.75rem * 1.7 + 6px); flex-shrink:0; list-style:none; margin:0 0 21px; padding:0; }
+    .feature-tags li { color:#b3bfce; font-size:.75rem; border-radius:4px; background:#222c38; padding:3px 8px; }
+    .repo-link { display:flex; gap:8px; align-items:center; justify-content:center; min-height:41px; flex-shrink:0; color:#d2d9e2; font-size:.875rem; font-weight:600; border:1px solid #3a4656; border-radius:6px; background:#1c2530; transition:background .2s, border-color .2s; }
+    .repo-link svg { width:15px; height:15px; }
+    .repo-link:hover { background:#2a3640; border-color:#71865a; color:var(--accent); }
+    .empty-state { padding:60px 16px; border:1px dashed var(--line); border-radius:12px; text-align:center; }
+    .empty-state strong { display:block; font-size:1.125rem; color:var(--text); }
+    .empty-state p { color:var(--muted); margin:8px 0 0; }
+    .no-script { border:1px solid var(--line); padding:14px; color:var(--muted); font-size:.875rem; }
+    main { padding-bottom:36px; }
+    @media (min-width:1050px) { .card-description { min-height:5.55em; } }
+    @media (max-width:1050px) { .container { width:calc(100% - 48px); } .project-grid { grid-template-columns:repeat(1,minmax(0,1fr)); gap:20px; } .stat { min-width:auto; padding:0 16px; } .intro { gap:24px; } .intro-description { max-width:30em; } }
+    @media (max-width:700px) { .container { width:calc(100% - 36px); } .header-inner { min-height:68px; gap:14px; } .brand-name { font-size:.9375rem; } .brand-name small { display:none; } .profile-link { font-size:.8125rem; } .intro { display:block; padding:34px 0 28px; } h1 { font-size:2.125rem; letter-spacing:-1px; } h1 br { display:block; } .intro-description { max-width:25em; margin-top:13px; font-size:.9375rem; } .project-stats { padding-top:27px; } .stat { min-width:100px; padding:0 20px; } .stat:first-child { padding-left:0; } .stat strong { font-size:1.625rem; } .stat span { margin-top:5px; font-size:.8125rem; } .filter-panel { padding-top:18px; } .filter-row { flex-direction:column; align-items:flex-start; gap:15px; } .category-filters { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; width:100%; } .filter-button { font-size:.875rem; padding:7px 10px; } .platform-filters { align-self:flex-start; } .results-toolbar { padding-top:17px; } .project-grid { grid-template-columns:1fr; gap:20px; } .card-body { padding:21px; } .card-description { font-size:1rem; } .tool-cover { padding:20px 24px; } .footer-inner { flex-direction:column; align-items:flex-start; gap:5px; } .site-footer { margin-top:34px; } }
+    @media (max-width:360px) { .container { width:calc(100% - 28px); } .brand { gap:8px; } .brand-name { font-size:.8125rem; } .filter-button { padding:7px 8px; } .stat { min-width:90px; padding:0 16px; } }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none !important; } }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#projects">프로젝트 목록으로 건너뛰기</a>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#" aria-label="rnrmfdlapdlf 공개 프로젝트 홈"><span class="brand-mark" aria-hidden="true">G</span><span class="brand-name">rnrmfdlapdlf<small>PROJECTS</small></span></a>
+      <a class="profile-link" href="https://github.com/rnrmfdlapdlf?tab=repositories" target="_blank" rel="noopener noreferrer" aria-label="GitHub 공개 저장소 전체 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub</span></a>
+    </div>
+  </header>
+  <main class="container">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">XBOX 360 / PC</p><h1 id="page-title"><span>한글패치</span>와 <br>유틸리티 모음</h1><p class="intro-description">한글패치, 세이브 에디터와 유틸리티. 공개 프로젝트를 한곳에서</p></div>
+      <div class="project-stats" aria-label="종류별 프로젝트 수"><div class="stat"><strong>07</strong><span>한글패치</span></div><div class="stat"><strong>02</strong><span>세이브 에디터</span></div><div class="stat"><strong>02</strong><span>유틸리티</span></div></div>
+    </section>
+    <section id="projects" aria-label="공개 프로젝트 목록" tabindex="-1">
+      <div class="filter-panel" id="filter-panel" hidden>
+        <div class="filter-row">
+          <div class="category-filters" role="group" aria-label="프로젝트 종류">
+            <button class="filter-button" type="button" data-category-filter="all" aria-pressed="true">전체<span class="filter-count">11</span></button>
+            <button class="filter-button" type="button" data-category-filter="patch" aria-pressed="false">한글패치<span class="filter-count">7</span></button>
+            <button class="filter-button" type="button" data-category-filter="save" aria-pressed="false">세이브 에디터<span class="filter-count">2</span></button>
+            <button class="filter-button" type="button" data-category-filter="other" aria-pressed="false">유틸리티<span class="filter-count">2</span></button>
+          </div>
+          <div class="platform-filters" role="group" aria-label="게임 플랫폼">
+            <button class="platform-filter" type="button" data-platform-filter="all" aria-pressed="true">모든 플랫폼</button>
+            <button class="platform-filter" type="button" data-platform-filter="XBOX360" aria-pressed="false">XBOX 360</button>
+            <button class="platform-filter" type="button" data-platform-filter="PC" aria-pressed="false">PC</button>
+          </div>
+        </div>
+      </div>
+      <div class="results-toolbar"><p id="results-count" role="status" aria-live="polite" aria-atomic="true"><strong>11</strong>개 프로젝트</p></div>
+      <noscript><p class="no-script">JavaScript를 켜시면 플랫폼·종류별 분류와 샘플 이미지·유틸리티 설명 자동 전환을 이용하실 수 있습니다.</p></noscript>
+      <div class="project-grid" id="project-grid">
+      <!-- xbox360-idolmaster-korean-patcher -->
+      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="아이돌마스터 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample1.jpg" alt="아이돌마스터 한글패치 샘플 1" width="1280" height="720" loading="eager" decoding="async" fetchpriority="high">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample2.jpg" alt="아이돌마스터 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample3.jpg" alt="아이돌마스터 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample4.jpg" alt="아이돌마스터 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="아이돌마스터 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="아이돌마스터 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="아이돌마스터 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="아이돌마스터 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>아이돌마스터</h2>
+          <p class="english-title">THE iDOLM@STER</p>
+          
+          <p class="card-description">765 프로덕션의 신입 프로듀서가 되어 아이돌 후보생을 톱 아이돌로 키우는 육성 시뮬레이션입니다. 레슨과 오디션, TV 출연과 커뮤니케이션을 통해 아이돌을 성장시키고 팬을 모읍니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="아이돌마스터 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- xbox360-trusty-bell-korean-patcher -->
+      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="트러스티 벨 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample1.jpg" alt="트러스티 벨 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample2.jpg" alt="트러스티 벨 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample3.jpg" alt="트러스티 벨 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample4.jpg" alt="트러스티 벨 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="트러스티 벨 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="트러스티 벨 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="트러스티 벨 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="트러스티 벨 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>트러스티 벨</h2>
+          <p class="english-title">TRUSTY BELL / ETERNAL SONATA</p>
+          
+          <p class="card-description">작곡가 쇼팽의 꿈속 세계를 무대로 펼쳐지는 판타지 RPG입니다. 음악에서 이름을 따온 인물들과 모험하며, 턴제와 실시간 행동을 결합한 전투에서 빛과 그림자에 따라 달라지는 기술을 활용합니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>프로그램</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="트러스티 벨 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- xbox360-earth-defence-force-3-korean-patcher -->
+      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="지구방위군 3 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-earth-defence-force-3-korean-patcher/main/samples/sample1.jpg" alt="지구방위군 3 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-earth-defence-force-3-korean-patcher/main/samples/sample2.jpg" alt="지구방위군 3 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-earth-defence-force-3-korean-patcher/main/samples/sample3.jpg" alt="지구방위군 3 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="지구방위군 3 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="지구방위군 3 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="지구방위군 3 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>지구방위군 3</h2>
+          <p class="english-title">EARTH DEFENSE FORCE 2017</p>
+          
+          <p class="card-description">외계 침략자 포리너에 맞서 지구를 지키는 3D 액션 슈팅 게임입니다. 지구방위군 EDF의 병사가 되어 거대 곤충과 비행 병기에 맞서며, 소총과 로켓 런처 등 다양한 무기로 전투를 벌입니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>프로그램</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-earth-defence-force-3-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="지구방위군 3 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- xbox360-dreamclub-korean-patcher -->
+      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="드림클럽 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample1.jpg" alt="드림클럽 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample2.jpg" alt="드림클럽 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample3.jpg" alt="드림클럽 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample4.jpg" alt="드림클럽 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="드림클럽 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="드림클럽 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="드림클럽 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="드림클럽 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>드림클럽</h2>
+          <p class="english-title">DREAM C CLUB</p>
+          
+          <p class="card-description">클럽의 호스트걸들과 대화하고 교류하는 연애 시뮬레이션 게임입니다. 평일에는 아르바이트로 방문 비용을 마련하고, 클럽에서는 친밀도를 높여 캐릭터들의 노래와 춤을 즐길 수 있습니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="드림클럽 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- xbox360-soulcalibur-korean-patcher -->
+      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="소울칼리버 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher/main/samples/sample1.jpg" alt="소울칼리버 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher/main/samples/sample2.jpg" alt="소울칼리버 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher/main/samples/sample3.jpg" alt="소울칼리버 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher/main/samples/sample4.jpg" alt="소울칼리버 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="소울칼리버 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="소울칼리버 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="소울칼리버 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="소울칼리버 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>소울칼리버</h2>
+          <p class="english-title">SOULCALIBUR</p>
+          
+          <p class="card-description">전설의 검 소울 엣지를 둘러싼 싸움을 그린 대전 격투 게임입니다. 19명의 캐릭터 중 하나를 선택해 승부를 펼치며, Xbox Live Arcade 버전에서는 고해상도 화면과 도전 과제를 지원합니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>xdelta</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="소울칼리버 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- xbox360-american-mcgees-alice-korean-pathcer -->
+      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="아메리칸 맥기의 앨리스 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample1.jpg" alt="아메리칸 맥기의 앨리스 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample2.jpg" alt="아메리칸 맥기의 앨리스 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample3.jpg" alt="아메리칸 맥기의 앨리스 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample4.jpg" alt="아메리칸 맥기의 앨리스 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="아메리칸 맥기의 앨리스 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="아메리칸 맥기의 앨리스 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="아메리칸 맥기의 앨리스 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="아메리칸 맥기의 앨리스 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>아메리칸 맥기의 앨리스</h2>
+          <p class="english-title">AMERICAN McGEE’S ALICE</p>
+          
+          <p class="card-description">앨리스의 이상한 나라를 어두운 분위기로 재해석한 액션 어드벤처입니다. 뒤틀린 세계를 탐험하는 앨리스가 되어 하트 여왕에 맞서고, 자신의 이상한 나라를 되찾기 위한 여정을 이어갑니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>프로그램</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer" target="_blank" rel="noopener noreferrer" aria-label="아메리칸 맥기의 앨리스 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- star-ocean-korean-patcher -->
+      <article class="project-card" data-category="patch" data-platforms="XBOX360 PC">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="스타오션 4 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample1.jpg" alt="스타오션 4 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample2.jpg" alt="스타오션 4 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample3.jpg" alt="스타오션 4 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample4.jpg" alt="스타오션 4 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="스타오션 4 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="스타오션 4 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="스타오션 4 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="스타오션 4 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span><span class="platform-badge pc">PC</span></div></div>
+          <h2>스타오션 4</h2>
+          <p class="english-title">STAR OCEAN: THE LAST HOPE</p>
+          
+          <p class="card-description">대전쟁으로 황폐해진 지구를 떠나 새로운 보금자리를 찾는 인류의 여정을 그린 SF 액션 RPG입니다. 다양한 행성을 탐험하고 외계 종족과 만나며, 실시간 전투로 우주를 위협하는 위험에 맞섭니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/star-ocean-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="스타오션 4 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- g3p2-save-editor -->
+      <article class="project-card" data-category="save" data-platforms="PC">
+        
+        <div class="tool-cover save-cover" aria-hidden="true">
+          <div class="tool-cover-top"><span>SAVE EDITOR</span><span>PC</span></div>
+          <div class="tool-cover-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 3.5h11l3 3v14H5a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M8 3.5v6h8v-6M8 20.5v-7h8v7M13 5.5v2"/></svg><span>세이브 에디터</span></div>
+          <span class="tool-cover-bottom">THE WAR OF GENESIS III: PART 2</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label save">세이브 에디터</span><div class="platform-badges"><span class="platform-badge pc">PC</span></div></div>
+          <h2>창세기전 3 파트 2</h2>
+          <p class="english-title">THE WAR OF GENESIS III: PART 2</p>
+          
+          <p class="card-description">소프트맥스가 개발한 SRPG로, 창세기전 시리즈의 이야기를 마무리하는 작품입니다. 미래의 아르케와 우주를 무대로 살라딘과 베라모드의 두 에피소드가 펼쳐지며, 군단과 어빌리티를 활용해 전투를 진행합니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>HTML</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/g3p2-save-editor" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 세이브 에디터 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- ninja-gaiden2-save-editor -->
+      <article class="project-card" data-category="save" data-platforms="XBOX360">
+        
+        <div class="tool-cover save-cover" aria-hidden="true">
+          <div class="tool-cover-top"><span>SAVE EDITOR</span><span>XBOX 360</span></div>
+          <div class="tool-cover-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M5 3.5h11l3 3v14H5a1 1 0 0 1-1-1v-15a1 1 0 0 1 1-1Z"/><path d="M8 3.5v6h8v-6M8 20.5v-7h8v7M13 5.5v2"/></svg><span>세이브 에디터</span></div>
+          <span class="tool-cover-bottom">NINJA GAIDEN 2</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label save">세이브 에디터</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>닌자 가이덴 2</h2>
+          <p class="english-title">NINJA GAIDEN 2</p>
+          
+          <p class="card-description">전설의 닌자 류 하야부사가 인류의 운명을 건 싸움에 나서는 액션 게임입니다. 다양한 무기와 기술로 수많은 적을 상대하며, 빠른 움직임과 강렬한 전투를 중심으로 여정을 이어갑니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>HTML</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/ninja-gaiden2-save-editor" target="_blank" rel="noopener noreferrer" aria-label="닌자 가이덴 2 세이브 에디터 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- g3p2-resource-extractor -->
+      <article class="project-card" data-category="other" data-platforms="PC">
+        
+        <div class="tool-cover other-cover" aria-hidden="true">
+          <div class="tool-cover-top"><span>UTILITY</span><span>PC</span></div>
+          <div class="tool-cover-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7.5 7-5 5 5 5M16.5 7l5 5-5 5M14 4l-4 16"/></svg><span>리소스 추출기</span></div>
+          <span class="tool-cover-bottom">G3P2 RESOURCE EXTRACTOR</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label other">유틸리티</span><div class="platform-badges"><span class="platform-badge pc">PC</span></div></div>
+          <h2>창세기전 3 파트 2</h2>
+          <p class="english-title">G3P2 RESOURCE EXTRACTOR</p>
+          
+          <div class="description-rotator" role="group" aria-label="창세기전 3 파트 2 게임 소개와 유틸리티 안내">
+            <div class="description-panels">
+            <div class="description-panel is-active">
+              <p class="description-heading">게임 소개<span aria-hidden="true">01 / 02</span></p>
+              <p class="card-description">소프트맥스가 개발한 SRPG로, 창세기전 시리즈의 이야기를 마무리하는 작품입니다. 미래의 아르케와 우주를 무대로 살라딘과 베라모드의 두 에피소드가 펼쳐지며, 군단과 어빌리티를 활용해 전투를 진행합니다.</p>
+            </div>
+            <div class="description-panel" aria-hidden="true" inert>
+              <p class="description-heading">유틸리티 안내<span aria-hidden="true">02 / 02</span></p>
+              <p class="card-description">게임 폴더에서 리소스를 추출해 ZIP으로 저장합니다. 세이브 에디터용 얼굴 스프라이트 추출도 지원합니다.</p>
+            </div>
+            </div>
+            <div class="description-controls" aria-label="설명 선택">
+              <button class="description-dot is-active" type="button" aria-label="창세기전 3 파트 2 게임 소개 보기" aria-pressed="true" data-description="0"><span></span></button>
+              <button class="description-dot" type="button" aria-label="창세기전 3 파트 2 유틸리티 안내 보기" aria-pressed="false" data-description="1"><span></span></button>
+            </div>
+          </div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>HTML</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/g3p2-resource-extractor" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 유틸리티 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- steam-rainbow-six-vegas-mod -->
+      <article class="project-card" data-category="other" data-platforms="PC">
+        
+        <div class="tool-cover other-cover" aria-hidden="true">
+          <div class="tool-cover-top"><span>UTILITY</span><span>PC</span></div>
+          <div class="tool-cover-center"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m7.5 7-5 5 5 5M16.5 7l5 5-5 5M14 4l-4 16"/></svg><span>실행 오류 수정</span></div>
+          <span class="tool-cover-bottom">RAINBOW SIX VEGAS</span>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label other">유틸리티</span><div class="platform-badges"><span class="platform-badge pc">PC</span></div></div>
+          <h2>레인보우 식스 베가스</h2>
+          <p class="english-title">RAINBOW SIX VEGAS</p>
+          
+          <div class="description-rotator" role="group" aria-label="레인보우 식스 베가스 게임 소개와 유틸리티 안내">
+            <div class="description-panels">
+            <div class="description-panel is-active">
+              <p class="description-heading">게임 소개<span aria-hidden="true">01 / 02</span></p>
+              <p class="card-description">테러 공격으로 혼란에 빠진 라스베이거스를 무대로 하는 1인칭 슈팅 게임입니다. 레인보우 요원이 되어 프리몬트 거리와 스트립, 카지노 등 도시의 주요 장소를 지키기 위한 작전을 수행합니다.</p>
+            </div>
+            <div class="description-panel" aria-hidden="true" inert>
+              <p class="description-heading">유틸리티 안내<span aria-hidden="true">02 / 02</span></p>
+              <p class="card-description">한국어 Windows에서 인트로 이후 멈추는 증상을 수정하는 패치입니다. 파일 상태 확인과 원본 복원을 지원합니다.</p>
+            </div>
+            </div>
+            <div class="description-controls" aria-label="설명 선택">
+              <button class="description-dot is-active" type="button" aria-label="레인보우 식스 베가스 게임 소개 보기" aria-pressed="true" data-description="0"><span></span></button>
+              <button class="description-dot" type="button" aria-label="레인보우 식스 베가스 유틸리티 안내 보기" aria-pressed="false" data-description="1"><span></span></button>
+            </div>
+          </div>
+          
+          <div class="feature-tags" aria-hidden="true"></div>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/steam-rainbow-six-vegas-mod" target="_blank" rel="noopener noreferrer" aria-label="레인보우 식스 베가스 유틸리티 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+      </div>
+      <div class="empty-state" id="empty-state" hidden><strong>이 분류에 해당하는 프로젝트가 없습니다.</strong><p>다른 종류나 플랫폼을 선택해 주세요.</p></div>
+    </section>
+  </main>
+  <script>
+    'use strict';
+    // 저장소 목록과 이미지는 공개 자료를 확인한 정적 스냅샷입니다.
+    // GitHub API를 호출하지 않으므로 index.html만으로 실행할 수 있습니다.
+    const cards = Array.from(document.querySelectorAll('.project-card'));
+    const categoryButtons = Array.from(document.querySelectorAll('[data-category-filter]'));
+    const platformButtons = Array.from(document.querySelectorAll('[data-platform-filter]'));
+    const motionPreference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let category = 'all';
+    let platform = 'all';
+    let autoplay = !motionPreference.matches;
+
+    const galleries = Array.from(document.querySelectorAll('.gallery')).map((element, index) => {
+      const images = Array.from(element.querySelectorAll('.slide'));
+      const dots = Array.from(element.querySelectorAll('.slide-dot'));
+      const state = { element, images, dots, current:0, visible:false, hovered:false, focused:false, lastChange:performance.now() + index * 400 };
+      const show = target => {
+        if (!images[target] || images[target].dataset.failed === 'true' || !images[target].complete || !images[target].naturalWidth) return false;
+        images.forEach((image, imageIndex) => { image.classList.toggle('is-active', imageIndex === target); image.setAttribute('aria-hidden', String(imageIndex !== target)); });
+        dots.forEach((dot, dotIndex) => { dot.classList.toggle('is-active', dotIndex === target); dot.setAttribute('aria-pressed', String(dotIndex === target)); });
+        state.current = target;
+        state.lastChange = performance.now();
+        return true;
+      };
+      const next = direction => {
+        for (let step = 1; step <= images.length; step++) {
+          const target = (state.current + step * direction + images.length) % images.length;
+          if (target !== state.current && show(target)) break;
+        }
+      };
+      const onError = imageIndex => {
+        images[imageIndex].dataset.failed = 'true';
+        images[imageIndex].classList.remove('is-active');
+        dots[imageIndex].hidden = true;
+        if (imageIndex === state.current) next(1);
+        const allFailed = images.every(image => image.dataset.failed === 'true');
+        element.querySelector('.gallery-fallback').hidden = !allFailed;
+        element.querySelector('.slide-dots').hidden = allFailed;
+      };
+      images.forEach((image, imageIndex) => {
+        image.addEventListener('error', () => onError(imageIndex));
+        image.addEventListener('load', () => { if (images[state.current].dataset.failed === 'true') show(imageIndex); });
+        if (image.complete && !image.naturalWidth) onError(imageIndex);
+      });
+      dots.forEach((dot, dotIndex) => dot.addEventListener('click', () => {
+        if (!show(dotIndex) && images[dotIndex].dataset.failed !== 'true') {
+          images[dotIndex].loading = 'eager';
+          images[dotIndex].addEventListener('load', () => show(dotIndex), { once:true });
+        }
+      }));
+      element.addEventListener('mouseenter', () => { state.hovered = true; });
+      element.addEventListener('mouseleave', () => { state.hovered = false; state.lastChange = performance.now(); });
+      element.addEventListener('focusin', () => { state.focused = true; });
+      element.addEventListener('focusout', () => { state.focused = element.contains(document.activeElement); state.lastChange = performance.now(); });
+      element.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); next(event.key === 'ArrowLeft' ? -1 : 1); }
+      });
+      state.next = next;
+      return state;
+    });
+
+    const descriptionRotators = Array.from(document.querySelectorAll('.description-rotator')).map(element => {
+      const panels = Array.from(element.querySelectorAll('.description-panel'));
+      const dots = Array.from(element.querySelectorAll('.description-dot'));
+      const state = { element, panels, current:0, visible:false, hovered:false, focused:false, lastChange:performance.now() };
+      const show = target => {
+        panels.forEach((panel, index) => {
+          const active = index === target;
+          panel.classList.toggle('is-active', active);
+          panel.setAttribute('aria-hidden', String(!active));
+          panel.toggleAttribute('inert', !active);
+        });
+        dots.forEach((dot, index) => {
+          dot.classList.toggle('is-active', index === target);
+          dot.setAttribute('aria-pressed', String(index === target));
+        });
+        state.current = target;
+        state.lastChange = performance.now();
+      };
+      show(0);
+      dots.forEach((dot, index) => dot.addEventListener('click', () => show(index)));
+      element.addEventListener('mouseenter', () => { state.hovered = true; });
+      element.addEventListener('mouseleave', () => { state.hovered = false; state.lastChange = performance.now(); });
+      element.addEventListener('focusin', () => { state.focused = true; });
+      element.addEventListener('focusout', () => { state.focused = element.contains(document.activeElement); state.lastChange = performance.now(); });
+      state.next = () => show((state.current + 1) % panels.length);
+      return state;
+    });
+    const rotationStates = galleries.concat(descriptionRotators);
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const state = rotationStates.find(item => item.element === entry.target);
+        if (state) { state.visible = entry.isIntersecting; if (state.visible) state.lastChange = performance.now(); }
+      });
+    }, { threshold:0.15 });
+    rotationStates.forEach(state => observer.observe(state.element));
+
+    const updateFilters = () => {
+      let visibleCount = 0;
+      cards.forEach(card => {
+        const matches = (category === 'all' || card.dataset.category === category) && (platform === 'all' || card.dataset.platforms.split(' ').includes(platform));
+        card.hidden = !matches;
+        if (matches) visibleCount++;
+      });
+      categoryButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.categoryFilter === category)));
+      platformButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.platformFilter === platform)));
+      document.getElementById('results-count').innerHTML = '<strong>' + visibleCount + '</strong>개 프로젝트';
+      document.getElementById('empty-state').hidden = visibleCount > 0;
+      rotationStates.forEach(state => { state.lastChange = performance.now(); });
+    };
+    categoryButtons.forEach(button => button.addEventListener('click', () => { category = button.dataset.categoryFilter; updateFilters(); }));
+    platformButtons.forEach(button => button.addEventListener('click', () => { platform = button.dataset.platformFilter; updateFilters(); }));
+
+    motionPreference.addEventListener('change', event => { autoplay = !event.matches; });
+    document.addEventListener('visibilitychange', () => { rotationStates.forEach(state => { state.lastChange = performance.now(); }); });
+    // 샘플 이미지와 유틸리티의 게임 소개·도구 안내를 5초마다 전환합니다.
+    // 화면 밖, 마우스 호버, 키보드 포커스 중에는 해당 영역의 전환을 멈춥니다.
+    window.setInterval(() => {
+      if (!autoplay || document.hidden) return;
+      const now = performance.now();
+      rotationStates.forEach(state => { if (state.visible && !state.hovered && !state.focused && !state.element.closest('.project-card').hidden && now - state.lastChange >= 5000) state.next(1); });
+    }, 250);
+    document.getElementById('filter-panel').hidden = false;
+    updateFilters();
+  </script>
+</body>
+</html>
