@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
-  <meta name="description" content="rnrmfdlapdlf의 Xbox 360·PC 한글패치, 세이브 에디터와 게임 유틸리티 프로젝트 모음">
+  <meta name="description" content="rnrmfdlapdlf의 Xbox 360·PC·게임보이 한글패치, 세이브 에디터와 게임 유틸리티 프로젝트 모음">
   <title>rnrmfdlapdlf의 프로젝트</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230e151b'/%3E%3Cpath d='M8 9h16v3H11v8h10v-3h-5v-3h8v9H8z' fill='%23b9f46c'/%3E%3C/svg%3E">
   <style>
@@ -40,13 +40,13 @@
     .stat strong { display:block; font:400 2.25rem/1.2 Consolas, monospace; letter-spacing:-1px; }
     .stat span { display:block; margin-top:10px; color:var(--muted); font-size:.875rem; }
     .filter-panel { border-top:1px solid var(--line); padding-top:24px; }
-    .filter-row { display:flex; align-items:center; justify-content:space-between; gap:20px; }
+    .filter-row { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px; }
     .category-filters { display:flex; flex-wrap:wrap; gap:8px; }
     .filter-button { min-height:42px; border:1px solid transparent; border-radius:7px; padding:8px 14px; background:transparent; color:var(--muted); font-size:.9375rem; white-space:nowrap; transition:background .2s, color .2s; }
     .filter-button:hover { color:var(--text); background:#202832; }
     .filter-button[aria-pressed="true"] { color:#142107; background:var(--accent); font-weight:650; }
     .filter-count { margin-left:6px; font:.8125rem/1 Consolas, monospace; opacity:.8; }
-    .platform-filters { display:flex; align-items:center; gap:4px; padding:3px; border:1px solid var(--line); border-radius:8px; flex-shrink:0; }
+    .platform-filters { display:flex; flex-wrap:wrap; max-width:100%; align-items:center; gap:4px; padding:3px; border:1px solid var(--line); border-radius:8px; flex-shrink:0; }
     .platform-filter { min-height:36px; padding:5px 12px; border:0; border-radius:5px; color:var(--muted); background:transparent; font-size:.875rem; font-weight:600; }
     .platform-filter:hover { color:var(--text); }
     .platform-filter[aria-pressed="true"] { color:var(--text); background:#303b48; }
@@ -125,15 +125,15 @@
   </header>
   <main class="container">
     <section class="intro" aria-labelledby="page-title">
-      <div><p class="eyebrow">XBOX 360 / PC</p><h1 id="page-title"><span>한글패치</span>와 <br>유틸리티 모음</h1><p class="intro-description">한글패치, 세이브 에디터와 유틸리티. 공개 프로젝트를 한곳에서</p></div>
-      <div class="project-stats" aria-label="종류별 프로젝트 수"><div class="stat"><strong>07</strong><span>한글패치</span></div><div class="stat"><strong>02</strong><span>세이브 에디터</span></div><div class="stat"><strong>02</strong><span>유틸리티</span></div></div>
+      <div><p class="eyebrow">XBOX 360 / PC / GAME BOY</p><h1 id="page-title"><span>한글패치</span>와 <br>유틸리티 모음</h1><p class="intro-description">한글패치, 세이브 에디터와 유틸리티. 공개 프로젝트를 한곳에서</p></div>
+      <div class="project-stats" aria-label="종류별 프로젝트 수"><div class="stat"><strong>08</strong><span>한글패치</span></div><div class="stat"><strong>02</strong><span>세이브 에디터</span></div><div class="stat"><strong>02</strong><span>유틸리티</span></div></div>
     </section>
     <section id="projects" aria-label="공개 프로젝트 목록" tabindex="-1">
       <div class="filter-panel" id="filter-panel" hidden>
         <div class="filter-row">
           <div class="category-filters" role="group" aria-label="프로젝트 종류">
-            <button class="filter-button" type="button" data-category-filter="all" aria-pressed="true">전체<span class="filter-count">11</span></button>
-            <button class="filter-button" type="button" data-category-filter="patch" aria-pressed="false">한글패치<span class="filter-count">7</span></button>
+            <button class="filter-button" type="button" data-category-filter="all" aria-pressed="true">전체<span class="filter-count">12</span></button>
+            <button class="filter-button" type="button" data-category-filter="patch" aria-pressed="false">한글패치<span class="filter-count">8</span></button>
             <button class="filter-button" type="button" data-category-filter="save" aria-pressed="false">세이브 에디터<span class="filter-count">2</span></button>
             <button class="filter-button" type="button" data-category-filter="other" aria-pressed="false">유틸리티<span class="filter-count">2</span></button>
           </div>
@@ -141,10 +141,11 @@
             <button class="platform-filter" type="button" data-platform-filter="all" aria-pressed="true">모든 플랫폼</button>
             <button class="platform-filter" type="button" data-platform-filter="XBOX360" aria-pressed="false">XBOX 360</button>
             <button class="platform-filter" type="button" data-platform-filter="PC" aria-pressed="false">PC</button>
+            <button class="platform-filter" type="button" data-platform-filter="GB" aria-pressed="false">GAME BOY</button>
           </div>
         </div>
       </div>
-      <div class="results-toolbar"><p id="results-count" role="status" aria-live="polite" aria-atomic="true"><strong>11</strong>개 프로젝트</p></div>
+      <div class="results-toolbar"><p id="results-count" role="status" aria-live="polite" aria-atomic="true"><strong>12</strong>개 프로젝트</p></div>
       <noscript><p class="no-script">JavaScript를 켜시면 플랫폼·종류별 분류와 샘플 이미지·유틸리티 설명 자동 전환을 이용하실 수 있습니다.</p></noscript>
       <div class="project-grid" id="project-grid">
       <!-- xbox360-idolmaster-korean-patcher -->
@@ -332,6 +333,31 @@
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
           <a class="repo-link" href="https://github.com/rnrmfdlapdlf/star-ocean-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="스타오션 4 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+        </div>
+      </article>
+
+      <!-- gb-sangokushi-kr -->
+      <article class="project-card" data-category="patch" data-platforms="GB">
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="삼국지 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+            <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+            <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/gb-sangokushi-kr/main/samples/sample1.jpg" alt="삼국지 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/gb-sangokushi-kr/main/samples/sample2.jpg" alt="삼국지 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/gb-sangokushi-kr/main/samples/sample3.jpg" alt="삼국지 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/gb-sangokushi-kr/main/samples/sample4.jpg" alt="삼국지 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="삼국지 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="삼국지 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="삼국지 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="삼국지 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge gb">GAME BOY</span></div></div>
+          <h2>삼국지</h2>
+          <p class="english-title">SANGOKUSHI GAME BOY-BAN</p>
+          <p class="card-description">삼국지 시대의 군주가 되어 중국 통일을 목표로 하는 게임보이용 역사 전략 시뮬레이션입니다. 내정으로 세력을 키우고 장수를 등용하며, 전쟁과 외교를 통해 다른 군주들과 경쟁합니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>xdelta</li></ul>
+          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/gb-sangokushi-kr" target="_blank" rel="noopener noreferrer" aria-label="삼국지 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
         </div>
       </article>
 
