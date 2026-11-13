@@ -637,7 +637,12 @@
       if (card.hidden) { category = 'all'; platform = 'all'; updateFilters(); }
       card.scrollIntoView({ block:'start' });
     };
+    // 새로고침하거나 같은 주소를 다시 열면 브라우저가 직전 스크롤 위치를 복원하므로,
+    // #주소가 있을 때는 복원을 끄고 페이지 로드가 끝난 뒤에도 한 번 더 맞춥니다.
+    if (location.hash && 'scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.addEventListener('hashchange', scrollToLinkedCard);
+    window.addEventListener('load', scrollToLinkedCard);
+    if (window.navigation) navigation.addEventListener('navigatesuccess', scrollToLinkedCard);
     scrollToLinkedCard();
   </script>
 </body>
