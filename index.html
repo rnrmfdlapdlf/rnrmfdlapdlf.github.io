@@ -56,6 +56,8 @@
     .project-grid { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:24px; align-items:stretch; }
     .project-card { min-width:0; overflow:hidden; border:1px solid var(--line); border-radius:12px; background:var(--surface); display:flex; flex-direction:column; transition:border-color .25s; }
     .project-card:hover { border-color:#56674b; }
+    .project-card { scroll-margin-top:24px; }
+    .project-card:target { border-color:var(--accent); box-shadow:0 0 0 1px var(--accent); }
     .gallery { background:var(--surface); }
     .gallery-images { position:relative; aspect-ratio:16/9; background:#080b10; overflow:hidden; isolation:isolate; }
     .slide { display:block; position:absolute; inset:0; width:100%; height:100%; object-fit:contain; opacity:0; transition:opacity 900ms ease-in-out; }
@@ -103,6 +105,8 @@
     .repo-link { display:flex; gap:8px; align-items:center; justify-content:center; min-height:41px; flex-shrink:0; color:#d2d9e2; font-size:.875rem; font-weight:600; border:1px solid #3a4656; border-radius:6px; background:#1c2530; transition:background .2s, border-color .2s; }
     .repo-link svg { width:15px; height:15px; }
     .repo-link:hover { background:#2a3640; border-color:#71865a; color:var(--accent); }
+    .card-links { display:grid; grid-template-columns:1fr 1fr; gap:8px; flex-shrink:0; }
+    .download-link { color:var(--accent); border-color:#56674b; }
     .empty-state { padding:60px 16px; border:1px dashed var(--line); border-radius:12px; text-align:center; }
     .empty-state strong { display:block; font-size:1.125rem; color:var(--text); }
     .empty-state p { color:var(--muted); margin:8px 0 0; }
@@ -126,14 +130,14 @@
   <main class="container">
     <section class="intro" aria-labelledby="page-title">
       <div><p class="eyebrow">XBOX 360 / PC / GAME BOY</p><h1 id="page-title"><span>한글패치</span>와 <br>유틸리티 모음</h1><p class="intro-description">한글패치, 세이브 에디터와 유틸리티. 공개 프로젝트를 한곳에서</p></div>
-      <div class="project-stats" aria-label="종류별 프로젝트 수"><div class="stat"><strong>08</strong><span>한글패치</span></div><div class="stat"><strong>02</strong><span>세이브 에디터</span></div><div class="stat"><strong>02</strong><span>유틸리티</span></div></div>
+      <div class="project-stats" aria-label="종류별 프로젝트 수"><div class="stat"><strong>09</strong><span>한글패치</span></div><div class="stat"><strong>02</strong><span>세이브 에디터</span></div><div class="stat"><strong>02</strong><span>유틸리티</span></div></div>
     </section>
     <section id="projects" aria-label="공개 프로젝트 목록" tabindex="-1">
       <div class="filter-panel" id="filter-panel" hidden>
         <div class="filter-row">
           <div class="category-filters" role="group" aria-label="프로젝트 종류">
-            <button class="filter-button" type="button" data-category-filter="all" aria-pressed="true">전체<span class="filter-count">12</span></button>
-            <button class="filter-button" type="button" data-category-filter="patch" aria-pressed="false">한글패치<span class="filter-count">8</span></button>
+            <button class="filter-button" type="button" data-category-filter="all" aria-pressed="true">전체<span class="filter-count">13</span></button>
+            <button class="filter-button" type="button" data-category-filter="patch" aria-pressed="false">한글패치<span class="filter-count">9</span></button>
             <button class="filter-button" type="button" data-category-filter="save" aria-pressed="false">세이브 에디터<span class="filter-count">2</span></button>
             <button class="filter-button" type="button" data-category-filter="other" aria-pressed="false">유틸리티<span class="filter-count">2</span></button>
           </div>
@@ -145,16 +149,43 @@
           </div>
         </div>
       </div>
-      <div class="results-toolbar"><p id="results-count" role="status" aria-live="polite" aria-atomic="true"><strong>12</strong>개 프로젝트</p></div>
+      <div class="results-toolbar"><p id="results-count" role="status" aria-live="polite" aria-atomic="true"><strong>13</strong>개 프로젝트</p></div>
       <noscript><p class="no-script">JavaScript를 켜시면 플랫폼·종류별 분류와 샘플 이미지·유틸리티 설명 자동 전환을 이용하실 수 있습니다.</p></noscript>
       <div class="project-grid" id="project-grid">
+      <!-- xbox360-orenoyome-kr -->
+      <article class="project-card" id="xbox360-orenoyome-kr" data-category="patch" data-platforms="XBOX360">
+        
+        <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="나의 신부 한글패치 샘플" tabindex="0">
+          <div class="gallery-images">
+          <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample1.jpg" alt="나의 신부 한글패치 샘플 1" width="1280" height="720" loading="eager" decoding="async" fetchpriority="high">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample2.jpg" alt="나의 신부 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample3.jpg" alt="나의 신부 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample4.jpg" alt="나의 신부 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
+          </div>
+          <div class="slide-dots" aria-label="샘플 선택">
+            <button class="slide-dot is-active" type="button" aria-label="나의 신부 샘플 1 보기" aria-pressed="true" data-slide="0"><span></span></button><button class="slide-dot" type="button" aria-label="나의 신부 샘플 2 보기" aria-pressed="false" data-slide="1"><span></span></button><button class="slide-dot" type="button" aria-label="나의 신부 샘플 3 보기" aria-pressed="false" data-slide="2"><span></span></button><button class="slide-dot" type="button" aria-label="나의 신부 샘플 4 보기" aria-pressed="false" data-slide="3"><span></span></button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-meta"><span class="category-label patch">한글패치</span><div class="platform-badges"><span class="platform-badge xbox">XBOX 360</span></div></div>
+          <h2>나의 신부</h2>
+          <p class="english-title">ORE NO YOME: ANATA DAKE NO HANAYOME</p>
+          
+          <p class="card-description">나만의 신부와 함께 생활하는 연애 시뮬레이션입니다. 6가지 성격의 히로인과 담당 성우를 골라 연인 시절부터 결혼 후의 신혼 생활까지 대화와 이벤트를 통해 관계를 쌓아갑니다.</p>
+          <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
+          <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-orenoyome-kr" target="_blank" rel="noopener noreferrer" aria-label="나의 신부 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/xbox360-orenoyome-kr/releases" target="_blank" rel="noopener noreferrer" aria-label="나의 신부 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
+        </div>
+      </article>
+
       <!-- xbox360-idolmaster-korean-patcher -->
-      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+      <article class="project-card" id="xbox360-idolmaster-korean-patcher" data-category="patch" data-platforms="XBOX360">
         
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="아이돌마스터 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
           <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
-          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample1.jpg" alt="아이돌마스터 한글패치 샘플 1" width="1280" height="720" loading="eager" decoding="async" fetchpriority="high">
+          <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample1.jpg" alt="아이돌마스터 한글패치 샘플 1" width="1280" height="720" loading="lazy" decoding="async">
           <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample2.jpg" alt="아이돌마스터 한글패치 샘플 2" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
           <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample3.jpg" alt="아이돌마스터 한글패치 샘플 3" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
           <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/main/samples/sample4.jpg" alt="아이돌마스터 한글패치 샘플 4" width="1280" height="720" loading="lazy" decoding="async" aria-hidden="true">
@@ -171,12 +202,12 @@
           <p class="card-description">765 프로덕션의 신입 프로듀서가 되어 아이돌 후보생을 톱 아이돌로 키우는 육성 시뮬레이션입니다. 레슨과 오디션, TV 출연과 커뮤니케이션을 통해 아이돌을 성장시키고 팬을 모읍니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="아이돌마스터 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="아이돌마스터 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/xbox360-idolmaster-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="아이돌마스터 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- xbox360-trusty-bell-korean-patcher -->
-      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+      <article class="project-card" id="xbox360-trusty-bell-korean-patcher" data-category="patch" data-platforms="XBOX360">
         
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="트러스티 벨 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
@@ -198,12 +229,12 @@
           <p class="card-description">작곡가 쇼팽의 꿈속 세계를 무대로 펼쳐지는 판타지 RPG입니다. 음악에서 이름을 따온 인물들과 모험하며, 턴제와 실시간 행동을 결합한 전투에서 빛과 그림자에 따라 달라지는 기술을 활용합니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>프로그램</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="트러스티 벨 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="트러스티 벨 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="트러스티 벨 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- xbox360-earth-defence-force-3-korean-patcher -->
-      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+      <article class="project-card" id="xbox360-earth-defence-force-3-korean-patcher" data-category="patch" data-platforms="XBOX360">
         
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="지구방위군 3 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
@@ -224,12 +255,12 @@
           <p class="card-description">외계 침략자 포리너에 맞서 지구를 지키는 3D 액션 슈팅 게임입니다. 지구방위군 EDF의 병사가 되어 거대 곤충과 비행 병기에 맞서며, 소총과 로켓 런처 등 다양한 무기로 전투를 벌입니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>프로그램</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-earth-defence-force-3-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="지구방위군 3 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-earth-defence-force-3-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="지구방위군 3 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/xbox360-earth-defence-force-3-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="지구방위군 3 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- xbox360-dreamclub-korean-patcher -->
-      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+      <article class="project-card" id="xbox360-dreamclub-korean-patcher" data-category="patch" data-platforms="XBOX360">
         
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="드림클럽 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
@@ -251,12 +282,12 @@
           <p class="card-description">클럽의 호스트걸들과 대화하고 교류하는 연애 시뮬레이션 게임입니다. 평일에는 아르바이트로 방문 비용을 마련하고, 클럽에서는 친밀도를 높여 캐릭터들의 노래와 춤을 즐길 수 있습니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="드림클럽 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="드림클럽 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="드림클럽 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- xbox360-soulcalibur-korean-patcher -->
-      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+      <article class="project-card" id="xbox360-soulcalibur-korean-patcher" data-category="patch" data-platforms="XBOX360">
         
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="소울칼리버 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
@@ -278,12 +309,12 @@
           <p class="card-description">전설의 검 소울 엣지를 둘러싼 싸움을 그린 대전 격투 게임입니다. 19명의 캐릭터 중 하나를 선택해 승부를 펼치며, Xbox Live Arcade 버전에서는 고해상도 화면과 도전 과제를 지원합니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>xdelta</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="소울칼리버 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="소울칼리버 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/xbox360-soulcalibur-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="소울칼리버 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- xbox360-american-mcgees-alice-korean-pathcer -->
-      <article class="project-card" data-category="patch" data-platforms="XBOX360">
+      <article class="project-card" id="xbox360-american-mcgees-alice-korean-pathcer" data-category="patch" data-platforms="XBOX360">
         
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="아메리칸 맥기의 앨리스 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
@@ -305,12 +336,12 @@
           <p class="card-description">앨리스의 이상한 나라를 어두운 분위기로 재해석한 액션 어드벤처입니다. 뒤틀린 세계를 탐험하는 앨리스가 되어 하트 여왕에 맞서고, 자신의 이상한 나라를 되찾기 위한 여정을 이어갑니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>프로그램</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer" target="_blank" rel="noopener noreferrer" aria-label="아메리칸 맥기의 앨리스 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer" target="_blank" rel="noopener noreferrer" aria-label="아메리칸 맥기의 앨리스 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/releases" target="_blank" rel="noopener noreferrer" aria-label="아메리칸 맥기의 앨리스 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- star-ocean-korean-patcher -->
-      <article class="project-card" data-category="patch" data-platforms="XBOX360 PC">
+      <article class="project-card" id="star-ocean-korean-patcher" data-category="patch" data-platforms="XBOX360 PC">
         
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="스타오션 4 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
@@ -332,12 +363,12 @@
           <p class="card-description">대전쟁으로 황폐해진 지구를 떠나 새로운 보금자리를 찾는 인류의 여정을 그린 SF 액션 RPG입니다. 다양한 행성을 탐험하고 외계 종족과 만나며, 실시간 전투로 우주를 위협하는 위험에 맞섭니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>치트 지원</li><li>프로그램</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/star-ocean-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="스타오션 4 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/star-ocean-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="스타오션 4 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/star-ocean-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="스타오션 4 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- gb-sangokushi-kr -->
-      <article class="project-card" data-category="patch" data-platforms="GB">
+      <article class="project-card" id="gb-sangokushi-kr" data-category="patch" data-platforms="GB">
         <div class="gallery" role="group" aria-roledescription="슬라이드쇼" aria-label="삼국지 한글패치 샘플" tabindex="0">
           <div class="gallery-images">
             <div class="gallery-fallback" hidden>샘플 이미지를 불러오지 못했습니다.</div>
@@ -357,12 +388,12 @@
           <p class="card-description">삼국지 시대의 군주가 되어 중국 통일을 목표로 하는 게임보이용 역사 전략 시뮬레이션입니다. 내정으로 세력을 키우고 장수를 등용하며, 전쟁과 외교를 통해 다른 군주들과 경쟁합니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>xdelta</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/gb-sangokushi-kr" target="_blank" rel="noopener noreferrer" aria-label="삼국지 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/gb-sangokushi-kr" target="_blank" rel="noopener noreferrer" aria-label="삼국지 한글패치 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/gb-sangokushi-kr/releases" target="_blank" rel="noopener noreferrer" aria-label="삼국지 한글패치 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- g3p2-save-editor -->
-      <article class="project-card" data-category="save" data-platforms="PC">
+      <article class="project-card" id="g3p2-save-editor" data-category="save" data-platforms="PC">
         
         <div class="tool-cover save-cover" aria-hidden="true">
           <div class="tool-cover-top"><span>SAVE EDITOR</span><span>PC</span></div>
@@ -377,12 +408,12 @@
           <p class="card-description">소프트맥스가 개발한 SRPG로, 창세기전 시리즈의 이야기를 마무리하는 작품입니다. 미래의 아르케와 우주를 무대로 살라딘과 베라모드의 두 에피소드가 펼쳐지며, 군단과 어빌리티를 활용해 전투를 진행합니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>HTML</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/g3p2-save-editor" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 세이브 에디터 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/g3p2-save-editor" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 세이브 에디터 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/g3p2-save-editor/releases" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 세이브 에디터 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- ninja-gaiden2-save-editor -->
-      <article class="project-card" data-category="save" data-platforms="XBOX360">
+      <article class="project-card" id="ninja-gaiden2-save-editor" data-category="save" data-platforms="XBOX360">
         
         <div class="tool-cover save-cover" aria-hidden="true">
           <div class="tool-cover-top"><span>SAVE EDITOR</span><span>XBOX 360</span></div>
@@ -397,12 +428,12 @@
           <p class="card-description">전설의 닌자 류 하야부사가 인류의 운명을 건 싸움에 나서는 액션 게임입니다. 다양한 무기와 기술로 수많은 적을 상대하며, 빠른 움직임과 강렬한 전투를 중심으로 여정을 이어갑니다.</p>
           <div class="description-controls description-controls-placeholder" aria-hidden="true"></div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>HTML</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/ninja-gaiden2-save-editor" target="_blank" rel="noopener noreferrer" aria-label="닌자 가이덴 2 세이브 에디터 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/ninja-gaiden2-save-editor" target="_blank" rel="noopener noreferrer" aria-label="닌자 가이덴 2 세이브 에디터 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/ninja-gaiden2-save-editor/releases" target="_blank" rel="noopener noreferrer" aria-label="닌자 가이덴 2 세이브 에디터 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- g3p2-resource-extractor -->
-      <article class="project-card" data-category="other" data-platforms="PC">
+      <article class="project-card" id="g3p2-resource-extractor" data-category="other" data-platforms="PC">
         
         <div class="tool-cover other-cover" aria-hidden="true">
           <div class="tool-cover-top"><span>UTILITY</span><span>PC</span></div>
@@ -431,12 +462,12 @@
             </div>
           </div>
           <ul class="feature-tags" aria-label="프로젝트 태그"><li>HTML</li></ul>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/g3p2-resource-extractor" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 유틸리티 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/g3p2-resource-extractor" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 유틸리티 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/g3p2-resource-extractor/releases" target="_blank" rel="noopener noreferrer" aria-label="창세기전 3 파트 2 유틸리티 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
 
       <!-- steam-rainbow-six-vegas-mod -->
-      <article class="project-card" data-category="other" data-platforms="PC">
+      <article class="project-card" id="steam-rainbow-six-vegas-mod" data-category="other" data-platforms="PC">
         
         <div class="tool-cover other-cover" aria-hidden="true">
           <div class="tool-cover-top"><span>UTILITY</span><span>PC</span></div>
@@ -466,7 +497,7 @@
           </div>
           
           <div class="feature-tags" aria-hidden="true"></div>
-          <a class="repo-link" href="https://github.com/rnrmfdlapdlf/steam-rainbow-six-vegas-mod" target="_blank" rel="noopener noreferrer" aria-label="레인보우 식스 베가스 유틸리티 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a>
+          <div class="card-links"><a class="repo-link" href="https://github.com/rnrmfdlapdlf/steam-rainbow-six-vegas-mod" target="_blank" rel="noopener noreferrer" aria-label="레인보우 식스 베가스 유틸리티 GitHub 저장소 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/></svg><span>GitHub 저장소</span></a><a class="repo-link download-link" href="https://github.com/rnrmfdlapdlf/steam-rainbow-six-vegas-mod/releases" target="_blank" rel="noopener noreferrer" aria-label="레인보우 식스 베가스 유틸리티 다운로드 페이지 보기 (새 탭)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M5 21h14"/></svg><span>다운로드 페이지</span></a></div>
         </div>
       </article>
       </div>
@@ -597,6 +628,17 @@
     }, 250);
     document.getElementById('filter-panel').hidden = false;
     updateFilters();
+    // 주소 끝의 #저장소이름 (예: #xbox360-trusty-bell-korean-patcher) 으로 들어오면
+    // 필터를 '전체'로 되돌리고 해당 프로젝트 카드로 스크롤합니다.
+    const scrollToLinkedCard = () => {
+      const id = decodeURIComponent(location.hash.slice(1));
+      const card = id ? document.getElementById(id) : null;
+      if (!card || !card.classList.contains('project-card')) return;
+      if (card.hidden) { category = 'all'; platform = 'all'; updateFilters(); }
+      card.scrollIntoView({ block:'start' });
+    };
+    window.addEventListener('hashchange', scrollToLinkedCard);
+    scrollToLinkedCard();
   </script>
 </body>
 </html>
