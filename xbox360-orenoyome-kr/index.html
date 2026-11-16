@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>나의 신부 ~당신만의 새 신부~ 한글패치</title>
+  <meta name="description" content="XBOX 360 연애 시뮬레이션 「나의 신부 ~당신만의 새 신부~」 한글패치. 대사·메뉴·이미지 한글화와 DLC 번역, 인트로 스킵·개발자 모드 옵션을 지원합니다.">
+  <link rel="canonical" href="https://rnrmfdlapdlf.github.io/xbox360-orenoyome-kr/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="rnrmfdlapdlf의 프로젝트">
+  <meta property="og:title" content="나의 신부 한글패치">
+  <meta property="og:description" content="XBOX 360 「나의 신부 ~당신만의 새 신부~」 한글패치. 대사·메뉴·이미지 한글화, DLC 번역 지원.">
+  <meta property="og:url" content="https://rnrmfdlapdlf.github.io/xbox360-orenoyome-kr/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample1.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="assets/heart.png">
+  <link rel="stylesheet" href="/assets/fonts/gyeonggi-title.css">
+  <style>
+    /* 화면 장식은 모두 게임 UI 텍스처(SYSTEM.UNI)에서 가져온 그림입니다.
+       글꼴은 사이트 공용 경기천년제목체(/assets/fonts)입니다. */
+    :root {
+      color-scheme: light;
+      --brown:#6b3527; --brown-soft:#8a5a48; --wine:#8e2b33; --date:#e2643a; --gold:#e9a93c; --cream:#fffaf3;
+      --title:"GyeonggiTitle", "Malgun Gothic", sans-serif;
+      --body:"Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--brown); font:1rem/1.8 var(--body); background:#ffe6ee url("assets/bg-pink.jpg") center top/cover fixed; }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; cursor:pointer; }
+    a:focus-visible, button:focus-visible, .album:focus-visible { outline:3px solid #ff7fa8; outline-offset:4px; }
+    img { max-width:100%; }
+    .wrap { width:min(1120px, calc(100% - 40px)); margin-inline:auto; }
+
+    /* 게임 글자 느낌: 갈색 글자에 흰 테두리 */
+    .outlined { text-shadow:2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1.5px 1.5px #fff, -1.5px -1.5px #fff, 1.5px -1.5px #fff, -1.5px 1.5px #fff, 0 3px 4px #00000026; }
+
+    /* 상단 바: 흰 띠 + 게임 레이스 */
+    .topbar { position:sticky; top:0; z-index:10; background:#ffffffe6; }
+    .topbar::after { content:""; position:absolute; left:0; right:0; top:100%; height:22px; background:url("assets/lace-white.png") left top/auto 22px repeat-x; pointer-events:none; }
+    .topbar-inner { min-height:62px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .logo-mini { display:flex; align-items:center; gap:9px; font:1.45rem/1 var(--title); color:var(--wine); white-space:nowrap; }
+    .logo-mini img { width:34px; height:auto; }
+
+    /* 게임 버튼 (가운데를 늘리고 양 끝 장식은 그대로) */
+    .btn-gold { display:inline-flex; align-items:center; justify-content:center; font:1.2rem/1 var(--title); white-space:nowrap; transition:transform .15s, filter .15s; }
+    .btn-gold { min-height:56px; padding:0 4px; border-style:solid; border-width:0 69px; border-image:url("assets/btn-gold.png") 0 62 fill / 0 69px stretch; color:var(--brown); min-width:230px; }
+    .btn-gold:hover { transform:translateY(-2px); filter:brightness(1.06) saturate(1.1); }
+    /* 게임 화면 오른쪽 위의 "B 복귀" 같은 버튼 안내 */
+    .btn-b { display:inline-flex; align-items:center; gap:7px; padding:4px 2px; border:0; background:none; font:1.25rem/1 var(--title); color:#3d2a2a; white-space:nowrap; text-shadow:2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff, 1.5px 1.5px #fff, -1.5px -1.5px #fff, 1.5px -1.5px #fff, -1.5px 1.5px #fff; transition:transform .15s; }
+    .btn-b img { width:34px; height:34px; filter:drop-shadow(0 2px 2px #0003); }
+    .btn-b:hover { transform:translateY(-2px); }
+    .btn-b:hover img { filter:drop-shadow(0 2px 2px #0003) brightness(1.1); }
+
+    /* 히어로: 타이틀 화면 (하늘 배경 + 구름 + 한글 로고 + 레이스 띠) */
+    .hero { position:relative; overflow:hidden; background:#4fb3f2 url("assets/bg-sky.jpg") center/cover no-repeat; }
+    .hero .clouds { position:absolute; inset:auto -10% 6% -10%; height:62%; background:url("assets/clouds.png") center bottom/1100px auto repeat-x; opacity:.9; animation:drift 60s linear infinite; pointer-events:none; }
+    @keyframes drift { from { background-position:0 100%; } to { background-position:1100px 100%; } }
+    .hero-inner { position:relative; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.05fr); gap:40px; align-items:center; padding:46px 0 92px; }
+    .hero h1 { margin:0; }
+    .hero h1 img { display:block; width:min(100%, 520px); height:auto; filter:drop-shadow(0 6px 10px #1d6aa040); }
+    .hero .platform { display:inline-block; margin:0 0 12px; padding:2px 16px 4px; border-radius:999px; background:#ffffffd9; font:1rem/1.5 var(--title); color:#2a7fc0; box-shadow:0 2px 0 #9fd3f5; }
+    /* 대화창: 게임의 확인 창(복숭아색 상자) */
+    .message { position:relative; margin:18px 0 0; padding:18px 26px 18px; border-style:solid; border-width:22px; border-image:url("assets/box-peach.png") 26 fill / 22px stretch; color:#fff; font-size:1.02rem; line-height:1.85; word-break:keep-all; text-shadow:0 1px 2px #6b352780; }
+    .message::before { content:"소개"; position:absolute; top:-40px; left:-6px; padding:0 18px; font:1rem/30px var(--title); color:#fff; background:linear-gradient(#a2604a, #7b3f30); border:2px solid #f3d3a8; border-radius:6px 16px 6px 6px; letter-spacing:.5px; text-shadow:none; }
+    .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin-top:22px; max-width:520px; }
+    .actions .btn-gold { min-width:0; border-width:0 56px; border-image-width:0 56px; min-height:52px; }
+    .album { position:relative; border-style:solid; border-width:9px; border-image:url("assets/frame-gold.png") 10 / 9px stretch; background:#fff; box-shadow:0 14px 30px #1d6aa055; }
+    .album-images { position:relative; aspect-ratio:16/9; overflow:hidden; background:#fde7f0; }
+    .slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .9s ease-in-out; }
+    .slide.is-active { opacity:1; }
+    .album .dots { position:absolute; left:0; right:0; bottom:-46px; display:flex; justify-content:center; gap:2px; }
+    .dot { width:34px; height:34px; padding:0; border:0; background:transparent; display:grid; place-items:center; }
+    .dot img { width:22px; height:auto; opacity:.5; filter:grayscale(.5); transition:opacity .2s, transform .2s, filter .2s; }
+    .dot.is-active img { opacity:1; filter:none; transform:scale(1.2); }
+    .hero .pin { position:absolute; width:58px; height:auto; right:-18px; top:-34px; transform:rotate(12deg); filter:drop-shadow(0 4px 4px #0003); }
+    .lace-band { position:absolute; left:0; right:0; bottom:0; height:46px; background:url("assets/lace-white.png") left top/auto 26px repeat-x, linear-gradient(#0000 26px, #fffaf3 26px); }
+
+    /* 섹션 제목: 게임 날짜 표시판 */
+    section.block { padding:62px 0 0; }
+    .tab { display:flex; align-items:center; width:min(100%, 372px); height:83px; margin:0 0 6px -6px; padding:0 30px 10px 92px; background:url("assets/datetab.png") left center/372px 83px no-repeat; font:1.7rem/1 var(--title); color:var(--date); }
+    .section-lead { margin:0 0 26px; padding-left:6px; color:var(--brown); word-break:keep-all; }
+
+    /* 기능: 게임 확인 창 상자 */
+    .features { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:18px; list-style:none; margin:0; padding:0; }
+    .feature { display:flex; flex-direction:column; align-items:center; text-align:center; padding:14px 8px 10px; border-style:solid; border-width:22px; border-image:url("assets/box-peach.png") 26 fill / 22px stretch; color:#fff; text-shadow:0 1px 2px #6b352799; }
+    .feature img { height:54px; width:auto; margin:-4px 0 10px; filter:drop-shadow(0 3px 3px #6b352744); }
+    .feature h3 { margin:0; font:1.35rem/1.3 var(--title); font-weight:normal; }
+    .feature p { margin:6px 0 0; font-size:.92rem; line-height:1.65; word-break:keep-all; }
+
+    /* 스크린샷: 금색 액자 + 장소 선택 화면 같은 금색 이름표 */
+    .shots { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:34px 26px; list-style:none; margin:0; padding:0; }
+    .shot { margin:0; }
+    .shot button { display:block; width:100%; padding:0; border-style:solid; border-width:8px; border-image:url("assets/frame-gold.png") 10 / 8px stretch; background:#fff; box-shadow:0 8px 18px #a8406033; transition:transform .2s, box-shadow .2s; }
+    .shot button:hover { transform:translateY(-3px); box-shadow:0 14px 24px #a8406044; }
+    .shot img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; }
+    .shot figcaption { display:flex; justify-content:center; margin-top:-14px; position:relative; }
+    .nameplate { display:inline-flex; align-items:center; min-height:40px; padding:0 2px; border-style:solid; border-width:0 50px; border-image:url("assets/btn-gold.png") 0 62 fill / 0 50px stretch; font:1.08rem/1 var(--title); color:var(--brown); white-space:nowrap; }
+    .shot small { display:block; margin-top:6px; text-align:center; font-size:.9rem; color:var(--brown-soft); }
+
+    /* 패치 방법: 레이스 카드 + LP 하트 번호 */
+    .steps { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:22px; list-style:none; margin:0; padding:0; counter-reset:step; }
+    .step { position:relative; filter:drop-shadow(0 6px 10px #c0607040); padding:46px 20px 26px; border-style:solid; border-width:34px 26px; border-image:url("assets/frame-lace.png") 44 34 fill / 34px 26px stretch; counter-increment:step; text-align:center; }
+    .step::before { content:counter(step); position:absolute; left:50%; top:-58px; transform:translateX(-50%); width:70px; height:65px; display:grid; place-items:center; padding-bottom:6px; background:url("assets/heart.png") center/contain no-repeat; font:1.9rem/1 var(--title); color:#fff; text-shadow:0 0 3px #c2185b, 1px 1px 0 #c2185b, -1px -1px 0 #c2185b; }
+    .step h3 { margin:0 0 6px; font:1.3rem/1.3 var(--title); font-weight:normal; color:var(--wine); }
+    .step p { margin:0; font-size:.94rem; color:var(--brown); word-break:keep-all; }
+    .step b { color:var(--wine); }
+    .note { display:flex; align-items:center; gap:12px; margin:30px 0 0; padding:12px 22px; border-radius:14px; background:#ffffffcc; border:2px solid #f6c1d2; font-size:.95rem; word-break:keep-all; }
+    .note img { width:30px; height:auto; flex-shrink:0; }
+
+    /* 크게 보기 */
+    dialog.viewer { width:min(1200px, calc(100% - 24px)); max-height:calc(100% - 24px); padding:0; border-style:solid; border-width:10px; border-image:url("assets/frame-gold.png") 10 / 10px stretch; background:#fff; }
+    dialog.viewer::backdrop { background:#6b3527b3; }
+    dialog.viewer img { display:block; width:100%; height:auto; }
+    .viewer-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 12px 6px 14px; background:#fffaf3; font:1.15rem/1.3 var(--title); color:var(--wine); }
+
+    /* 하단 */
+    footer { position:relative; margin-top:90px; padding:44px 0 46px; background:#ffffffd9; }
+    footer::before { content:""; position:absolute; left:0; right:0; bottom:100%; height:22px; background:url("assets/lace-white.png") left bottom/auto 22px repeat-x; transform:scaleY(-1); }
+    .footer-inner { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px; }
+    .footer-inner p { margin:0; max-width:46em; font-size:.88rem; color:var(--brown-soft); word-break:keep-all; }
+
+    @media (max-width:980px) {
+      .hero-inner { grid-template-columns:1fr; gap:56px; padding:34px 0 96px; }
+      .album { max-width:640px; }
+      .features { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .shots { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns:1fr; gap:64px; max-width:560px; }
+    }
+    @media (max-width:640px) {
+      .wrap { width:calc(100% - 28px); }
+      .logo-mini span { font-size:1.2rem; }
+      .btn-b { font-size:1.1rem; }
+      .btn-b img { width:30px; height:30px; }
+      .features, .shots { grid-template-columns:1fr; }
+      .tab { font-size:1.45rem; padding-left:84px; }
+      .hero .pin { right:-6px; }
+    }
+    @media (max-width:359px) { .logo-mini span { display:none; } }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none !important; animation:none !important; } html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo-mini" href="#top" aria-label="맨 위로"><img src="assets/heart.png" alt="" width="154" height="143"><span>나의 신부 한글패치</span></a>
+      <a class="btn-b" href="/"><img src="assets/xbox-b.png" alt="" width="49" height="49">다른 게임 보기</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="game-title">
+      <div class="clouds" aria-hidden="true"></div>
+      <div class="wrap hero-inner">
+        <div>
+          <span class="platform">XBOX 360 · 한글패치</span>
+          <h1 id="game-title"><img src="assets/logo.png" alt="나의 신부 ~당신만의 새 신부~" width="760" height="282"></h1>
+          <p class="message">나만의 신부와 함께 생활하는 연애 시뮬레이션입니다. 6가지 성격의 히로인과 담당 성우를 골라 연인 시절부터 결혼 후의 신혼 생활까지, 이제 한국어로 함께해 보세요.</p>
+          <div class="actions">
+            <a class="btn-gold" href="https://github.com/rnrmfdlapdlf/xbox360-orenoyome-kr/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)">다운로드</a>
+            <a class="btn-gold" href="https://github.com/rnrmfdlapdlf/xbox360-orenoyome-kr" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)">GitHub</a>
+          </div>
+        </div>
+        <div class="album" role="group" aria-roledescription="슬라이드쇼" aria-label="한글패치 샘플 화면" tabindex="0">
+          <img class="pin" src="assets/heart-pin.png" alt="" width="97" height="119">
+          <div class="album-images">
+            <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample2.jpg" alt="한글패치 샘플 화면" width="1280" height="720" fetchpriority="high">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample4.jpg" alt="트럼프 미니게임 화면" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample3.jpg" alt="한글패치 샘플 화면" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-orenoyome-kr/main/samples/sample1.jpg" alt="한글화된 타이틀 화면" width="1280" height="720" loading="lazy" aria-hidden="true">
+          </div>
+          <div class="dots" aria-label="샘플 선택">
+            <button class="dot is-active" type="button" aria-label="샘플 1 보기" aria-pressed="true"><img src="assets/heart.png" alt=""></button><button class="dot" type="button" aria-label="샘플 2 보기" aria-pressed="false"><img src="assets/heart.png" alt=""></button><button class="dot" type="button" aria-label="샘플 3 보기" aria-pressed="false"><img src="assets/heart.png" alt=""></button><button class="dot" type="button" aria-label="샘플 4 보기" aria-pressed="false"><img src="assets/heart.png" alt=""></button>
+          </div>
+        </div>
+      </div>
+      <div class="lace-band" aria-hidden="true"></div>
+    </section>
+
+    <section class="block wrap" aria-labelledby="features-title">
+      <h2 class="tab outlined" id="features-title">패치 기능</h2>
+      <p class="section-lead">연인 편부터 신부 편, 이벤트와 미니게임까지 게임 전체를 한국어로 옮겼습니다.</p>
+      <ul class="features">
+        <li class="feature"><img src="assets/heart-pin.png" alt="" width="97" height="119"><h3>대사·메뉴</h3><p>모든 루트의 대사와 선택지, 시스템 메뉴</p></li>
+        <li class="feature"><img src="assets/star.png" alt="" width="58" height="62"><h3>이미지</h3><p>타이틀 로고, 메뉴, 미니게임 이미지</p></li>
+        <li class="feature"><img src="assets/heart.png" alt="" width="154" height="143"><h3>DLC 번역</h3><p>추가 성우, 의상, 해제 키 DLC 이름</p></li>
+        <li class="feature"><img src="assets/gem.png" alt="" width="60" height="73"><h3>치트 옵션</h3><p>인트로 스킵, 개발자 모드 활성화</p></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" aria-labelledby="shots-title">
+      <h2 class="tab outlined" id="shots-title">스크린샷</h2>
+      <p class="section-lead">사진을 누르면 크게 볼 수 있습니다.</p>
+      <ul class="shots">
+        <li><figure class="shot"><button type="button" data-full="images/heroine-select.jpg"><img src="images/heroine-select.jpg" alt="히로인 설정 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nameplate">히로인 설정</span></figcaption><small>6가지 성격 중 나만의 신부를 골라요</small></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/confession.jpg"><img src="images/confession.jpg" alt="노을 진 옥상에서의 고백 장면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nameplate">연인 편</span></figcaption><small>두근두근 고백</small></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/newlywed.jpg"><img src="images/newlywed.jpg" alt="신혼 생활 장면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nameplate">신부 편</span></figcaption><small>달콤한 신혼 생활</small></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/date-places.jpg"><img src="images/date-places.jpg" alt="데이트 장소 선택 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nameplate">데이트</span></figcaption><small>어디로 놀러 갈까?</small></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/quiz.jpg"><img src="images/quiz.jpg" alt="Yes/No 퀴즈 미니게임" width="1280" height="720" loading="lazy"></button><figcaption><span class="nameplate">미니게임</span></figcaption><small>Yes/No 퀴즈도 한국어로</small></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/wedding.jpg"><img src="images/wedding.jpg" alt="결혼식 장면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nameplate">결혼식</span></figcaption><small>오늘부터 나의 신부</small></figure></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" id="how" aria-labelledby="how-title">
+      <h2 class="tab outlined" id="how-title">패치 방법</h2>
+      <p class="section-lead">Windows용 패처로 버튼 한 번이면 끝납니다.</p>
+      <ol class="steps">
+        <li class="step"><h3>패처 받기</h3><p>다운로드 페이지에서 zip을 받아 압축을 풀어 주세요. (Windows 10 이상)</p></li>
+        <li class="step"><h3>끌어다 놓기</h3><p>원본 ISO를 패처 창에 끌어다 놓습니다. DLC가 있다면 DLC 폴더도 함께 놓아 주세요.</p></li>
+        <li class="step"><h3>한글 패치</h3><p>[한글 패치]를 누르면 원본 옆에 <b>_repacked</b> 파일이 만들어집니다.</p></li>
+      </ol>
+      <p class="note"><img src="assets/heart-pin.png" alt="" width="97" height="119">게임 데이터는 들어 있지 않습니다. 직접 가지고 있는 정품 게임 ISO가 필요합니다.</p>
+    </section>
+  </main>
+
+  <dialog class="viewer" id="viewer" aria-label="스크린샷 크게 보기">
+    <img id="viewer-image" src="" alt="">
+    <div class="viewer-bar"><span id="viewer-caption"></span><button class="btn-b" type="button" id="viewer-close"><img src="assets/xbox-b.png" alt="" width="49" height="49">닫기</button></div>
+  </dialog>
+
+  <footer>
+    <div class="wrap footer-inner">
+      <p>비영리 팬 번역 프로젝트이며, 원작의 저작권은 권리자에게 있습니다. 패치 사용으로 생기는 문제에 대해 책임지지 않습니다.</p>
+      <a class="btn-b" href="/"><img src="assets/xbox-b.png" alt="" width="49" height="49">다른 게임 보기</a>
+    </div>
+  </footer>
+
+  <script>
+    'use strict';
+    // 샘플 사진 슬라이드쇼 (5초마다 전환, 마우스를 올리거나 포커스 중에는 멈춤)
+    (() => {
+      const album = document.querySelector('.album');
+      const slides = Array.from(album.querySelectorAll('.slide'));
+      const dots = Array.from(album.querySelectorAll('.dot'));
+      let current = 0;
+      let paused = false;
+      const show = index => {
+        current = index;
+        slides.forEach((s, i) => { s.classList.toggle('is-active', i === index); s.setAttribute('aria-hidden', String(i !== index)); });
+        dots.forEach((d, i) => { d.classList.toggle('is-active', i === index); d.setAttribute('aria-pressed', String(i === index)); });
+      };
+      dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+      ['mouseenter', 'focusin'].forEach(e => album.addEventListener(e, () => { paused = true; }));
+      ['mouseleave', 'focusout'].forEach(e => album.addEventListener(e, () => { paused = false; }));
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.setInterval(() => { if (!paused && !document.hidden) show((current + 1) % slides.length); }, 5000);
+      }
+    })();
+
+    // 스크린샷 크게 보기
+    (() => {
+      const viewer = document.getElementById('viewer');
+      const image = document.getElementById('viewer-image');
+      const caption = document.getElementById('viewer-caption');
+      document.querySelectorAll('.shot button').forEach(button => {
+        button.addEventListener('click', () => {
+          const figure = button.closest('figure');
+          image.src = button.dataset.full;
+          image.alt = button.querySelector('img').alt;
+          caption.textContent = figure.querySelector('.nameplate').textContent;
+          if (viewer.showModal) viewer.showModal(); else window.open(button.dataset.full, '_blank');
+        });
+      });
+      document.getElementById('viewer-close').addEventListener('click', () => viewer.close());
+      viewer.addEventListener('click', e => { if (e.target === viewer) viewer.close(); });
+    })();
+  </script>
+</body>
+</html>

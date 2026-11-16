@@ -1,0 +1,17 @@
+/*
+ * 경기천년제목 Medium (공용 웹 글꼴)
+ *
+ * 사용법: 페이지 <head>에
+ *   <link rel="stylesheet" href="/assets/fonts/gyeonggi-title.css">
+ * 를 넣고 font-family: "GyeonggiTitle" 로 씁니다.
+ *
+ * 글자 범위: KS X 1001 한글 2,350자 + 자모 + 영문·숫자·주요 문장부호
+ * (한글패치 폰트와 같은 범위). 라이선스는 같은 폴더의 README.md 참고.
+ */
+@font-face {
+  font-family: "GyeonggiTitle";
+  src: url("GyeonggiTitle-Medium.woff") format("woff");
+  font-weight: 400 500;
+  font-style: normal;
+  font-display: swap;
+}
