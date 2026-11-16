@@ -116,13 +116,14 @@
     dialog.viewer { width:min(1200px, calc(100% - 24px)); max-height:calc(100% - 24px); padding:0; border-style:solid; border-width:10px; border-image:url("assets/frame-gold.png") 10 / 10px stretch; background:#fff; }
     dialog.viewer::backdrop { background:#6b3527b3; }
     dialog.viewer img { display:block; width:100%; height:auto; }
-    .viewer-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 12px 6px 14px; background:#fffaf3; font:1.15rem/1.3 var(--title); color:var(--wine); }
+    .viewer-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 12px 6px 14px; background:#fffaf3; font:1.45rem/1.3 var(--title); color:var(--wine); }
 
     /* 하단 */
-    footer { position:relative; margin-top:90px; padding:44px 0 46px; background:#ffffffd9; }
+    footer { position:relative; margin-top:90px; padding:30px 0 32px; background:#ffffffd9; }
     footer::before { content:""; position:absolute; left:0; right:0; bottom:100%; height:22px; background:url("assets/lace-white.png") left bottom/auto 22px repeat-x; transform:scaleY(-1); }
-    .footer-inner { display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:18px; }
-    .footer-inner p { margin:0; max-width:46em; font-size:.88rem; color:var(--brown-soft); word-break:keep-all; }
+    .footer-inner { display:flex; }
+    .footer-inner p { margin:0; font-size:.88rem; color:var(--brown-soft); word-break:keep-all; }
+    @media (min-width:900px) { .footer-inner p { white-space:nowrap; } }
 
     @media (max-width:980px) {
       .hero-inner { grid-template-columns:1fr; gap:56px; padding:34px 0 96px; }
@@ -161,8 +162,8 @@
           <h1 id="game-title"><img src="assets/logo.png" alt="나의 신부 ~당신만의 새 신부~" width="760" height="282"></h1>
           <p class="message">나만의 신부와 함께 생활하는 연애 시뮬레이션입니다. 6가지 성격의 히로인과 담당 성우를 골라 연인 시절부터 결혼 후의 신혼 생활까지, 이제 한국어로 함께해 보세요.</p>
           <div class="actions">
-            <a class="btn-gold" href="https://github.com/rnrmfdlapdlf/xbox360-orenoyome-kr/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)">다운로드</a>
             <a class="btn-gold" href="https://github.com/rnrmfdlapdlf/xbox360-orenoyome-kr" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)">GitHub</a>
+            <a class="btn-gold" href="https://github.com/rnrmfdlapdlf/xbox360-orenoyome-kr/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)">다운로드</a>
           </div>
         </div>
         <div class="album" role="group" aria-roledescription="슬라이드쇼" aria-label="한글패치 샘플 화면" tabindex="0">
@@ -225,7 +226,6 @@
   <footer>
     <div class="wrap footer-inner">
       <p>비영리 팬 번역 프로젝트이며, 원작의 저작권은 권리자에게 있습니다. 패치 사용으로 생기는 문제에 대해 책임지지 않습니다.</p>
-      <a class="btn-b" href="/"><img src="assets/xbox-b.png" alt="" width="49" height="49">다른 게임 보기</a>
     </div>
   </footer>
 
