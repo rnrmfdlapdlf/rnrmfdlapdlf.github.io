@@ -1,0 +1,20 @@
+/*
+ * Noto Sans KR 9개 굵기 (공용 웹 글꼴)
+ *
+ * 사용법: 페이지 <head>에
+ *   <link rel="stylesheet" href="/assets/fonts/noto-sans-kr.css">
+ * 를 넣고 font-family: "Noto Sans KR" 과 font-weight(100~900)로 씁니다.
+ * 브라우저는 페이지에서 실제로 쓰는 굵기 파일만 내려받습니다.
+ *
+ * 글자 범위: KS X 1001 비한자 전체(한글 2,350자·자모·기호) + 영문·숫자·주요 문장부호.
+ * 다시 만들려면 tools/subset_noto.py 를 참고하세요. 라이선스: noto-sans-kr/OFL.txt (SIL OFL 1.1)
+ */
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-Thin.woff2") format("woff2"); font-weight:100; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-ExtraLight.woff2") format("woff2"); font-weight:200; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-Light.woff2") format("woff2"); font-weight:300; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-Regular.woff2") format("woff2"); font-weight:400; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-Medium.woff2") format("woff2"); font-weight:500; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-SemiBold.woff2") format("woff2"); font-weight:600; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-Bold.woff2") format("woff2"); font-weight:700; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-ExtraBold.woff2") format("woff2"); font-weight:800; font-style:normal; font-display:swap; }
+@font-face { font-family:"Noto Sans KR"; src:url("noto-sans-kr/NotoSansKR-Black.woff2") format("woff2"); font-weight:900; font-style:normal; font-display:swap; }

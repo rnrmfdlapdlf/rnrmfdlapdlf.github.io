@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>스타오션 4 한글패치 - STAR OCEAN: THE LAST HOPE (STEAM · XBOX 360)</title>
+  <meta name="description" content="「스타오션 4 THE LAST HOPE」 스팀(4K &amp; Full HD Remaster)·XBOX 360 한글패치. 대사·메뉴·아이템 한글화와 이동 속도 2배, 자동 회복, 세이브 제한 해제 치트를 지원합니다.">
+  <link rel="canonical" href="https://rnrmfdlapdlf.github.io/star-ocean-korean-patcher/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="rnrmfdlapdlf의 프로젝트">
+  <meta property="og:title" content="스타오션 4 한글패치">
+  <meta property="og:description" content="스팀·XBOX 360 「스타오션 4 THE LAST HOPE」 한글패치. 대사·메뉴 한글화와 치트 옵션 지원.">
+  <meta property="og:url" content="https://rnrmfdlapdlf.github.io/star-ocean-korean-patcher/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample4.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="assets/ring.svg">
+  <link rel="stylesheet" href="/assets/fonts/noto-sans-kr.css">
+  <style>
+    /* 글꼴은 한글패치가 게임에 넣은 것과 같은 Noto Sans KR(본문 Medium)입니다.
+       버튼 기호·메뉴 고리·손가락 커서·파티 초상·메뉴 막대는 게임 UI 텍스처(0003.pkg)에서 가져왔고,
+       창 모양(.win)과 체크 상자는 게임 메뉴 화면(SETTINGS·QUESTS)을 보고 CSS로 다시 그렸습니다. */
+    :root {
+      color-scheme: dark;
+      --space:#04060d;
+      --frame:#2f9fe6; --frame-hi:#9fdcff; --fill:#1574d6; --fill-dark:#0c5bbd;
+      --cyan:#3fe3ff; --sky:#5cc8ff; --yellow:#ffe600; --text:#ffffff; --muted:#a9bed4;
+      --font:"Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+      --outline:0 0 1px #000, 1px 1px 0 #000a, 0 2px 2px #0008;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0; color:var(--text); font:500 1rem/1.75 var(--font); word-break:keep-all;
+      background-color:var(--space);
+      background-image:
+        radial-gradient(1px 1px at 12% 18%, #ffffffcc 50%, transparent 51%),
+        radial-gradient(1px 1px at 37% 72%, #ffffffaa 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 64% 33%, #bfe8ffcc 50%, transparent 51%),
+        radial-gradient(1px 1px at 82% 81%, #ffffff99 50%, transparent 51%),
+        radial-gradient(1px 1px at 91% 9%, #ffffffbb 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 23% 51%, #ffffff88 50%, transparent 51%),
+        radial-gradient(1px 1px at 52% 94%, #9fe6ffaa 50%, transparent 51%),
+        radial-gradient(ellipse at 20% 0%, #0d2f7a66, transparent 55%),
+        radial-gradient(ellipse at 90% 60%, #12357055, transparent 50%);
+      background-size:340px 340px, 340px 340px, 340px 340px, 340px 340px, 340px 340px, 340px 340px, 340px 340px, 100% 100%, 100% 100%;
+      background-attachment:fixed;
+    }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; color:inherit; cursor:pointer; }
+    img { max-width:100%; }
+    a:focus-visible, button:focus-visible, .album:focus-visible { outline:3px solid var(--cyan); outline-offset:3px; }
+    .wrap { width:min(1120px, calc(100% - 40px)); margin-inline:auto; }
+    .en { font-style:italic; font-weight:800; letter-spacing:.02em; }
+
+    /* ── 공통 창 (게임 SETTINGS·QUESTS 창) ──
+       밝은 테두리가 왼쪽(두껍게)과 위쪽(얇게)에 있고, 바깥 왼쪽 위와 오른쪽 아래 모서리는 비스듬히 깎였습니다.
+       안쪽 면도 왼쪽 위가 깎여 있고, 전체에 가는 가로줄, 오른쪽 아래로 짙은 그림자가 깔립니다. */
+    .win-wrap { filter:drop-shadow(9px 9px 0 #000000a0); }
+    .win {
+      --cut:16px; --cut-in:14px; --cut-br:10px; --side:18px; --top:8px;
+      position:relative; height:100%;
+      padding:calc(var(--top) + 14px) 18px 18px calc(var(--side) + 16px);
+      background:
+        repeating-linear-gradient(180deg, #ffffff14 0 1px, transparent 1px 4px),
+        linear-gradient(180deg, #45b6f2, var(--frame));
+      box-shadow:inset 1px 1px 0 var(--frame-hi);
+      clip-path:polygon(0 var(--cut), var(--cut) 0, 100% 0, 100% calc(100% - var(--cut-br)), calc(100% - var(--cut-br)) 100%, 0 100%);
+    }
+    .win::before, .win::after { content:""; position:absolute; right:0; bottom:0; pointer-events:none; clip-path:polygon(0 var(--cut-in), var(--cut-in) 0, 100% 0, 100% 100%, 0 100%); }
+    .win::before { top:var(--top); left:var(--side); background:#7fcdf6; }
+    .win::after {
+      top:calc(var(--top) + 1px); left:calc(var(--side) + 1px);
+      background:
+        repeating-linear-gradient(180deg, #ffffff12 0 1px, transparent 1px 4px),
+        linear-gradient(165deg, #1b83e0, var(--fill) 45%, var(--fill-dark));
+    }
+    .win > * { position:relative; z-index:1; }
+    .win-sm { --cut:10px; --cut-in:8px; --cut-br:6px; --side:10px; --top:5px; padding:calc(var(--top) + 4px) 16px 6px calc(var(--side) + 12px); }
+
+    /* 창 위의 이름표 (QUESTS 화면의 「■ 메모」) */
+    .win-label { display:block; margin:0 0 4px 6px; font-size:1.05rem; font-weight:700; text-shadow:var(--outline); }
+
+    /* 창 안 소제목 (「●주문: 기묘한 과일」 + 청록 밑줄) */
+    .win h3 { margin:0 0 8px; padding-bottom:4px; display:flex; align-items:center; gap:8px; font-size:1.12rem; font-weight:700; color:var(--yellow); border-bottom:2px solid var(--cyan); text-shadow:var(--outline); }
+    .win h3::before { content:""; width:18px; height:18px; flex-shrink:0; border-radius:50%; background:var(--yellow); box-shadow:1px 1px 0 #0009; }
+
+    /* 메뉴 막대 버튼 (TOP MENU 왼쪽 메뉴의 막대) */
+    .mbtn {
+      position:relative; display:flex; align-items:flex-start; justify-content:flex-start; min-width:0; height:60px; padding:8px 4px 0 8px;
+      border:0; border-style:solid; border-width:0 28px 0 58px; border-image:url("assets/menu-bar.png") 0 34 0 70 fill / 0 28px 0 58px stretch;
+      background:none; font-weight:700; font-size:1.15rem; line-height:1.3; color:#fff; white-space:nowrap; text-shadow:var(--outline);
+      transition:transform .15s;
+    }
+    .mbtn span { padding:0 2px 1px; border-bottom:3px solid transparent; }
+    .mbtn:hover { transform:translateX(3px); }
+    a.mbtn:hover span { color:var(--yellow); border-bottom-color:var(--yellow); }
+    /* 막대 왼쪽 혹 위에 올리는 아이콘 (게임처럼 막대 위로 조금 튀어나오게) */
+    .mbtn .ico { position:absolute; left:-54px; top:-6px; width:50px; height:50px; filter:drop-shadow(2px 3px 0 #000a); }
+    /* 중간 메뉴(제목용 막대): 누를 수 없는 막대 */
+    .mbar { width:min(100%, 340px); margin:0 0 20px 0; font-size:1.2rem; cursor:default; }
+    .mbar:hover { transform:none; }
+    .platform + .platform { margin-top:40px; }
+
+    /* 엑스박스 버튼 안내 (게임 텍스처의 B 기호) */
+    .btn-b { display:inline-flex; align-items:center; gap:8px; padding:4px 2px; border:0; background:none; font-weight:700; font-size:1.05rem; white-space:nowrap; transition:transform .15s; }
+    .btn-b img { width:32px; height:32px; }
+    .btn-b:hover { transform:translateY(-2px); }
+
+    /* 상단 바 */
+    .topbar { position:sticky; top:0; z-index:10; background:#050a18e6; backdrop-filter:blur(6px); border-bottom:1px solid #1e5aa855; }
+    .topbar::after { content:""; position:absolute; left:0; right:0; top:100%; height:4px; background:url("assets/stripe.png") left center/100% 100% no-repeat; opacity:.9; }
+    .topbar-inner { min-height:60px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .logo-mini { display:flex; align-items:center; gap:10px; font-weight:800; font-size:1.15rem; white-space:nowrap; }
+    .logo-mini .ring { width:30px; height:30px; }
+
+    /* 히어로 */
+    .hero { position:relative; padding:40px 0 70px; overflow:hidden; }
+    .hero::before { content:""; position:absolute; inset:0; background:radial-gradient(ellipse 60% 70% at 30% 40%, #0f3a8f55, transparent 70%); pointer-events:none; }
+    .hero-inner { position:relative; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.05fr); gap:44px; align-items:center; }
+    /* 예전 배지(높이 43px + 간격 6px) 자리를 비워 두어 로고·소개 위치를 그대로 유지 */
+    .hero h1 { margin:49px 0 0; }
+    .hero h1 img { display:block; width:min(100%, 560px); height:auto; }
+    .intro { margin-top:22px; }
+    .intro p { margin:0; font-size:1.02rem; line-height:1.9; text-shadow:var(--outline); }
+    .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:10px 18px; margin-top:22px; max-width:500px; }
+    /* 샘플 슬라이드: 공통 창 안에 사진 */
+    .album .win { padding:calc(var(--top) + 6px) 8px 8px calc(var(--side) + 6px); }
+    .album-images { position:relative; aspect-ratio:16/9; overflow:hidden; background:#000; }
+    .slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .9s ease-in-out; }
+    .slide.is-active { opacity:1; }
+    /* 체크 상자 (SETTINGS 화면의 선택 칸) */
+    .dots { display:flex; justify-content:center; gap:6px; margin-top:18px; }
+    .dot { width:38px; height:32px; padding:0; border:0; background:none; display:grid; place-items:center; }
+    .dot::before { content:""; width:26px; height:20px; border-radius:5px 7px 5px 7px; transform:skewX(-24deg); background:linear-gradient(180deg, #34536f, #22394f); box-shadow:inset 0 0 0 1px #0007, 3px 3px 0 #000b; transition:background .2s; }
+    .dot.is-active::before { background:linear-gradient(180deg, #e2f4ff, #9dd3f4 55%, #7cc0ec); box-shadow:inset 0 0 0 1px #2b6fa8, 3px 3px 0 #000b; }
+
+    /* 섹션 제목: 게임 메뉴 제목 (청록 고리 + 굵은 영문) */
+    section.block { padding:64px 0 0; }
+    .menu-title { position:relative; display:flex; align-items:center; gap:14px; margin:0 0 6px; padding:0 0 10px; }
+    .menu-title .ring { width:56px; height:56px; flex-shrink:0; filter:drop-shadow(0 0 3px #57fcff66); }
+    .menu-title .en { font-style:normal; font-weight:900; font-size:2.3rem; line-height:1; letter-spacing:.01em; text-transform:uppercase; }
+    .menu-title .ko { align-self:flex-end; margin-bottom:2px; font-size:1.05rem; font-weight:700; color:var(--cyan); }
+    .menu-title::after { content:""; position:absolute; left:0; right:0; bottom:0; height:5px; background:url("assets/stripe.png") left center/100% 100% no-repeat; }
+    .section-lead { margin:14px 0 26px; color:var(--muted); }
+
+    /* 패치 기능 */
+    .features { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; list-style:none; margin:0; padding:0; }
+    .feature p, .feature ul { margin:0; font-size:.94rem; line-height:1.7; text-shadow:var(--outline); }
+    .feature ul { padding-left:1.1em; }
+
+    /* 등장인물: 게임 대화창 얼굴(2D 초상) + 이름 */
+    .chars { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; list-style:none; margin:0; padding:0; }
+    .char .win { display:grid; grid-template-columns:100px minmax(0, 1fr); gap:14px; align-items:center; }
+    .char img { width:100px; height:auto; filter:drop-shadow(3px 4px 0 #0007); }
+    .char-btn { width:100%; border:0; margin:0; text-align:left; font:inherit; color:inherit; cursor:pointer; transition:filter .15s; }
+    .char-btn:hover { filter:brightness(1.12); }
+    .char-btn:hover .nm { color:var(--yellow); }
+    .char .txt { display:block; }
+    .char .nm { display:block; font-size:1.12rem; font-weight:700; text-shadow:var(--outline); }
+    .char .en { display:block; margin:0 0 4px; font-size:.74rem; color:var(--yellow); text-shadow:var(--outline); }
+    .char .desc { display:block; font-size:.88rem; line-height:1.6; text-shadow:var(--outline); }
+    .char.unknown img { filter:brightness(0) drop-shadow(0 0 2px var(--cyan)) drop-shadow(0 0 6px #3fe3ff99); }
+    .char.unknown .nm { letter-spacing:.2em; }
+
+    /* 등장인물 크게 보기: STATUS 화면에서 능력치 창을 뺀 모습
+       (파랑 메뉴 배경 + 뒤쪽 주황 실루엣 + 전신 2D 일러스트) */
+    dialog.viewer.char-viewer { width:min(560px, calc(100vw - 24px), calc((100vh - 110px) * .8)); }
+    .stage { position:relative; aspect-ratio:4/5; overflow:hidden;
+      background:
+        repeating-linear-gradient(180deg, #ffffff0c 0 1px, transparent 1px 5px),
+        linear-gradient(100deg, #0b46c0 0%, #1b78e6 38%, #1a62d6 62%, #3a3fa8 82%, #8a3c3a 100%); }
+    /* 주황 실루엣을 일러스트 바로 뒤에 조금 크게, 왼쪽 위로 비껴 놓아 그림자처럼 겹침 */
+    .stage .sil, .stage .art { position:absolute; left:50%; bottom:0; width:auto; object-fit:contain; object-position:bottom center; }
+    .stage .sil { height:112%; max-width:110%; transform:translateX(-60%); bottom:-1%; opacity:.95; }
+    .stage .art { height:94%; max-width:94%; transform:translateX(-45%); filter:drop-shadow(4px 6px 0 #0004); }
+    .char-viewer.is-unknown .art { filter:brightness(0) drop-shadow(0 0 3px var(--cyan)) drop-shadow(0 0 10px #3fe3ff99); }
+    .viewer-bar .en { font-size:.8rem; color:var(--yellow); margin-left:8px; }
+
+    /* 스크린샷: HUD 틀 + 위치 표시판 모양 이름표 */
+    .shots { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:30px 24px; list-style:none; margin:0; padding:0; }
+    .shot { margin:0; }
+    .shot button { display:block; width:100%; padding:4px; border:0; background:linear-gradient(135deg, var(--cyan), #1173d8 45%, #0b3c8a); clip-path:polygon(14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px); transition:filter .2s, transform .2s; }
+    .shot button:hover { filter:brightness(1.15); transform:translateY(-3px); }
+    .shot img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; clip-path:polygon(11px 0, 100% 0, 100% calc(100% - 11px), calc(100% - 11px) 100%, 0 100%, 0 11px); }
+    .plate { display:flex; flex-direction:column; align-items:center; width:fit-content; min-width:62%; margin:-16px auto 0; position:relative; padding:3px 28px 4px; line-height:1.25; background:linear-gradient(90deg, #0b5fc400, #0d72d6 18%, #0d72d6 82%, #0b5fc400); }
+    .plate b { font-size:1.02rem; font-weight:700; }
+    .plate .en { font-size:.72rem; color:var(--yellow); }
+    .shot small { display:block; margin-top:6px; text-align:center; font-size:.88rem; color:var(--muted); }
+
+    /* 패치 방법: 플랫폼별 중간 메뉴 + 번호 */
+    .steps { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:24px; list-style:none; margin:0; padding:0; counter-reset:step; }
+    .step { counter-increment:step; }
+    .step h3::before { content:counter(step); width:24px; height:24px; display:grid; place-items:center; font-weight:900; font-size:.9rem; color:#0b3c8a; text-shadow:none; }
+    .step p { margin:0; font-size:.94rem; line-height:1.7; text-shadow:var(--outline); }
+    .step b { color:var(--yellow); font-weight:700; }
+    .caution { margin:30px 0 0; }
+    .caution ul { margin:0; padding-left:1.2em; font-size:.94rem; line-height:1.8; text-shadow:var(--outline); }
+
+    /* 크게 보기 */
+    dialog.viewer { width:min(1200px, calc(100% - 24px)); max-height:calc(100% - 24px); padding:0 10px 10px 0; border:0; background:none; color:var(--text); overflow:visible; }
+    dialog.viewer::backdrop { background:#020510d9; }
+    dialog.viewer .win { padding:calc(var(--top) + 6px) 8px 8px calc(var(--side) + 6px); }
+    #viewer-image { display:block; width:100%; height:auto; }
+    .viewer-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 4px 0 6px; font-weight:700; font-size:1.1rem; text-shadow:var(--outline); }
+
+    /* 하단: 게임 화면 아래 INFORMATION 줄 */
+    footer { margin-top:80px; padding:0 0 30px; }
+    .info { display:flex; gap:10px; align-items:baseline; padding:12px 0 0; border-top:2px solid #e8f4ff; font-size:.9rem; color:#dcecff; }
+    .info .en { font-style:normal; font-weight:700; font-size:.82rem; letter-spacing:.12em; flex-shrink:0; }
+
+    @media (max-width:980px) {
+      .hero-inner { grid-template-columns:1fr; gap:40px; }
+      .album { max-width:660px; }
+      .features { grid-template-columns:1fr; max-width:620px; }
+      .chars, .shots { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns:1fr; max-width:620px; }
+    }
+    @media (max-width:640px) {
+      .wrap { width:calc(100% - 32px); }
+      .logo-mini span { font-size:1rem; }
+      .btn-b { font-size:.95rem; }
+      .btn-b img { width:28px; height:28px; }
+      .menu-title .en { font-size:1.7rem; }
+      .menu-title .ring { width:44px; height:44px; }
+      .menu-title { flex-wrap:wrap; row-gap:4px; }
+      .features, .chars, .shots { grid-template-columns:1fr; }
+      .actions { gap:10px 10px; }
+      .mbtn { font-size:1.02rem; border-width:0 22px 0 46px; height:48px; padding-top:6px; }
+      .mbtn .ico { left:-44px; top:-5px; width:40px; height:40px; }
+      .mbar { font-size:1.08rem; }
+      .info { flex-direction:column; gap:2px; }
+    }
+    @media (max-width:359px) { .logo-mini span { display:none; } .actions { grid-template-columns:1fr; } }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none !important; animation:none !important; } html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <!-- 메뉴 막대 아이콘: 게임 TOP MENU 아이콘처럼 흰 테두리 + 광택을 넣어 직접 그렸습니다. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <radialGradient id="gl" cx="35%" cy="28%" r="75%"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></radialGradient>
+      <linearGradient id="g-dark" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5a6470"/><stop offset="1" stop-color="#15191e"/></linearGradient>
+      <linearGradient id="g-steam" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b4f86"/><stop offset=".5" stop-color="#16335a"/><stop offset="1" stop-color="#0d1b33"/></linearGradient>
+      <linearGradient id="g-xbox" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2ca02c"/><stop offset=".6" stop-color="#107c10"/><stop offset="1" stop-color="#0b5e0b"/></linearGradient>
+    </defs>
+    <!-- 메뉴 제목 고리: 게임처럼 바깥 고리와 안쪽 원이 같은 청록색, 사이 틈은 배경이 비침 -->
+    <symbol id="i-ring" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="38.5" fill="none" stroke="#57fcff" stroke-width="15"/>
+      <circle cx="50" cy="50" r="24" fill="#57fcff"/>
+    </symbol>
+    <symbol id="i-github" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="21" fill="url(#g-dark)" stroke="#fff" stroke-width="2.5"/>
+      <path transform="translate(9.6 9.6) scale(1.2)" fill="#fff" d="M12 .8a11.2 11.2 0 0 0-3.54 21.82c.56.1.77-.24.77-.54v-2.08c-3.13.68-3.79-1.33-3.79-1.33-.51-1.3-1.25-1.65-1.25-1.65-1.02-.7.08-.68.08-.68 1.13.08 1.73 1.16 1.73 1.16 1 1.72 2.63 1.22 3.27.94.1-.73.39-1.23.71-1.51-2.5-.29-5.13-1.25-5.13-5.54 0-1.22.43-2.22 1.16-3-.12-.28-.5-1.42.11-2.96 0 0 .95-.3 3.08 1.15a10.7 10.7 0 0 1 5.61 0c2.14-1.45 3.08-1.15 3.08-1.15.62 1.54.23 2.68.12 2.96.72.78 1.15 1.78 1.15 3 0 4.3-2.64 5.25-5.15 5.53.4.35.77 1.03.77 2.08v3.08c0 .3.2.65.78.54A11.2 11.2 0 0 0 12 .8Z"/>
+      <circle cx="24" cy="24" r="20" fill="url(#gl)"/>
+    </symbol>
+    <symbol id="i-download" viewBox="0 0 48 48">
+      <circle cx="24" cy="24" r="21" fill="url(#g-dark)" stroke="#fff" stroke-width="2.5"/>
+      <g fill="none" stroke="#fff" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round"><path d="M24 12v15M16.5 20.5 24 28l7.5-7.5M14.5 34.5h19"/></g>
+      <circle cx="24" cy="24" r="20" fill="url(#gl)"/>
+    </symbol>
+    <symbol id="i-steam" viewBox="0 0 48 48">
+      <!-- 공식 스팀 마크 모양: 짙은 남색 원 안에 흰 피스톤(큰 고리·작은 고리·연결대) -->
+      <circle cx="24" cy="24" r="21" fill="#fff" stroke="#fff" stroke-width="2.5"/>
+      <path transform="translate(5.2 5.2) scale(1.5667)" fill="url(#g-steam)" d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.605 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.454 1.012H7.54zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.253 0-2.265-1.014-2.265-2.265z"/>
+      <circle cx="24" cy="24" r="20" fill="url(#gl)"/>
+    </symbol>
+    <symbol id="i-xbox" viewBox="0 0 48 48">
+      <!-- 공식 XBOX 구체 마크 모양: 초록 구체 조각 사이로 흰 X가 비침 -->
+      <circle cx="24" cy="24" r="21" fill="#fff" stroke="#fff" stroke-width="2.5"/>
+      <path transform="translate(5.2 5.2) scale(1.5667)" fill="url(#g-xbox)" d="M4.102 21.033C6.211 22.881 8.977 24 12 24c3.026 0 5.789-1.119 7.902-2.967 1.877-1.912-4.316-8.709-7.902-11.417-3.582 2.708-9.779 9.505-7.898 11.417zm11.16-14.406c2.5 2.961 7.484 10.313 6.076 12.912C23.002 17.48 24 14.861 24 12.004c0-3.34-1.365-6.362-3.57-8.536 0 0-.027-.022-.082-.042-.063-.022-.152-.045-.281-.045-.592 0-1.985.434-4.805 3.246zM3.654 3.426c-.057.02-.082.041-.086.042C1.365 5.642 0 8.664 0 12.004c0 2.854.998 5.473 2.661 7.533-1.401-2.605 3.579-9.951 6.08-12.91-2.82-2.813-4.216-3.245-4.806-3.245-.131 0-.223.021-.281.046v-.002zM12 3.551S9.055 1.828 6.755 1.746c-.903-.033-1.454.295-1.521.339C7.379.646 9.659 0 11.984 0H12c2.334 0 4.605.646 6.766 2.085-.068-.046-.615-.372-1.52-.339C14.946 1.828 12 3.545 12 3.545v.006z"/>
+      <circle cx="24" cy="24" r="20" fill="url(#gl)"/>
+    </symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo-mini" href="#top" aria-label="맨 위로"><svg class="ring" aria-hidden="true"><use href="#i-ring"/></svg><span>스타오션 4 한글패치</span></a>
+      <a class="btn-b" href="/"><img src="assets/btn-b.png" alt="" width="86" height="86">다른 게임 보기</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="game-title">
+      <div class="wrap hero-inner">
+        <div>
+          <h1 id="game-title"><img src="assets/logo.webp" alt="STAR OCEAN THE LAST HOPE 스타 오션 4 - 4K &amp; Full HD Remaster" width="1460" height="540" fetchpriority="high"></h1>
+          <div class="intro">
+            <span class="win-label">소개</span>
+            <div class="win-wrap"><div class="win">
+              <p>대전쟁으로 황폐해진 지구를 떠나, 인류의 새로운 보금자리를 찾아 나서는 SF 액션 RPG입니다. 여러 행성을 탐험하고 외계 종족과 만나며 펼쳐지는 우주의 여정을 이제 한국어로 즐겨 보세요.</p>
+            </div></div>
+          </div>
+          <div class="actions">
+            <a class="mbtn" href="https://github.com/rnrmfdlapdlf/star-ocean-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)"><svg class="ico" aria-hidden="true"><use href="#i-github"/></svg><span>GitHub</span></a>
+            <a class="mbtn" href="https://github.com/rnrmfdlapdlf/star-ocean-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)"><svg class="ico" aria-hidden="true"><use href="#i-download"/></svg><span>다운로드</span></a>
+          </div>
+        </div>
+        <div>
+          <div class="album win-wrap" role="group" aria-roledescription="슬라이드쇼" aria-label="한글패치 샘플 화면" tabindex="0">
+            <div class="win">
+              <div class="album-images">
+                <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample4.jpg" alt="한글화된 전투 화면" width="1280" height="720">
+                <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample3.jpg" alt="칼나스 승무원 선실 위치 표시" width="1280" height="720" loading="lazy" aria-hidden="true">
+                <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample1.jpg" alt="오프닝 자막: 그리고 2087년…… 우주력 원년." width="1280" height="720" loading="lazy" aria-hidden="true">
+                <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/star-ocean-korean-patcher/main/samples/sample2.jpg" alt="출항 직전의 이벤트 장면" width="1280" height="720" loading="lazy" aria-hidden="true">
+              </div>
+            </div>
+          </div>
+          <div class="dots" aria-label="샘플 선택">
+            <button class="dot is-active" type="button" aria-label="샘플 1 보기" aria-pressed="true"></button><button class="dot" type="button" aria-label="샘플 2 보기" aria-pressed="false"></button><button class="dot" type="button" aria-label="샘플 3 보기" aria-pressed="false"></button><button class="dot" type="button" aria-label="샘플 4 보기" aria-pressed="false"></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block wrap" aria-labelledby="features-title">
+      <h2 class="menu-title" id="features-title"><svg class="ring" aria-hidden="true"><use href="#i-ring"/></svg><span class="en">Patch Feature</span><span class="ko">패치 기능</span></h2>
+      <p class="section-lead">대사와 자막부터 메뉴, 아이템, 퀘스트까지 게임 전체를 한국어로 옮겼습니다.</p>
+      <ul class="features">
+        <li class="feature win-wrap"><div class="win"><h3>한국어 번역</h3><p>이벤트 대사·자막, 필드 대화, 메뉴, 아이템·스킬 설명, 퀘스트, 몬스터 이름</p></div></li>
+        <li class="feature win-wrap"><div class="win"><h3>치트 옵션</h3><ul><li>이동 속도 2배</li><li>전투 종료 시 자동 회복</li><li>세이브 제한 해제</li></ul></div></li>
+        <li class="feature win-wrap"><div class="win"><h3>멀티 플랫폼</h3><p>스팀 「4K &amp; Full HD Remaster」와 XBOX 360 ISO를 하나의 패처로 지원합니다.</p></div></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" aria-labelledby="chars-title">
+      <h2 class="menu-title" id="chars-title"><svg class="ring" aria-hidden="true"><use href="#i-ring"/></svg><span class="en">Character</span><span class="ko">등장인물</span></h2>
+      <p class="section-lead">우주를 함께 여행하는 동료들입니다.</p>
+      <ul class="chars">
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/edge-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">엣지 마벨릭</strong><span class="en">EDGE MAVERICK</span><span class="desc">SRF 소속의 젊은 대원. 인류의 새 보금자리를 찾아 처음으로 먼 우주에 나선다.</span></span></button></li>
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/reimi-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">레이미 사이온지</strong><span class="en">REIMI SAIONJI</span><span class="desc">엣지의 소꿉친구이자 같은 SRF 대원. 활을 들고 동료들을 돕는다.</span></span></button></li>
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/faize-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">페이즈 시퍼 헤레스</strong><span class="en">FAIZE SHEIFA BELETH</span><span class="desc">여행 중에 만나는 외계 종족 청년. 차분하고 예의 바른 말투를 쓴다.</span></span></button></li>
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/lymle-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">리무르 레무리</strong><span class="en">LYMLE LEMURI</span><span class="desc">작은 마을에 사는 문장술사 소녀. 느긋한 말투와 엉뚱한 행동이 특징.</span></span></button></li>
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/bacchus-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">박카스 D-79</strong><span class="en">BACCHUS D-79</span><span class="desc">몸의 대부분을 기계로 바꾼 모피스인. 딱딱한 존댓말을 쓰는 든든한 동료.</span></span></button></li>
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/meracle-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">메리클 샴로트</strong><span class="en">MERACLE CHAMLOTTE</span><span class="desc">고양이 귀와 꼬리를 가진 명랑한 소녀. 날렵한 몸놀림으로 싸운다.</span></span></button></li>
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/sarah-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">사라 제란드</strong><span class="en">SARAH JERAND</span><span class="desc">등에 하얀 날개를 지닌 소녀. 느긋한 말투로 주변을 편안하게 만든다.</span></span></button></li>
+        <li class="char win-wrap"><button class="win char-btn" type="button"><img src="images/chars/myuria-anime.webp" alt="" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">뮤리아 티오니세스</strong><span class="en">MYURIA TIONYSUS</span><span class="desc">신비로운 분위기의 여성 문장술사. 어떤 목적을 품고 여행하고 있다.</span></span></button></li>
+        <li class="char unknown win-wrap"><button class="win char-btn" type="button"><img src="images/chars/arumat-anime.webp" alt="아직 밝혀지지 않은 동료" width="300" height="258" loading="lazy"><span class="txt"><strong class="nm">???</strong><span class="en">UNKNOWN</span><span class="desc">여정 중에 만나게 될 동료.</span></span></button></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" aria-labelledby="shots-title">
+      <h2 class="menu-title" id="shots-title"><svg class="ring" aria-hidden="true"><use href="#i-ring"/></svg><span class="en">Screen Shot</span><span class="ko">스크린샷</span></h2>
+      <p class="section-lead">사진을 누르면 크게 볼 수 있습니다.</p>
+      <ul class="shots">
+        <li><figure class="shot"><button type="button" data-full="images/title.jpg"><img src="images/title.jpg" alt="한글 부제가 들어간 타이틀 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>타이틀</b><span class="en">TITLE</span></span><small>한글 부제 「스타 오션 4」</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/explore.jpg"><img src="images/explore.jpg" alt="타트로이 거리를 걷는 장면" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>탐험</b><span class="en">EXPLORE</span></span><small>행성의 마을과 필드를 누비며</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/talk.jpg"><img src="images/talk.jpg" alt="리무르의 필드 대화: 있지, 있지. 이 커다란 상자는 뭐야?" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>동료 대화</b><span class="en">PARTY TALK</span></span><small>동료들의 수다도 한국어로</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/ship.jpg"><img src="images/ship.jpg" alt="배 위에서 이야기를 나누는 일행" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>이벤트</b><span class="en">EVENT</span></span><small>배 위에서 나누는 이야기</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/event.jpg"><img src="images/event.jpg" alt="이벤트 장면 자막: 당신은 그때……." width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>이벤트</b><span class="en">EVENT SCENE</span></span><small>이벤트 자막 전체 한글화</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/battle.jpg"><img src="images/battle.jpg" alt="드래곤 뉴트와의 전투 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>전투</b><span class="en">BATTLE</span></span><small>적 이름과 아이템 사용 표시까지</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/recipes.jpg"><img src="images/recipes.jpg" alt="레시피 메뉴: 저니 클로크" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>레시피</b><span class="en">RECIPES</span></span><small>재료와 필요 스킬 확인</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/creation.jpg"><img src="images/creation.jpg" alt="아이템 제작 완료 화면: 오르골" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>아이템 제작</b><span class="en">ITEM CREATION</span></span><small>제작 결과와 아이템 설명</small></figcaption></figure></li>
+        <li><figure class="shot"><button type="button" data-full="images/quests.jpg"><img src="images/quests.jpg" alt="퀘스트 메뉴: 주문 기묘한 과일" width="1280" height="720" loading="lazy"></button><figcaption><span class="plate"><b>퀘스트</b><span class="en">QUESTS</span></span><small>의뢰 내용과 보상</small></figcaption></figure></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" aria-labelledby="how-title">
+      <h2 class="menu-title" id="how-title"><svg class="ring" aria-hidden="true"><use href="#i-ring"/></svg><span class="en">How To Patch</span><span class="ko">패치 방법</span></h2>
+      <p class="section-lead">Windows용 패처 하나로 스팀판과 XBOX 360판 모두 패치할 수 있습니다.</p>
+      <div class="platform">
+        <h3 class="mbtn mbar"><svg class="ico" aria-hidden="true"><use href="#i-steam"/></svg><span>스팀</span></h3>
+        <ol class="steps">
+          <li class="step win-wrap"><div class="win"><h3>폴더 놓기</h3><p>게임이 설치된 폴더를 패처 창에 끌어다 놓습니다.</p></div></li>
+          <li class="step win-wrap"><div class="win"><h3>치트 선택</h3><p>이동 속도 2배, 자동 회복, 세이브 제한 해제 중 원하는 것을 고릅니다.</p></div></li>
+          <li class="step win-wrap"><div class="win"><h3>한글 패치</h3><p>[한글 패치]를 누르면 끝. 이때 만들어지는 <b>복구 데이터</b>를 보관하면, 다음 버전도 원본 복원 없이 바로 패치할 수 있습니다.</p></div></li>
+        </ol>
+      </div>
+      <div class="platform">
+        <h3 class="mbtn mbar"><svg class="ico" aria-hidden="true"><use href="#i-xbox"/></svg><span>XBOX 360</span></h3>
+        <ol class="steps">
+          <li class="step win-wrap"><div class="win"><h3>ISO 놓기</h3><p>원본 ISO 파일 3개(Disc 1~3)를 패처 창에 끌어다 놓습니다.</p></div></li>
+          <li class="step win-wrap"><div class="win"><h3>치트 선택</h3><p>이동 속도 2배, 자동 회복, 세이브 제한 해제 중 원하는 것을 고릅니다.</p></div></li>
+          <li class="step win-wrap"><div class="win"><h3>한글 패치</h3><p>[한글 패치]를 누르면 원본 옆에 <b>_repacked</b> 파일이 만들어집니다. 다시 패치할 때는 원본 파일이 필요합니다.</p></div></li>
+        </ol>
+      </div>
+      <div class="caution">
+        <span class="win-label">주의</span>
+        <div class="win-wrap"><div class="win">
+          <ul>
+            <li>게임 데이터는 들어 있지 않습니다. 직접 가지고 있는 정품 게임이 필요합니다. (Windows 10 이상)</li>
+            <li>세이브 제한 해제는 오동작할 수 있습니다. 세이브 포인트에서 저장한 데이터도 꼭 따로 남겨 두세요.</li>
+            <li>Xenia로 실행하면 가끔 화면이 어두워질 수 있습니다. 원본 게임에서도 똑같이 생기는 문제입니다.</li>
+          </ul>
+        </div></div>
+      </div>
+    </section>
+  </main>
+
+  <dialog class="viewer" id="viewer" aria-label="스크린샷 크게 보기">
+    <div class="win-wrap"><div class="win">
+      <img id="viewer-image" src="" alt="">
+      <div class="viewer-bar"><span id="viewer-caption"></span><button class="btn-b" type="button" id="viewer-close"><img src="assets/btn-b.png" alt="" width="86" height="86">닫기</button></div>
+    </div></div>
+  </dialog>
+
+  <dialog class="viewer char-viewer" id="char-viewer" aria-label="등장인물 크게 보기">
+    <div class="win-wrap"><div class="win">
+      <div class="stage"><img class="sil" id="char-sil" src="" alt=""><img class="art" id="char-art" src="" alt=""></div>
+      <div class="viewer-bar"><span><span id="char-name"></span><span class="en" id="char-en"></span></span><button class="btn-b" type="button" id="char-close"><img src="assets/btn-b.png" alt="" width="86" height="86">닫기</button></div>
+    </div></div>
+  </dialog>
+
+  <footer>
+    <div class="wrap info">
+      <span class="en">INFORMATION:</span>
+      <p style="margin:0">비영리 팬 번역 프로젝트이며, 원작의 저작권은 권리자에게 있습니다. 패치 사용으로 생기는 문제에 대해 책임지지 않습니다.</p>
+    </div>
+  </footer>
+
+  <script>
+    'use strict';
+    // 샘플 사진 슬라이드쇼 (5초마다 전환, 마우스를 올리거나 포커스 중에는 멈춤)
+    (() => {
+      const album = document.querySelector('.album');
+      const slides = Array.from(album.querySelectorAll('.slide'));
+      const dots = Array.from(document.querySelectorAll('.dot'));
+      let current = 0;
+      let paused = false;
+      const show = index => {
+        current = index;
+        slides.forEach((s, i) => { s.classList.toggle('is-active', i === index); s.setAttribute('aria-hidden', String(i !== index)); });
+        dots.forEach((d, i) => { d.classList.toggle('is-active', i === index); d.setAttribute('aria-pressed', String(i === index)); });
+      };
+      dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+      ['mouseenter', 'focusin'].forEach(e => album.addEventListener(e, () => { paused = true; }));
+      ['mouseleave', 'focusout'].forEach(e => album.addEventListener(e, () => { paused = false; }));
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.setInterval(() => { if (!paused && !document.hidden) show((current + 1) % slides.length); }, 5000);
+      }
+    })();
+
+    // 등장인물 크게 보기 (카드를 누르면 전신 일러스트 창)
+    (() => {
+      const viewer = document.getElementById('char-viewer');
+      const art = document.getElementById('char-art');
+      const sil = document.getElementById('char-sil');
+      const name = document.getElementById('char-name');
+      const en = document.getElementById('char-en');
+      document.querySelectorAll('.char-btn').forEach(button => {
+        button.addEventListener('click', () => {
+          const key = button.querySelector('img').getAttribute('src').match(/chars\/(\w+)-anime/)[1];
+          const src = `images/chars/${key}-full.webp`;
+          const unknown = button.closest('.char').classList.contains('unknown');
+          art.src = src;
+          art.alt = unknown ? '아직 밝혀지지 않은 동료의 실루엣' : `${button.querySelector('.nm').textContent} 전신 일러스트`;
+          sil.src = `images/chars/${key}-sil.webp`;
+          name.textContent = button.querySelector('.nm').textContent;
+          en.textContent = button.querySelector('.en').textContent;
+          viewer.classList.toggle('is-unknown', unknown);
+          if (viewer.showModal) viewer.showModal(); else window.open(src, '_blank');
+        });
+      });
+      document.getElementById('char-close').addEventListener('click', () => viewer.close());
+      viewer.addEventListener('click', e => { if (e.target === viewer) viewer.close(); });
+    })();
+
+    // 스크린샷 크게 보기
+    (() => {
+      const viewer = document.getElementById('viewer');
+      const image = document.getElementById('viewer-image');
+      const caption = document.getElementById('viewer-caption');
+      document.querySelectorAll('.shot button').forEach(button => {
+        button.addEventListener('click', () => {
+          const figure = button.closest('figure');
+          image.src = button.dataset.full;
+          image.alt = button.querySelector('img').alt;
+          caption.textContent = figure.querySelector('.plate b').textContent;
+          if (viewer.showModal) viewer.showModal(); else window.open(button.dataset.full, '_blank');
+        });
+      });
+      document.getElementById('viewer-close').addEventListener('click', () => viewer.close());
+      viewer.addEventListener('click', e => { if (e.target === viewer) viewer.close(); });
+    })();
+  </script>
+</body>
+</html>
