@@ -9,6 +9,9 @@
 | `noto-sans-kr/NotoSansKR-*.woff2` | Noto Sans KR 9개 굵기 (Thin 100 ~ Black 900) | KS X 1001 비한자 전체(한글 2,350자·자모·기호), 영문·숫자, 주요 문장부호 |
 | `noto-sans-kr.css` | 위 글꼴의 `@font-face` (`font-family: "Noto Sans KR"`, `font-weight` 100~900) | |
 | `tools/subset_noto.py` | Noto Sans KR 서브셋 재생성 스크립트 (fontTools, brotli 필요) | |
+| `galmuri/Galmuri11.woff2` | 갈무리11 (12px 격자 픽셀 글꼴) | KS X 1001 비한자 전체(한글 2,350자·자모·기호), 영문·숫자, 주요 문장부호 |
+| `galmuri.css` | 위 글꼴의 `@font-face` (`font-family: "Galmuri11"`) | |
+| `tools/subset_galmuri.py` | 갈무리11 서브셋 재생성 스크립트 (fontTools, brotli 필요) | |
 
 ## 사용법
 
@@ -24,6 +27,20 @@
 <style>
   body { font-family: "Noto Sans KR", "Malgun Gothic", sans-serif; font-weight: 500; }
 </style>
+```
+
+```html
+<link rel="stylesheet" href="/assets/fonts/galmuri.css">
+<style>
+  /* 픽셀 글꼴이라 12px의 정수배(12·24·36·48px)로 씁니다. */
+  .pixel { font: 24px/1.5 "Galmuri11", monospace; }
+</style>
+```
+
+갈무리11 서브셋을 다시 만들 때 ([원본 글꼴](https://github.com/quiple/galmuri)의 `Galmuri11.ttf`):
+
+```
+python assets/fonts/tools/subset_galmuri.py <Galmuri11.ttf> assets/fonts/galmuri
 ```
 
 Noto Sans KR 서브셋을 다시 만들 때 (2,350자 밖의 글자가 필요하면 스크립트의 `EXTRA_CHARS`에 추가):
@@ -42,3 +59,6 @@ python assets/fonts/tools/subset_noto.py <Noto_Sans_KR/static 폴더> assets/fon
 
 Noto Sans KR © The Noto Project Authors. SIL Open Font License 1.1 (`noto-sans-kr/OFL.txt`).
 서브셋으로 다시 만든 파일도 같은 라이선스를 따르며, 글꼴 자체만 따로 판매할 수 없습니다.
+
+갈무리 © 2019–2025 Lee Minseo. SIL Open Font License 1.1 (`galmuri/OFL.txt`).
+서브셋 파일도 같은 라이선스를 따릅니다.

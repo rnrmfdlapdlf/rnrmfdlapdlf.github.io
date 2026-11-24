@@ -1,0 +1,20 @@
+/*
+ * 갈무리11 (Galmuri11, 공용 웹 글꼴)
+ *
+ * 사용법: 페이지 <head>에
+ *   <link rel="stylesheet" href="/assets/fonts/galmuri.css">
+ * 를 넣고 font-family: "Galmuri11" 로 씁니다.
+ *
+ * 12px 격자로 그린 픽셀 글꼴이므로 12px의 정수배(12·24·36·48px)로 써야
+ * 픽셀이 또렷합니다. 삼국지 게임보이판 한글패치가 게임 안에서 쓰는 글꼴입니다.
+ *
+ * 글자 범위: KS X 1001 비한자 전체(한글 2,350자·자모·기호) + 영문·숫자·주요 문장부호.
+ * 다시 만들려면 tools/subset_galmuri.py 를 참고하세요. 라이선스: galmuri/OFL.txt (SIL OFL 1.1)
+ */
+@font-face {
+  font-family: "Galmuri11";
+  src: url("galmuri/Galmuri11.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
