@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>드림클럽 한글패치 - DREAM C CLUB (XBOX 360)</title>
+  <meta name="description" content="XBOX 360 연애 시뮬레이션 「드림클럽」 한글패치. 10명 호스트걸의 대사·선택지·메일과 메뉴·이미지 한글화, DLC 번역, 가라오케 치트 옵션을 지원합니다.">
+  <link rel="canonical" href="https://rnrmfdlapdlf.github.io/xbox360-dreamclub-korean-patcher/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="rnrmfdlapdlf의 프로젝트">
+  <meta property="og:title" content="드림클럽 한글패치">
+  <meta property="og:description" content="XBOX 360 「드림클럽」 한글패치. 대사·메일·메뉴·이미지 한글화, DLC 번역 지원.">
+  <meta property="og:url" content="https://rnrmfdlapdlf.github.io/xbox360-dreamclub-korean-patcher/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample1.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 29S3 21 3 11.5A6.5 6.5 0 0 1 16 8a6.5 6.5 0 0 1 13 3.5C29 21 16 29 16 29z' fill='%23ef4f7c' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/fonts/gyeonggi-title.css">
+  <style>
+    /* 장식은 게임 화면(타이틀 화면,클럽 소파,대사창,이름표,하트 게이지)을 본떴습니다.
+       별과 레이스는 게임 메뉴 텍스처에서 가져온 그림입니다.
+       글꼴은 패치와 같은 계열인 사이트 공용 경기천년제목체(/assets/fonts)입니다. */
+    :root {
+      color-scheme: light;
+      --magenta:#d3195f; --pink:#ef4f7c; --sky:#36bde9; --sky-deep:#1592c9;
+      --orange:#f39a3a; --orange-deep:#e0731c; --wine:#5c1218; --sofa:#b5161f;
+      --gold:#f2c35c; --cream:#fff7ea; --ink:#3a1d12;
+      --title:"GyeonggiTitle", "Malgun Gothic", sans-serif;
+      --body:"Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { margin:0; color:var(--cream); font:1rem/1.8 var(--body); background:var(--wine); }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; color:inherit; cursor:pointer; }
+    img { max-width:100%; }
+    a:focus-visible, button:focus-visible, .album:focus-visible { outline:3px solid var(--gold); outline-offset:4px; }
+    .wrap { width:min(1120px, calc(100% - 40px)); margin-inline:auto; }
+
+    /* 상단 바 */
+    .topbar { position:sticky; top:0; z-index:10; background:#fffffff0; box-shadow:0 2px 0 var(--orange), 0 4px 12px #0003; color:var(--ink); }
+    .topbar-inner { min-height:60px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .logo-mini { display:flex; align-items:center; gap:9px; font:1.4rem/1 var(--title); color:var(--magenta); white-space:nowrap; }
+    .logo-mini svg { width:30px; height:30px; flex-shrink:0; }
+    .btn-b { display:inline-flex; align-items:center; gap:7px; padding:4px 2px; border:0; background:none; font:1.2rem/1 var(--title); color:var(--ink); white-space:nowrap; transition:transform .15s; }
+    .btn-b img { width:32px; height:32px; filter:drop-shadow(0 2px 2px #0003); }
+    .btn-b:hover { transform:translateY(-2px); }
+
+    /* 하트 아이콘 (게임 대사창 왼쪽의 하트 게이지) */
+    .heart { display:inline-block; width:1em; height:1em; }
+
+    /* 히어로: 타이틀 화면의 하늘색 격자 배경 */
+    .hero { position:relative; overflow:hidden; color:var(--ink);
+      background:
+        linear-gradient(#ffffff26 1px, transparent 1px) 0 0/22px 22px,
+        linear-gradient(90deg, #ffffff26 1px, transparent 1px) 0 0/22px 22px,
+        radial-gradient(ellipse at 50% 110%, #e9fbff 0, #9fe3f7 25%, transparent 60%),
+        linear-gradient(#1aa3d8, var(--sky) 55%, #7fd8f2); }
+    .hero::after { content:""; position:absolute; left:0; right:0; bottom:0; height:56px; background:url("assets/lace.png") left bottom/auto 40px repeat-x; filter:drop-shadow(0 -2px 2px #0002); pointer-events:none; }
+    .hero .dialog { margin-top:24px; }
+    .hero-inner { position:relative; display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.08fr); gap:44px; align-items:center; padding:44px 0 88px; }
+
+    /* 로고: 게임 타이틀 화면의 원본 로고(title_tex.xpr) */
+    .logo { margin:0 0 0 -8px; }
+    .logo img { display:block; width:calc(100% + 16px); height:auto; filter:drop-shadow(0 6px 10px #0b5d8466); }
+
+    /* 게임 대사창: 갈색 반투명 상자 + 주황 테두리 + ▼ 커서 */
+    .dialog { position:relative; margin:34px 0 0; padding:18px 22px 22px; border:3px solid var(--orange); border-radius:10px; background:#6b3417d9; box-shadow:inset 0 0 0 2px #ffd59a55, 0 6px 16px #0004; color:var(--cream); word-break:keep-all; }
+    .dialog::after { content:""; position:absolute; right:12px; bottom:10px; width:16px; height:16px; border-radius:50%; background:radial-gradient(circle at 50% 35%, #ffe27a, #e39a12); box-shadow:0 0 0 2px #fff6; clip-path:polygon(0 15%, 100% 15%, 50% 95%); animation:blink 1.2s steps(2) infinite; }
+    @keyframes blink { 50% { opacity:.25; } }
+    .dialog p { margin:0; }
+    /* 대사창 위의 주황 줄무늬 이름표 */
+    .nametag { position:absolute; left:16px; top:-17px; display:inline-flex; align-items:center; gap:6px; min-height:30px; padding:2px 13px 2px 15px; border:2px solid #fff; border-radius:4px; background:repeating-linear-gradient(90deg, var(--orange) 0 7px, #f7ae5c 7px 14px); font:1rem/1 var(--title); letter-spacing:2px; color:#fff; text-shadow:0 1px 1px #a44d0a; box-shadow:0 2px 4px #0003; }
+
+    .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin-top:22px; max-width:500px; }
+    /* 게임 확인 버튼 (주황 띠) */
+    .btn { display:flex; align-items:center; justify-content:center; min-height:52px; padding:0 18px; border:3px solid #fff; border-radius:12px; background:linear-gradient(#ff8c5a, #f0532d 55%, #d83e1f); box-shadow:0 4px 0 #a8301a, 0 8px 14px #0003; font:1.2rem/1 var(--title); color:#fff; text-shadow:0 1px 2px #8a2412; transition:transform .15s, filter .15s; }
+    .btn.alt { background:linear-gradient(#ffd27f, #f6ad38 55%, #e39220); box-shadow:0 4px 0 #a96712, 0 8px 14px #0003; color:var(--ink); text-shadow:0 1px 0 #fff8; }
+    .btn:hover { transform:translateY(-2px); filter:brightness(1.06); }
+
+    /* 샘플 슬라이드쇼 */
+    .album { position:relative; padding:8px; border-radius:14px; background:linear-gradient(135deg, #fff, #ffe6f0); box-shadow:0 0 0 4px var(--orange), 0 16px 30px #0b5d8466; }
+    .album-images { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:8px; background:#082b3b; }
+    .slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .9s ease-in-out; }
+    .slide.is-active { opacity:1; }
+    .album .star { position:absolute; width:62px; right:-22px; top:-26px; transform:rotate(14deg); filter:drop-shadow(0 3px 3px #0003); }
+    .dots { position:absolute; left:0; right:0; bottom:-48px; display:flex; justify-content:center; gap:4px; }
+    .dot { width:34px; height:34px; padding:0; border:0; background:transparent; display:grid; place-items:center; color:#fff; }
+    .dot svg { width:20px; height:20px; opacity:.6; transition:transform .2s, opacity .2s; filter:drop-shadow(0 1px 1px #0005); }
+    .dot.is-active svg { opacity:1; transform:scale(1.25); color:var(--pink); }
+
+    /* 본문 배경: 클럽의 빨간 소파 퀼팅 */
+    .club { position:relative; padding-bottom:20px;
+      background:
+        radial-gradient(circle at 0 0, #3a070b 0 3px, transparent 4px) 0 0/56px 56px,
+        radial-gradient(circle at 28px 28px, #3a070b 0 3px, transparent 4px) 0 0/56px 56px,
+        repeating-linear-gradient(45deg, transparent 0 38px, #0000001f 38px 40px),
+        repeating-linear-gradient(-45deg, transparent 0 38px, #0000001f 38px 40px),
+        radial-gradient(ellipse at 50% 0, #d42a30, var(--sofa) 40%, #7a0e15 100%); }
+    /* 위쪽 금색 커튼 */
+    .club::before { content:""; display:block; height:26px; background:repeating-linear-gradient(90deg, #f6d77f 0 18px, #d9a63f 18px 30px, #f6d77f 30px 42px); border-bottom:3px solid #8a5a16; border-radius:0 0 50% 50% / 0 0 100% 100%; }
+
+    /* 섹션 제목: 이름표 */
+    section.block { padding:60px 0 0; scroll-margin-top:30px; }
+    /* 메뉴 구분선 */
+    section.block + section.block::before { content:""; display:block; height:2px; margin:0 0 54px; background:linear-gradient(90deg, transparent, var(--gold) 12%, var(--gold) 88%, transparent); box-shadow:0 1px 0 #0005; }
+    .section-title { display:flex; align-items:center; gap:12px; margin:0 0 10px; font:1.9rem/1.2 var(--title); font-weight:normal; letter-spacing:2px; color:#fff; text-shadow:0 2px 4px #0007; }
+    .section-title img { width:42px; height:auto; filter:drop-shadow(0 2px 3px #0005); }
+    .section-lead { margin:6px 0 26px; padding-left:54px; color:#ffe3c9; word-break:keep-all; }
+
+    /* 통계: 소지금 표시 */
+    .stats { display:flex; flex-wrap:wrap; gap:14px; margin:0 0 26px; padding:0; list-style:none; }
+    .stat { display:flex; align-items:center; gap:10px; padding:6px 16px 6px 8px; border-radius:10px; background:#2a0a0ccc; border:2px solid var(--gold); }
+    .stat b { padding:2px 8px; border-radius:6px; background:linear-gradient(#ffd27f, #e39220); font:.9rem/1.4 var(--title); color:#6b3417; font-weight:normal; }
+    .stat span { font:1.5rem/1 var(--title); letter-spacing:1px; color:#ffcf6b; text-shadow:0 0 6px #ff9b2f88; }
+
+    /* 패치 기능 */
+    .features { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:34px 22px; margin:0; padding:0; list-style:none; }
+    .features .dialog { margin:0; height:100%; padding-top:24px; }
+    .features h3 { margin:0; font:1.3rem/1.3 var(--title); font-weight:normal; }
+    .features p { margin:6px 0 0; font-size:.95rem; line-height:1.7; color:#ffe9d2; }
+
+    /* 호스트걸: 게임의 지명 화면 */
+    .hosts { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:20px; margin:0; padding:0; list-style:none; }
+    .host { display:grid; grid-template-columns:150px minmax(0, 1fr); gap:18px; align-items:center; padding:16px; border-radius:16px; background:#2a0a0ce0; border:3px solid var(--gold); box-shadow:0 10px 22px #0006; }
+    .host-face { width:100%; height:auto; border-radius:10px; border:4px solid var(--c); background:#fff; }
+    .host-name { margin:0; display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 10px; font:1.7rem/1.2 var(--title); font-weight:normal; color:#fff; }
+    .host-en { font:.8rem/1 var(--body); letter-spacing:1px; color:var(--c); filter:brightness(1.5); }
+    .host-head { margin:6px 0 0; font:1.02rem/1.5 var(--title); color:#ffd27f; word-break:keep-all; }
+    .host-desc { margin:6px 0 0; font-size:.93rem; line-height:1.75; color:#ffe9d2; word-break:keep-all; }
+
+    /* 스크린샷 */
+    .shots { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:34px 24px; margin:0; padding:0; list-style:none; }
+    .shot { margin:0; }
+    .shot button { display:block; width:100%; padding:5px; border:0; border-radius:10px; background:linear-gradient(135deg, var(--gold), #b9832a); box-shadow:0 8px 18px #0005; transition:transform .2s; }
+    .shot button:hover { transform:translateY(-3px); }
+    .shot img { display:block; width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; border-radius:6px; }
+    .shot figcaption { display:flex; flex-direction:column; align-items:center; margin-top:-14px; position:relative; }
+    /* 게임 화면의 반투명 띠 제목: 위아래 테두리만 */
+    .shot .nametag.band { position:static; width:120px; justify-content:center; border-width:2px 0; border-color:#ffe2b8; border-radius:0; background:linear-gradient(#f7a24bc4, #d9701cc4); box-shadow:none; }
+    .shot small { display:block; margin-top:6px; text-align:center; font-size:.9rem; color:#ffe3c9; }
+
+    /* 패치 방법 */
+    .steps { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:44px 22px; margin:0; padding:0; list-style:none; counter-reset:step; }
+    .step { position:relative; padding:40px 22px 22px; border-radius:16px; background:var(--cream); color:var(--ink); text-align:center; box-shadow:0 0 0 4px var(--orange), 0 10px 20px #0005; counter-increment:step; }
+    .step::before { content:counter(step); position:absolute; left:50%; top:-34px; transform:translateX(-50%); width:64px; height:58px; display:grid; place-items:center; padding-top:8px; background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 30'%3E%3Cpath d='M16 28S2 20 2 10.5A6.5 6.5 0 0 1 16 7a6.5 6.5 0 0 1 14 3.5C30 20 16 28 16 28z' fill='%23ef4f7c' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E") center/contain no-repeat; font:1.45rem/1 var(--title); color:#fff; text-shadow:0 1px 2px #a3133f; }
+    .step h3 { margin:0 0 6px; font:1.35rem/1.3 var(--title); font-weight:normal; color:var(--magenta); }
+    .step p { margin:0; font-size:.95rem; word-break:keep-all; }
+    .step b { color:var(--magenta); }
+    .notes { margin:34px 0 0; padding:16px 22px 16px 44px; border-radius:14px; background:#2a0a0ce0; border:2px dashed var(--gold); font-size:.95rem; word-break:keep-all; }
+    .notes li + li { margin-top:4px; }
+    .notes a { color:var(--gold); text-decoration:underline; text-underline-offset:3px; }
+
+    /* 크게 보기 */
+    dialog.viewer { width:min(1200px, calc(100% - 24px)); max-height:calc(100% - 24px); padding:0; border:6px solid var(--orange); border-radius:12px; background:var(--cream); }
+    dialog.viewer::backdrop { background:#2a0a0cd0; }
+    dialog.viewer img { display:block; width:100%; height:auto; }
+    .viewer-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:6px 12px 6px 16px; font:1.4rem/1.3 var(--title); color:var(--magenta); }
+
+    /* 하단 */
+    footer { margin-top:80px; padding:28px 0 30px; background:#1c0507; border-top:3px solid var(--gold); }
+    footer p { margin:0; font-size:.88rem; color:#e7c3a8; word-break:keep-all; }
+
+    @media (max-width:980px) {
+      .hero-inner { grid-template-columns:1fr; gap:60px; padding:34px 0 96px; }
+      .album { max-width:640px; }
+      .features { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .hosts { grid-template-columns:1fr; }
+      .shots { grid-template-columns:repeat(2, minmax(0, 1fr)); }
+      .steps { grid-template-columns:1fr; gap:54px; max-width:560px; }
+    }
+    @media (max-width:640px) {
+      .wrap { width:calc(100% - 32px); }
+      .logo-mini span { font-size:1.15rem; }
+      .btn-b { font-size:1.05rem; }
+      .features, .shots { grid-template-columns:1fr; }
+      .host { grid-template-columns:96px minmax(0, 1fr); gap:14px; padding:14px; }
+      .host-name { font-size:1.45rem; }
+      .section-title { font-size:1.55rem; }
+      .section-title img { width:36px; }
+      .section-lead { padding-left:48px; }
+      .album .star { right:-8px; width:50px; }
+    }
+    @media (max-width:359px) { .logo-mini span { display:none; } }
+    @media (prefers-reduced-motion:reduce) { *, *::before, *::after { transition:none !important; animation:none !important; } html { scroll-behavior:auto; } }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-heart" viewBox="0 0 32 30"><path d="M16 28S2 20 2 10.5A6.5 6.5 0 0 1 16 7a6.5 6.5 0 0 1 14 3.5C30 20 16 28 16 28z" fill="currentColor" stroke="#fff" stroke-width="2"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo-mini" href="#top" aria-label="맨 위로"><svg style="color:var(--pink)" aria-hidden="true"><use href="#i-heart"/></svg><span>드림클럽 한글패치</span></a>
+      <a class="btn-b" href="/"><img src="assets/xbox-b.png" alt="" width="49" height="49">다른 게임 보기</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="game-title">
+      <div class="wrap hero-inner">
+        <div>
+          <h1 class="logo" id="game-title"><img src="assets/logo.png" alt="DREAM C CLUB 드림클럽" width="850" height="172"></h1>
+          <div class="dialog">
+            <p>어서 오세요! 드림클럽에 오신 것을 환영합니다. 퓨어한 마음을 지닌 호스트걸들과 건배하고, 노래하고, 마음을 나누는 연애 시뮬레이션을 이제 한국어로 즐겨 보세요.</p>
+          </div>
+          <div class="actions">
+            <a class="btn alt" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)">GitHub</a>
+            <a class="btn" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)">다운로드</a>
+          </div>
+        </div>
+        <div class="album" role="group" aria-roledescription="슬라이드쇼" aria-label="한글패치 샘플 화면" tabindex="0">
+          <div class="album-images">
+            <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample1.jpg" alt="한글패치 버전이 표시된 타이틀 화면" width="1280" height="720" fetchpriority="high">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample2.jpg" alt="한글화된 메인 메뉴" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample3.jpg" alt="아마네와 건배하는 대화 장면" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/main/samples/sample4.jpg" alt="벚꽃 데이트 장면" width="1280" height="720" loading="lazy" aria-hidden="true">
+          </div>
+          <img class="star" src="assets/star.png" alt="" width="68" height="65">
+          <div class="dots" aria-label="샘플 선택">
+            <button class="dot is-active" type="button" aria-label="샘플 1 보기" aria-pressed="true"><svg aria-hidden="true"><use href="#i-heart"/></svg></button><button class="dot" type="button" aria-label="샘플 2 보기" aria-pressed="false"><svg aria-hidden="true"><use href="#i-heart"/></svg></button><button class="dot" type="button" aria-label="샘플 3 보기" aria-pressed="false"><svg aria-hidden="true"><use href="#i-heart"/></svg></button><button class="dot" type="button" aria-label="샘플 4 보기" aria-pressed="false"><svg aria-hidden="true"><use href="#i-heart"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="club">
+      <section class="block wrap" aria-labelledby="features-title">
+        <h2 class="section-title" id="features-title"><img src="assets/star.png" alt="" width="68" height="65">패치 기능</h2>
+        <p class="section-lead">클럽에서의 대화부터 메일, 주문 메뉴, 가라오케까지 게임 전체를 한국어로 옮겼습니다.</p>
+        <ul class="stats" aria-label="패치 규모">
+          <li class="stat"><b>대사</b><span>43,894</span></li>
+          <li class="stat"><b>호스트걸</b><span>10명</span></li>
+          <li class="stat"><b>DLC</b><span>지원</span></li>
+        </ul>
+        <ul class="features">
+          <li><div class="dialog"><span class="nametag">대사</span><h3>대사·선택지</h3><p>10명 호스트걸의 모든 대화와 선택지, 엔딩까지</p></div></li>
+          <li><div class="dialog"><span class="nametag">메일</span><h3>메일·이름</h3><p>입력한 이름과 캐릭터별 호칭이 대사와 메일에 자연스럽게</p></div></li>
+          <li><div class="dialog"><span class="nametag">메뉴</span><h3>메뉴·이미지</h3><p>술·안주 주문 메뉴, 아르바이트, 호감도·일치율 등 UI 이미지</p></div></li>
+          <li><div class="dialog"><span class="nametag">DLC</span><h3>DLC 번역</h3><p>추가 의상·노래 DLC의 이름과 설명, 가사</p></div></li>
+          <li><div class="dialog"><span class="nametag">치트</span><h3>치트 옵션</h3><p>가라오케 항상 승인, 가라오케 일치율 감소 방지</p></div></li>
+          <li><div class="dialog"><span class="nametag">글꼴</span><h3>취하면 글씨도</h3><p>술에 취한 장면에서는 대사가 손글씨 글꼴로 바뀝니다.</p></div></li>
+        </ul>
+      </section>
+
+      <section class="block wrap" aria-labelledby="hosts-title">
+        <h2 class="section-title" id="hosts-title"><img src="assets/star.png" alt="" width="68" height="65">호스트걸</h2>
+        <p class="section-lead">오늘은 누구를 지명할까요?</p>
+        <ul class="hosts">
+          <li class="host" style="--c:#e2456f"><img class="host-face" src="images/hosts/amane.jpg" alt="아마네" width="360" height="284" loading="lazy"><div><h3 class="host-name">아마네<span class="host-en">AMANE</span></h3><p class="host-head">가정적이고 귀엽고,다정한 아이랍니다!</p><p class="host-desc">아마네는 영화 보는 것을 무척 좋아한다고 해요♪♪ 게다가 영화 이야기도 아주 좋아하는 모양이에요! 함께 영화를 보러 갈 친구를 찾고 있다고 하네요?</p></div></li>
+          <li class="host" style="--c:#3f9a3a"><img class="host-face" src="images/hosts/mio.jpg" alt="미오" width="360" height="284" loading="lazy"><div><h3 class="host-name">미오<span class="host-en">MIO</span></h3><p class="host-head">사실 미오는 발명가랍니다!</p><p class="host-desc">열심히 사람들에게 도움 되는 것을 발명하고 있어요. 미오는 조금 위태로운 구석이 있지만 그 점이 귀엽죠?</p></div></li>
+          <li class="host" style="--c:#d6ad12"><img class="host-face" src="images/hosts/setsu.jpg" alt="세츠" width="360" height="284" loading="lazy"><div><h3 class="host-name">세츠<span class="host-en">SETSU</span></h3><p class="host-head">디저트 만드는 것을 정말,정말로 잘한답니다♪</p><p class="host-desc">얼마 전에도 가게 여성분들에게 과자를 나눠 주었답니다. 가게에서 주문할 수 있는 안주 중에는 세츠가 만든 것도 있다는 걸 아셨나요?</p></div></li>
+          <li class="host" style="--c:#6f68d6"><img class="host-face" src="images/hosts/reika.jpg" alt="레이카" width="360" height="284" loading="lazy"><div><h3 class="host-name">레이카<span class="host-en">REIKA</span></h3><p class="host-head">레이카는 간사이에서 온 여자아이.</p><p class="host-desc">시원시원한 성격이라 정말 멋있죠? 그런 레이카도,역시 가게 여성분들 모두와 친합니다. 특히 세츠와는 싸울 만큼………… 가까운 사이랍니다♪</p></div></li>
+          <li class="host" style="--c:#de4f86"><img class="host-face" src="images/hosts/mian.jpg" alt="미안" width="360" height="284" loading="lazy"><div><h3 class="host-name">미안<span class="host-en">MIAN</span></h3><p class="host-head">미안은 인기가 급상승 중인! 모델이랍니다♪</p><p class="host-desc">모델 일도,가게 일도 열심히 하고 있어요. 조금 새침한 면이 있지만,사실은………♪</p></div></li>
+          <li class="host" style="--c:#d2489c"><img class="host-face" src="images/hosts/rui.jpg" alt="루이" width="360" height="284" loading="lazy"><div><h3 class="host-name">루이<span class="host-en">RUI</span></h3><p class="host-head">드림클럽 최고의 글래머러스 퍼펙트 보디는 물론 루이!</p><p class="host-desc">루이의 성숙한 매력에 마음을 빼앗긴 분도 많을 거예요. 루이는 술이 강하므로 취하게 해서 속마음을 듣고 싶다면 주의하세요♪</p></div></li>
+          <li class="host" style="--c:#2b9fc6"><img class="host-face" src="images/hosts/riho.jpg" alt="리호" width="360" height="284" loading="lazy"><div><h3 class="host-name">리호<span class="host-en">RIHO</span></h3><p class="host-head">귀여운 물건과 JPOP 음악을 무척 좋아해요♪♪</p><p class="host-desc">요즘은 시내에 나가서,윈도 쇼핑을 즐긴다고 하네요? 알고 계셨나요?? 리호는 다이어트를 하고 있답니다.</p></div></li>
+          <li class="host" style="--c:#e8732a"><img class="host-face" src="images/hosts/nao.jpg" alt="나오" width="360" height="284" loading="lazy"><div><h3 class="host-name">나오<span class="host-en">NAO</span></h3><p class="host-head">나오는 격투기를 잘하는 여자아이.</p><p class="host-desc">강하고 멋져서 모두에게 의지받고 있답니다. 그런 나오도,상점에서 파는 액세서리가 신경 쓰이는 모양이에요.</p></div></li>
+          <li class="host" style="--c:#9550cf"><img class="host-face" src="images/hosts/mari.jpg" alt="마리" width="360" height="284" loading="lazy"><div><h3 class="host-name">마리<span class="host-en">MARI</span></h3><p class="host-head">보라색 장미가 어울리는 여자아이는 바로 마리.</p><p class="host-desc">조금 신비롭고 작고 귀여운… 인디 밴드 『블러디 마릴린』의 보컬이라고 합니다! 그런 마리의 노랫소리,궁금하시죠?</p></div></li>
+          <li class="host" style="--c:#3a8be0"><img class="host-face" src="images/hosts/airi.jpg" alt="아이리" width="360" height="284" loading="lazy"><div><h3 class="host-name">아이리<span class="host-en">AIRI</span></h3><p class="host-head">드림클럽의 비밀 병기!</p><p class="host-desc">ROZA 연구소에서 찾아온 ROZA 영식의 최신 모델 아이리!! 가게에는 데이터 수집을 위해 찾아왔다고 합니다. 아이리와 많이 이야기해서 데이터 수집을 도와 주세요.</p></div></li>
+        </ul>
+      </section>
+
+      <section class="block wrap" aria-labelledby="shots-title">
+        <h2 class="section-title" id="shots-title"><img src="assets/star.png" alt="" width="68" height="65">스크린샷</h2>
+        <p class="section-lead">사진을 누르면 크게 볼 수 있습니다.</p>
+        <ul class="shots">
+          <li><figure class="shot"><button type="button" data-full="images/welcome.jpg"><img src="images/welcome.jpg" alt="접수원이 드림클럽 방문을 환영하는 장면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">입장</span><small>드림클럽에 오신 것을 환영합니다</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/choice.jpg"><img src="images/choice.jpg" alt="세 가지 대화 주제를 고르는 선택지 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">대화</span><small>무슨 이야기를 해 볼까?</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/song-request.jpg"><img src="images/song-request.jpg" alt="노래 신청 곡 목록" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">노래 신청</span><small>호스트걸의 노래를 리퀘스트</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/karaoke.jpg"><img src="images/karaoke.jpg" alt="아마네가 수녀복 차림으로 노래하는 가라오케 미니게임" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">가라오케</span><small>가사와 일치율도 한국어로</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/mail.jpg"><img src="images/mail.jpg" alt="아마네에게서 온 메일" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">메일</span><small>지명해 줘서 고맙다는 메일</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/arbeit.jpg"><img src="images/arbeit.jpg" alt="편의점 아르바이트 선택 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">아르바이트</span><small>평일엔 알바로 자금 마련</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/costume.jpg"><img src="images/costume.jpg" alt="의상 설정 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">의상 설정</span><small>코스튬 이름과 설명까지</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/oneshot.jpg"><img src="images/oneshot.jpg" alt="원샷 대결 미니게임 시작 화면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">원샷 대결</span><small>한글 이미지로 바뀐 미니게임</small></figcaption></figure></li>
+          <li><figure class="shot"><button type="button" data-full="images/beach.jpg"><img src="images/beach.jpg" alt="바닷가 데이트 장면" width="1280" height="720" loading="lazy"></button><figcaption><span class="nametag band">데이트</span><small>애프터에는 바다로</small></figcaption></figure></li>
+        </ul>
+      </section>
+
+      <section class="block wrap" id="how" aria-labelledby="how-title">
+        <h2 class="section-title" id="how-title"><img src="assets/star.png" alt="" width="68" height="65">패치 방법</h2>
+        <p class="section-lead">Windows용 패처에 파일을 끌어다 놓고 버튼 한 번이면 끝납니다.</p>
+        <ol class="steps">
+          <li class="step"><h3>패처 받기</h3><p>다운로드 페이지에서 zip을 받아 압축을 풀어 주세요. (Windows 10 이상)</p></li>
+          <li class="step"><h3>끌어다 놓기</h3><p>원본 ISO와 <b>xextool.exe 6.3</b>을 패처 창에 놓습니다. DLC 폴더와 TU 파일도 함께 놓을 수 있습니다.</p></li>
+          <li class="step"><h3>패치 시작</h3><p>원본 옆에 <b>_repacked.iso</b>가 만들어집니다. DLC는 <b>폴더명_repacked</b>에 저장됩니다.</p></li>
+        </ol>
+        <ul class="notes">
+          <li>게임 데이터는 들어 있지 않습니다. 직접 가지고 있는 정품 게임 ISO가 필요합니다.</li>
+          <li>xextool 6.3은 직접 준비해 주세요. (<a href="https://digiex.net/threads/xextool-6-3-download.9523/" target="_blank" rel="noopener noreferrer">다운로드</a>)</li>
+          <li>TU는 선택 사항입니다. 넣으면 ISO에 미리 반영되므로 같은 TU를 다시 설치하지 마세요.</li>
+          <li>DLC 한글 표시에는 같은 버전으로 패치한 본편 ISO가 필요합니다. 이전 결과에 덧씌우지 말고 원본에서 다시 패치해 주세요.</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <dialog class="viewer" id="viewer" aria-label="스크린샷 크게 보기">
+    <img id="viewer-image" src="" alt="">
+    <div class="viewer-bar"><span id="viewer-caption"></span><button class="btn-b" type="button" id="viewer-close"><img src="assets/xbox-b.png" alt="" width="49" height="49">닫기</button></div>
+  </dialog>
+
+  <footer>
+    <div class="wrap">
+      <p>비영리 팬 번역 프로젝트이며, 원작의 저작권은 권리자에게 있습니다. 패치 사용으로 생기는 문제에 대해 책임지지 않습니다.</p>
+    </div>
+  </footer>
+
+  <script>
+    'use strict';
+    // 샘플 사진 슬라이드쇼 (5초마다 전환, 마우스를 올리거나 포커스 중에는 멈춤)
+    (() => {
+      const album = document.querySelector('.album');
+      const slides = Array.from(album.querySelectorAll('.slide'));
+      const dots = Array.from(album.querySelectorAll('.dot'));
+      let current = 0;
+      let paused = false;
+      const show = index => {
+        current = index;
+        slides.forEach((s, i) => { s.classList.toggle('is-active', i === index); s.setAttribute('aria-hidden', String(i !== index)); });
+        dots.forEach((d, i) => { d.classList.toggle('is-active', i === index); d.setAttribute('aria-pressed', String(i === index)); });
+      };
+      dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+      ['mouseenter', 'focusin'].forEach(e => album.addEventListener(e, () => { paused = true; }));
+      ['mouseleave', 'focusout'].forEach(e => album.addEventListener(e, () => { paused = false; }));
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.setInterval(() => { if (!paused && !document.hidden) show((current + 1) % slides.length); }, 5000);
+      }
+    })();
+
+    // 스크린샷 크게 보기
+    (() => {
+      const viewer = document.getElementById('viewer');
+      const image = document.getElementById('viewer-image');
+      const caption = document.getElementById('viewer-caption');
+      document.querySelectorAll('.shot button').forEach(button => {
+        button.addEventListener('click', () => {
+          const figure = button.closest('figure');
+          image.src = button.dataset.full;
+          image.alt = button.querySelector('img').alt;
+          caption.textContent = figure.querySelector('.nametag').textContent;
+          if (viewer.showModal) viewer.showModal(); else window.open(button.dataset.full, '_blank');
+        });
+      });
+      document.getElementById('viewer-close').addEventListener('click', () => viewer.close());
+      viewer.addEventListener('click', e => { if (e.target === viewer) viewer.close(); });
+    })();
+  </script>
+</body>
+</html>
