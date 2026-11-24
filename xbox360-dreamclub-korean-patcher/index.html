@@ -44,8 +44,8 @@
     .topbar-inner { min-height:60px; display:flex; align-items:center; justify-content:space-between; gap:12px; }
     .logo-mini { display:flex; align-items:center; gap:9px; font:1.4rem/1 var(--title); color:var(--magenta); white-space:nowrap; }
     .logo-mini svg { width:30px; height:30px; flex-shrink:0; }
-    .btn-b { display:inline-flex; align-items:center; gap:7px; padding:4px 2px; border:0; background:none; font:1.2rem/1 var(--title); color:var(--ink); white-space:nowrap; transition:transform .15s; }
-    .btn-b img { width:32px; height:32px; filter:drop-shadow(0 2px 2px #0003); }
+    .btn-b { display:inline-flex; align-items:center; gap:7px; padding:4px 2px; border:0; background:none; font:1.2rem/1 var(--title); color:#fff; white-space:nowrap; text-shadow:2px 0 #0b4f73, -2px 0 #0b4f73, 0 2px #0b4f73, 0 -2px #0b4f73, 1.5px 1.5px #0b4f73, -1.5px -1.5px #0b4f73, 1.5px -1.5px #0b4f73, -1.5px 1.5px #0b4f73; transition:transform .15s; }
+    .btn-b img { width:32px; height:32px; filter:drop-shadow(0 1px 2px #0004); }
     .btn-b:hover { transform:translateY(-2px); }
 
     /* 하트 아이콘 (게임 대사창 왼쪽의 하트 게이지) */
@@ -74,11 +74,18 @@
     /* 대사창 위의 주황 줄무늬 이름표 */
     .nametag { position:absolute; left:16px; top:-17px; display:inline-flex; align-items:center; gap:6px; min-height:30px; padding:2px 13px 2px 15px; border:2px solid #fff; border-radius:4px; background:repeating-linear-gradient(90deg, var(--orange) 0 7px, #f7ae5c 7px 14px); font:1rem/1 var(--title); letter-spacing:2px; color:#fff; text-shadow:0 1px 1px #a44d0a; box-shadow:0 2px 4px #0003; }
 
-    .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin-top:22px; max-width:500px; }
-    /* 게임 확인 버튼 (주황 띠) */
-    .btn { display:flex; align-items:center; justify-content:center; min-height:52px; padding:0 18px; border:3px solid #fff; border-radius:12px; background:linear-gradient(#ff8c5a, #f0532d 55%, #d83e1f); box-shadow:0 4px 0 #a8301a, 0 8px 14px #0003; font:1.2rem/1 var(--title); color:#fff; text-shadow:0 1px 2px #8a2412; transition:transform .15s, filter .15s; }
-    .btn.alt { background:linear-gradient(#ffd27f, #f6ad38 55%, #e39220); box-shadow:0 4px 0 #a96712, 0 8px 14px #0003; color:var(--ink); text-shadow:0 1px 0 #fff8; }
-    .btn:hover { transform:translateY(-2px); filter:brightness(1.06); }
+    /* 소개 대화창을 반으로 나눈 두 칸에 대화창 글자와 같은 들여쓰기로 배치 */
+    .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); margin-top:22px; }
+    .actions .pad-btn { justify-self:start; margin-left:25px; }
+    /* 비교용: 테두리·배경이 있는 버튼 (actions에 boxed 클래스) */
+    .actions.boxed { gap:12px; max-width:500px; }
+    .actions.boxed .pad-btn { justify-self:stretch; justify-content:center; margin-left:0; min-height:56px; padding:0 18px; border:3px solid #fff; border-radius:12px; background:linear-gradient(#ff7aa6, #e8367a 55%, #cc1f62); box-shadow:0 4px 0 #94174a, 0 8px 14px #0003; font-size:1.25rem; text-shadow:0 1px 2px #7d0f3c; }
+    .actions.boxed .pad-btn:first-child { background:linear-gradient(#ffd27f, #f6ad38 55%, #e39220); box-shadow:0 4px 0 #a96712, 0 8px 14px #0003; color:var(--ink); text-shadow:0 1px 0 #fff8; }
+    .actions.boxed .pad-btn img { width:34px; height:34px; }
+    /* 게임 버튼 안내: 버튼 아이콘 + 글자 */
+    .pad-btn { display:inline-flex; align-items:center; gap:9px; font:1.45rem/1 var(--title); color:#fff; white-space:nowrap; text-shadow:2px 0 #0b4f73, -2px 0 #0b4f73, 0 2px #0b4f73, 0 -2px #0b4f73, 1.5px 1.5px #0b4f73, -1.5px -1.5px #0b4f73, 1.5px -1.5px #0b4f73, -1.5px 1.5px #0b4f73; transition:transform .15s; }
+    .pad-btn img { width:42px; height:42px; filter:drop-shadow(0 2px 2px #0004); }
+    .pad-btn:hover { transform:translateY(-2px); }
 
     /* 샘플 슬라이드쇼 */
     .album { position:relative; padding:8px; border-radius:14px; background:linear-gradient(135deg, #fff, #ffe6f0); box-shadow:0 0 0 4px var(--orange), 0 16px 30px #0b5d8466; }
@@ -195,7 +202,7 @@
   <header class="topbar">
     <div class="wrap topbar-inner">
       <a class="logo-mini" href="#top" aria-label="맨 위로"><svg style="color:var(--pink)" aria-hidden="true"><use href="#i-heart"/></svg><span>드림클럽 한글패치</span></a>
-      <a class="btn-b" href="/"><img src="assets/xbox-b.png" alt="" width="49" height="49">다른 게임 보기</a>
+      <a class="btn-b" href="/"><img src="assets/btn-b.png" alt="" width="47" height="47">다른 게임 보기</a>
     </div>
   </header>
 
@@ -207,9 +214,9 @@
           <div class="dialog">
             <p>어서 오세요! 드림클럽에 오신 것을 환영합니다. 퓨어한 마음을 지닌 호스트걸들과 건배하고, 노래하고, 마음을 나누는 연애 시뮬레이션을 이제 한국어로 즐겨 보세요.</p>
           </div>
-          <div class="actions">
-            <a class="btn alt" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)">GitHub</a>
-            <a class="btn" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)">다운로드</a>
+          <div class="actions boxed">
+            <a class="pad-btn" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)"><img src="assets/btn-y.png" alt="" width="47" height="47">GitHub</a>
+            <a class="pad-btn" href="https://github.com/rnrmfdlapdlf/xbox360-dreamclub-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)"><img src="assets/btn-a.png" alt="" width="47" height="47">다운로드</a>
           </div>
         </div>
         <div class="album" role="group" aria-roledescription="슬라이드쇼" aria-label="한글패치 샘플 화면" tabindex="0">
@@ -299,7 +306,7 @@
 
   <dialog class="viewer" id="viewer" aria-label="스크린샷 크게 보기">
     <img id="viewer-image" src="" alt="">
-    <div class="viewer-bar"><span id="viewer-caption"></span><button class="btn-b" type="button" id="viewer-close"><img src="assets/xbox-b.png" alt="" width="49" height="49">닫기</button></div>
+    <div class="viewer-bar"><span id="viewer-caption"></span><button class="btn-b" type="button" id="viewer-close"><img src="assets/btn-b.png" alt="" width="47" height="47">닫기</button></div>
   </dialog>
 
   <footer>
