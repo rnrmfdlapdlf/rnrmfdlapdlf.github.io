@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>트러스티 벨 한글패치 - 쇼팽의 꿈 (XBOX 360)</title>
+  <meta name="description" content="XBOX 360 일본판 「트러스티 벨 ~쇼팽의 꿈~」 한글패치. 대사와 UI 이미지, 시스템 메뉴·아이템·전투 기술 이름을 한글화하고 ISO를 자동으로 재패킹합니다.">
+  <link rel="canonical" href="https://rnrmfdlapdlf.github.io/xbox360-trusty-bell-korean-patcher/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="rnrmfdlapdlf의 프로젝트">
+  <meta property="og:title" content="트러스티 벨 한글패치">
+  <meta property="og:description" content="XBOX 360 일본판 「트러스티 벨 ~쇼팽의 꿈~」 한글패치. 대사·메뉴·아이템 한글화와 ISO 자동 재패킹.">
+  <meta property="og:url" content="https://rnrmfdlapdlf.github.io/xbox360-trusty-bell-korean-patcher/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample1.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3a2 2 0 0 1 2 2v1.2A9 9 0 0 1 25 15v6l3 4H4l3-4v-6a9 9 0 0 1 7-8.8V5a2 2 0 0 1 2-2Z' fill='%23d9b25f'/%3E%3Ccircle cx='16' cy='28' r='3' fill='%23d9b25f'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/fonts/gyeonggi-title.css">
+  <style>
+    /* 장식은 게임 화면을 본떴습니다.
+       숲과 꽃밭은 필드 화면, 나무 패널과 금색 테두리·이름표는 메뉴와 대화창, 건반 띠는 쇼팽의 피아노에서 가져왔습니다.
+       글꼴은 패치와 같은 계열인 사이트 공용 경기천년제목체(/assets/fonts)입니다. */
+    :root {
+      color-scheme: light;
+      --wood:#6a4422; --wood-2:#4b2e15; --wood-dark:#2c1909; --gold:#d9b25f; --gold-soft:#f2d79a;
+      --cream:#fff6e3; --paper:#f7ecd2; --ink:#2b1a0c; --muted:#c9bfdc;
+      --flower:#f7dc5a; --flower-2:#ecc13a; --forest:#24581e; --forest-2:#456d25; --grass:#5f8530; --grass-light:#96ab5c;
+      --text-dark:#fff6e3; --text-sub:#eef3d6; --accent:#f2c35c;
+      --title:"GyeonggiTitle", "Malgun Gothic", sans-serif;
+      --body:"Malgun Gothic", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      position:relative; margin:0; color:var(--cream); font:1rem/1.8 var(--body);
+      background:var(--forest-2) linear-gradient(180deg, var(--grass) 0, var(--grass) 900px, var(--forest-2) 100%);
+    }
+    /* 아래쪽: 숲과 꽃밭 장면을 흐리게 깔고 초록빛을 덧씌움 */
+    body::before {
+      content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background:
+        linear-gradient(180deg, rgba(36,88,30,.35) 0%, rgba(36,88,30,.55) 60%, rgba(28,70,24,.75) 100%),
+        var(--grass) url(assets/bg-forest.jpg) center 30% / cover no-repeat;
+    }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; color:inherit; cursor:pointer; }
+    img { max-width:100%; }
+    a:focus-visible, button:focus-visible, .album:focus-visible { outline:3px solid var(--accent); outline-offset:4px; }
+    .wrap { width:min(1120px, calc(100% - 32px)); margin-inline:auto; }
+    .icon { width:1em; height:1em; fill:currentColor; flex:none; }
+
+    /* 게임 메뉴 패널 */
+    .panel {
+      position:relative; color:var(--cream); border:2px solid var(--gold); border-radius:10px;
+      background:
+        repeating-linear-gradient(135deg, rgba(255,255,255,.035) 0 6px, transparent 6px 12px),
+        linear-gradient(180deg, var(--wood) 0%, var(--wood-2) 100%);
+      box-shadow:inset 0 0 0 2px var(--wood-dark), inset 0 0 0 4px rgba(242,215,154,.28), 0 12px 28px rgba(0,0,0,.35);
+    }
+
+    /* 건반 띠 */
+    .keys {
+      height:22px; margin:0; border-block:2px solid var(--gold);
+      background:
+        linear-gradient(90deg, transparent 0 14px, #1a1410 14px 24px, transparent 24px 38px, #1a1410 38px 48px, transparent 48px 64px,
+                               #1a1410 64px 74px, transparent 74px 86px, #1a1410 86px 96px, transparent 96px 108px, #1a1410 108px 118px, transparent 118px 140px) 0 0 / 140px 60% repeat-x,
+        repeating-linear-gradient(90deg, #fffaf0 0 18px, #8c7a62 18px 20px);
+    }
+
+    /* 상단 바 */
+    .topbar { position:sticky; top:0; z-index:10; background:linear-gradient(180deg, rgba(106,68,34,.95), rgba(75,46,21,.95)); backdrop-filter:blur(8px); border-bottom:2px solid var(--gold); }
+    .topbar-inner { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:56px; }
+    .logo-mini { display:flex; align-items:center; gap:8px; font:1.05rem var(--title); color:var(--gold-soft); white-space:nowrap; }
+    .btn-b { display:inline-flex; align-items:center; gap:7px; padding:4px 2px; border:0; background:none; font:1.1rem/1 var(--title); color:var(--cream); white-space:nowrap; }
+    .btn-b img { width:30px; height:auto; filter:drop-shadow(0 1px 2px #0006); }
+    .btn-b:hover { transform:translateY(-2px); }
+
+    /* 히어로 */
+    /* 타이틀 영역: 꽃밭 장면 + 원본 풀잎·코스모스 텍스처로 만든 풀숲 띠 */
+    .hero {
+      position:relative; padding:44px 0 120px;
+      background:
+        linear-gradient(180deg, rgba(255,246,200,.15) 0, rgba(255,246,200,0) 50%),
+        var(--flower-2) url(assets/bg-field.jpg) center 65% / cover no-repeat;
+    }
+    .hero::after {
+      content:""; position:absolute; left:0; right:0; bottom:0; height:128px; pointer-events:none;
+      background:url(assets/grass-edge.png) 0 100% / auto 128px repeat-x;
+    }
+    .hero-inner { position:relative; z-index:1; }
+    .hero-inner { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:40px; align-items:center; }
+    .logo { margin:0 0 6px; line-height:0; }
+    .logo img { width:100%; height:auto; }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; padding:0; list-style:none; }
+    .badges li { padding:2px 12px; border:1px solid var(--accent); border-radius:999px; font-size:.85rem; color:var(--ink); background:rgba(255,250,235,.85); }
+    .dialog { margin-top:18px; }
+    .dialog .panel { padding:22px 22px 18px; }
+    .dialog p { margin:0; }
+    .dialog .more { display:block; width:14px; height:10px; margin:6px auto 0; background:var(--gold); clip-path:polygon(0 0,100% 0,50% 100%); animation:bob 1.6s ease-in-out infinite; }
+    @keyframes bob { 50% { transform:translateY(3px); } }
+    .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin-top:22px; }
+    .pad-btn {
+      display:flex; align-items:center; justify-content:center; gap:10px; min-height:56px; padding:0 14px; border-radius:10px;
+      font:1.3rem/1 var(--title); color:var(--cream); white-space:nowrap;
+      border:2px solid var(--gold); background:linear-gradient(180deg, #7a4f28, var(--wood-dark)); box-shadow:inset 0 0 0 2px rgba(242,215,154,.25), 0 6px 16px rgba(0,0,0,.35);
+    }
+    .pad-btn img { width:34px; height:auto; filter:drop-shadow(0 1px 2px #0006); }
+    .pad-btn:hover { transform:translateY(-2px); }
+
+    .album { position:relative; padding:10px; border-radius:12px; }
+    .album-images { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:6px; background:#000; }
+    .album .slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .6s ease; }
+    .album .slide.is-active { opacity:1; }
+    .dots { display:flex; justify-content:center; gap:10px; padding-top:10px; }
+    .dot { width:30px; height:30px; display:grid; place-items:center; padding:0; border:0; background:none; color:rgba(242,215,154,.45); }
+    .dot .icon { width:20px; height:20px; }
+    .dot.is-active { color:var(--gold-soft); }
+
+    /* 섹션 */
+    .block { padding:56px 0; }
+    .section-title { display:flex; align-items:center; gap:12px; margin:0 0 8px; font:400 clamp(1.6rem, 4vw, 2.2rem)/1.3 var(--title); color:var(--text-dark); }
+    .section-title .icon { width:30px; height:30px; color:var(--accent); }
+    .section-lead { margin:0 0 26px; color:var(--text-sub); }
+
+    .features { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:18px; margin:0; padding:0; list-style:none; }
+    .feature { padding:22px 20px 20px; }
+    .feature h3 { display:flex; align-items:center; gap:8px; margin:0 0 6px; font:400 1.2rem/1.4 var(--title); color:var(--gold-soft); }
+    .feature h3 .icon { width:22px; height:22px; color:var(--gold); }
+    .feature p { margin:0; font-size:.95rem; }
+
+    .cast { display:grid; grid-template-columns:repeat(auto-fill, minmax(250px, 1fr)); gap:20px; margin:0; padding:0; list-style:none; }
+    .member { display:flex; flex-direction:column; overflow:hidden; }
+    .member-face {
+      display:block; width:100%; height:auto; aspect-ratio:1/1; object-fit:cover; object-position:0 0;
+      border-bottom:2px solid var(--gold);
+      background:radial-gradient(circle at 50% 62%, #fffbe0 0, #d6e08a 45%, #6f9634 100%);
+    }
+    .member-body { padding:14px 16px 16px; }
+    .member-name { display:flex; align-items:baseline; flex-wrap:wrap; gap:4px 10px; margin:0 0 4px; font:400 1.25rem/1.4 var(--title); color:var(--gold-soft); }
+    .member-en { font:700 .72rem/1 var(--body); letter-spacing:.12em; color:var(--muted); }
+    .member p { margin:0; font-size:.93rem; line-height:1.7; }
+
+    .shots { display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:20px; margin:0; padding:0; list-style:none; }
+    .shot { margin:0; padding:8px 8px 14px; }
+    .shot button { display:block; width:100%; padding:0; border:0; background:#000; border-radius:5px; overflow:hidden; line-height:0; }
+    .shot button img { width:100%; height:auto; aspect-ratio:16/9; object-fit:cover; transition:transform .3s ease; }
+    .shot button:hover img { transform:scale(1.03); }
+    .shot figcaption { padding:12px 6px 0; font-size:.92rem; line-height:1.6; text-align:center; }
+
+    .steps { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; margin:0 0 22px; padding:0; list-style:none; counter-reset:step; }
+    .step { padding:20px 20px 18px; counter-increment:step; }
+    .step h3 { display:flex; align-items:center; gap:10px; margin:0 0 6px; font:400 1.2rem/1.4 var(--title); color:var(--gold-soft); }
+    .step h3::before { content:counter(step); display:grid; place-items:center; width:32px; height:32px; border-radius:50%; font:700 1rem/1 var(--body); color:var(--ink); background:var(--gold-soft); flex:none; }
+    .step p { margin:0; font-size:.95rem; }
+    .notes { margin:0; padding:20px 22px 20px 40px; color:var(--ink); background:var(--paper); border:2px solid var(--gold); border-radius:10px; }
+    .notes li + li { margin-top:6px; }
+    .notes a, .member a { text-decoration:underline; text-underline-offset:3px; }
+    b { color:inherit; }
+    .notes b { color:#7a3b10; }
+
+    footer { position:relative; padding:34px 0 150px; font-size:.86rem; color:var(--text-sub); text-align:center; }
+    footer p { margin:4px 0; }
+    footer::after {
+      content:""; position:absolute; left:0; right:0; bottom:0; height:128px; pointer-events:none;
+      background:url(assets/grass-edge.png) 0 100% / auto 128px repeat-x;
+    }
+    footer a { text-decoration:underline; text-underline-offset:3px; }
+
+    /* 크게 보기 */
+    .viewer { width:min(1280px, calc(100% - 24px)); max-height:calc(100% - 24px); padding:8px; border:2px solid var(--gold); border-radius:10px; background:var(--wood-dark); color:var(--cream); }
+    .viewer::backdrop { background:rgba(6,8,26,.85); }
+    .viewer img { display:block; width:100%; height:auto; border-radius:5px; }
+    .viewer-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 6px 4px; }
+
+    @media (max-width:860px) {
+      .hero-inner { grid-template-columns:1fr; gap:28px; }
+      .steps { grid-template-columns:1fr; }
+    }
+    @media (max-width:420px) {
+      .logo-mini span { display:none; }
+      .shots { grid-template-columns:1fr; }
+      .cast { grid-template-columns:1fr 1fr; gap:12px; }
+      .member-body { padding:10px 10px 12px; }
+      .member-name { font-size:1.05rem; }
+      .member p { font-size:.84rem; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior:auto; }
+      .album .slide, .shot button img { transition:none; }
+      .dialog .more { animation:none; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M12 2a1.5 1.5 0 0 1 1.5 1.5v.7A7 7 0 0 1 19 11v4.5l2 3H3l2-3V11a7 7 0 0 1 5.5-6.8v-.7A1.5 1.5 0 0 1 12 2Zm-2.5 18h5a2.5 2.5 0 0 1-5 0Z"/></symbol>
+    <symbol id="i-note" viewBox="0 0 24 24"><path d="M9 3.5 20 1v13.5a3.5 3.5 0 1 1-2-3.16V5.3l-7 1.6v10.6A3.5 3.5 0 1 1 9 14.34Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm3 6v2h2V9H7Zm4 0v2h2V9h-2Zm4 0v2h2V9h-2Z"/></symbol>
+    <symbol id="i-image" viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 13v3h16v-2l-5-5-4 4-2-2-5 2Zm4-10a2 2 0 1 0 0 4 2 2 0 0 0 0-4Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 4h18v4H3V4Zm0 6h18v4H3v-4Zm0 6h18v4H3v-4Z"/></symbol>
+    <symbol id="i-disc" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo-mini" href="#top" aria-label="맨 위로"><svg class="icon" aria-hidden="true"><use href="#i-bell"/></svg><span>트러스티 벨 한글패치</span></a>
+      <a class="btn-b" href="/"><img src="assets/btn-b.png" alt="" width="42" height="45">다른 게임 보기</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="game-title">
+      <div class="wrap hero-inner">
+        <div>
+          <h1 class="logo" id="game-title"><img src="assets/logo.webp" alt="Trusty Bell 트러스티 벨 ~쇼팽의 꿈~" width="954" height="270"></h1>
+          <ul class="badges" aria-label="지원 환경">
+            <li>XBOX 360</li><li>일본판 ISO</li><li>Windows 10 이상</li>
+          </ul>
+          <div class="dialog">
+            <div class="panel">
+              <p>1849년 10월 17일, 파리. 죽음을 앞둔 작곡가 쇼팽이 마지막 3시간 동안 꾸는 꿈속 세계를 여행하는 판타지 RPG를 이제 한국어로 즐겨 보세요.</p>
+              <span class="more" aria-hidden="true"></span>
+            </div>
+          </div>
+          <div class="actions">
+            <a class="pad-btn" href="https://github.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)"><img src="assets/btn-y.png" alt="" width="42" height="45">GitHub</a>
+            <a class="pad-btn" href="https://github.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)"><img src="assets/btn-a.png" alt="" width="42" height="45">다운로드</a>
+          </div>
+        </div>
+        <div class="album panel" role="group" aria-roledescription="슬라이드쇼" aria-label="한글패치 샘플 화면" tabindex="0">
+          <div class="album-images">
+            <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample1.jpg" alt="폴카가 눈을 감고 말하는 한글 자막 장면" width="1280" height="720" fetchpriority="high">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample2.jpg" alt="꽃밭에서 소프의 한글 대화창" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample3.jpg" alt="알레그레토와 비트가 표시된 한글 메뉴 화면" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher/main/samples/sample4.jpg" alt="한글 기술 이름이 표시된 전투 화면" width="1280" height="720" loading="lazy" aria-hidden="true">
+          </div>
+          <div class="dots" aria-label="샘플 선택">
+            <button class="dot is-active" type="button" aria-label="샘플 1 보기" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg></button><button class="dot" type="button" aria-label="샘플 2 보기" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg></button><button class="dot" type="button" aria-label="샘플 3 보기" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg></button><button class="dot" type="button" aria-label="샘플 4 보기" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="keys" aria-hidden="true"></div>
+
+    <section class="block wrap" aria-labelledby="features-title">
+      <h2 class="section-title" id="features-title"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg>패치 기능</h2>
+      <p class="section-lead">일본판 ISO에 한국어 번역을 넣고 새 ISO로 다시 묶어 줍니다.</p>
+      <ul class="features">
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg>대사</h3><p>이벤트 자막과 대화창, 마을 사람들의 대사까지 대부분의 대화 텍스트를 한글로 옮겼습니다.</p></li>
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-image"/></svg>UI 이미지</h3><p>타이틀 로고의 「트러스티 벨 ~쇼팽의 꿈~」 등 글자가 그려진 이미지를 한글로 바꿨습니다.</p></li>
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>메뉴·아이템·기술</h3><p>시스템 메뉴, 아이템과 장비 설명, 전투 기술 이름을 한글로 표시합니다.</p></li>
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-disc"/></svg>자동 재패킹</h3><p>ISO를 끌어다 놓고 버튼을 누르면 원본 옆에 한글판 ISO가 만들어집니다.</p></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" aria-labelledby="cast-title">
+      <h2 class="section-title" id="cast-title"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg>등장인물</h2>
+      <p class="section-lead">음악 용어에서 이름을 따온 꿈속 세계의 동료들입니다.</p>
+      <ul class="cast">
+        <li class="member panel"><img class="member-face" src="images/chars/chopin.webp" alt="쇼팽" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">쇼팽<span class="member-en">CHOPIN</span></h3><p>폴란드 출신의 작곡가. 병상에서 꾸는 꿈이라 여기면서도, 이 세계의 사람들과 함께 여행을 떠납니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/polka.webp" alt="폴카" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">폴카<span class="member-en">POLKA</span></h3><p>불치병과 함께 마법의 힘을 얻은 소녀. 화봉약이 팔리지 않는 이유를 따지러 포르테 성의 백작을 만나러 갑니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/allegretto.webp" alt="알레그레토" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">알레그레토<span class="member-en">ALLEGRETTO</span></h3><p>빈민가 아이들을 돌보는 정의감 넘치는 소년. 비싼 빵값과 광봉약 문제로 포르테에 맞섭니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/beat.webp" alt="비트" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">비트<span class="member-en">BEAT</span></h3><p>알레그레토를 형처럼 따르는 꼬마. 카메라로 찍은 사진은 상점에 팔 수 있습니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/viola.webp" alt="비올라" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">비올라<span class="member-en">VIOLA</span></h3><p>파트너 알코와 함께 지내는 활잡이 목동 소녀. 느긋하고 시원시원한 성격입니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/salsa.webp" alt="살사" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">살사<span class="member-en">SALSA</span></h3><p>동생 마치와 함께 숲을 지키는 파수꾼. 지기 싫어하는 말괄량이 언니입니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/march.webp" alt="마치" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">마치<span class="member-en">MARCH</span></h3><p>살사의 쌍둥이 동생. 차분하고 의젓한 성격으로 언니와 함께 숲을 지킵니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/jirba.webp" alt="지르바" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">지르바<span class="member-en">JIRBA</span></h3><p>반정부 조직 안단티노의 리더. 포르테의 압정에 맞서 사람들을 이끕니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/claves.webp" alt="클라베스" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">클라베스<span class="member-en">CLAVES</span></h3><p>지르바의 연인이자 안단티노의 일원. 뛰어난 검술 실력을 지녔습니다.</p></div></li>
+        <li class="member panel"><img class="member-face" src="images/chars/falsetto.webp" alt="팔세토" width="410" height="410" loading="lazy"><div class="member-body"><h3 class="member-name">팔세토<span class="member-en">FALSETTO</span></h3><p>안단티노의 일원. 지르바가 작전을 믿고 털어놓는 몇 안 되는 동료입니다.</p></div></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" aria-labelledby="shots-title">
+      <h2 class="section-title" id="shots-title"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg>스크린샷</h2>
+      <p class="section-lead">한글패치를 적용한 실제 게임 화면입니다. 누르면 크게 볼 수 있습니다.</p>
+      <ul class="shots">
+        <li><figure class="shot panel"><button type="button" data-full="images/opening.jpg"><img src="images/opening.jpg" alt="숲길 풍경과 오프닝 내레이션 자막" width="1280" height="720" loading="lazy"></button><figcaption>오프닝</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/chopin-bed.jpg"><img src="images/chopin-bed.jpg" alt="병상에 누워 잠든 쇼팽" width="1280" height="720" loading="lazy"></button><figcaption>쇼팽</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/tutorial.jpg"><img src="images/tutorial.jpg" alt="폴카가 전투 방식을 설명하는 튜토리얼" width="1280" height="720" loading="lazy"></button><figcaption>튜토리얼</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/battle.jpg"><img src="images/battle.jpg" alt="비트, 알레그레토, 폴카의 3인 파티 전투" width="1280" height="720" loading="lazy"></button><figcaption>전투</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/polka-accused.jpg"><img src="images/polka-accused.jpg" alt="“정말로 아무것도 안 했어요”라고 말하는 폴카" width="1280" height="720" loading="lazy"></button><figcaption>폴카의 누명</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/starflower.jpg"><img src="images/starflower.jpg" alt="별빛 꽃밭에서 대화하는 쇼팽과 폴카" width="1280" height="720" loading="lazy"></button><figcaption>쇼팽과의 만남</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/viola-home.jpg"><img src="images/viola-home.jpg" alt="집 안에 앉아 있는 비올라" width="1280" height="720" loading="lazy"></button><figcaption>비올라</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/crisis.jpg"><img src="images/crisis.jpg" alt="안단티노의 움직임을 보고하는 신하" width="1280" height="720" loading="lazy"></button><figcaption>다가오는 위기</figcaption></figure></li>
+        <li><figure class="shot panel"><button type="button" data-full="images/history.jpg"><img src="images/history.jpg" alt="1830년 바르샤바 혁명을 설명하는 쇼팽 평전 장면" width="1280" height="720" loading="lazy"></button><figcaption>쇼팽의 생애</figcaption></figure></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" id="how" aria-labelledby="how-title">
+      <h2 class="section-title" id="how-title"><svg class="icon" aria-hidden="true"><use href="#i-note"/></svg>패치 방법</h2>
+      <p class="section-lead">Windows용 패처에 ISO를 끌어다 놓고 버튼 한 번이면 끝납니다.</p>
+      <ol class="steps">
+        <li class="step panel"><h3>패처 받기</h3><p>다운로드 페이지에서 zip을 받아 압축을 풀어 주세요. (Windows 10 이상)</p></li>
+        <li class="step panel"><h3>끌어다 놓기</h3><p>일본판 ISO를 패처 창에 놓습니다. 메뉴·아이템까지 한글로 보려면 <b>xextool.exe</b>도 함께 선택하세요.</p></li>
+        <li class="step panel"><h3>패치 시작</h3><p>원본과 같은 폴더에 <b>원본 파일명_repacked.iso</b>가 만들어집니다.</p></li>
+      </ol>
+      <ul class="notes">
+        <li>게임 데이터는 들어 있지 않습니다. 직접 가지고 있는 정품 <b>일본판</b> 게임 ISO가 필요합니다.</li>
+        <li>xextool 6.3은 직접 준비해 주세요. 없어도 패치는 되지만 메뉴·아이템 등 XEX 영역은 일본어로 남습니다. (<a href="https://digiex.net/threads/xextool-6-3-download.9523/" target="_blank" rel="noopener noreferrer">다운로드</a>)</li>
+        <li>같은 이름의 결과물이 이미 있으면 덮어쓸지 물어봅니다. 실패하면 원인 확인을 위해 임시 폴더를 남겨 둡니다.</li>
+        <li>윈도우·안드로이드·스팀OS 등 다른 기기에서 즐기는 방법은 <a href="https://view5199.tistory.com/26" target="_blank" rel="noopener noreferrer">이 글</a>을 참고하세요.</li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="keys" aria-hidden="true"></div>
+
+  <dialog class="viewer" id="viewer" aria-label="스크린샷 크게 보기">
+    <img id="viewer-image" src="" alt="">
+    <div class="viewer-bar"><span id="viewer-caption"></span><button class="btn-b" type="button" id="viewer-close"><img src="assets/btn-b.png" alt="" width="42" height="45">닫기</button></div>
+  </dialog>
+
+  <footer>
+    <div class="wrap">
+      <p>비영리 팬 번역 프로젝트이며, 원작의 저작권은 권리자에게 있습니다. 패치 사용으로 생기는 문제에 대해 책임지지 않습니다.</p>
+      <p>패치와 이 페이지의 제목 글꼴: 경기천년체 © GYEONGGI PROVINCE · 패처는 <a href="https://github.com/rnrmfdlapdlf/xbox360-trusty-bell-korean-patcher" target="_blank" rel="noopener noreferrer">MIT License</a></p>
+    </div>
+  </footer>
+
+  <script>
+    'use strict';
+    // 샘플 사진 슬라이드쇼 (5초마다 전환, 마우스를 올리거나 포커스 중에는 멈춤)
+    (() => {
+      const album = document.querySelector('.album');
+      const slides = Array.from(album.querySelectorAll('.slide'));
+      const dots = Array.from(album.querySelectorAll('.dot'));
+      let current = 0;
+      let paused = false;
+      const show = index => {
+        current = index;
+        slides.forEach((s, i) => { s.classList.toggle('is-active', i === index); s.setAttribute('aria-hidden', String(i !== index)); });
+        dots.forEach((d, i) => { d.classList.toggle('is-active', i === index); d.setAttribute('aria-pressed', String(i === index)); });
+      };
+      dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+      ['mouseenter', 'focusin'].forEach(e => album.addEventListener(e, () => { paused = true; }));
+      ['mouseleave', 'focusout'].forEach(e => album.addEventListener(e, () => { paused = false; }));
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.setInterval(() => { if (!paused && !document.hidden) show((current + 1) % slides.length); }, 5000);
+      }
+    })();
+
+    // 스크린샷 크게 보기
+    (() => {
+      const viewer = document.getElementById('viewer');
+      const image = document.getElementById('viewer-image');
+      const caption = document.getElementById('viewer-caption');
+      document.querySelectorAll('.shot button').forEach(button => {
+        button.addEventListener('click', () => {
+          const figure = button.closest('figure');
+          image.src = button.dataset.full;
+          image.alt = button.querySelector('img').alt;
+          caption.textContent = figure.querySelector('figcaption').textContent;
+          if (viewer.showModal) viewer.showModal(); else window.open(button.dataset.full, '_blank');
+        });
+      });
+      document.getElementById('viewer-close').addEventListener('click', () => viewer.close());
+      viewer.addEventListener('click', e => { if (e.target === viewer) viewer.close(); });
+    })();
+  </script>
+</body>
+</html>
