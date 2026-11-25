@@ -98,8 +98,6 @@
     .dialog { margin-top:18px; }
     .dialog .panel { padding:22px 22px 18px; }
     .dialog p { margin:0; }
-    .dialog .more { display:block; width:14px; height:10px; margin:6px auto 0; background:var(--gold); clip-path:polygon(0 0,100% 0,50% 100%); animation:bob 1.6s ease-in-out infinite; }
-    @keyframes bob { 50% { transform:translateY(3px); } }
     .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin-top:22px; }
     .pad-btn {
       display:flex; align-items:center; justify-content:center; gap:10px; min-height:56px; padding:0 14px; border-radius:10px;
@@ -189,7 +187,6 @@
     @media (prefers-reduced-motion:reduce) {
       html { scroll-behavior:auto; }
       .album .slide, .shot button img { transition:none; }
-      .dialog .more { animation:none; }
     }
   </style>
 </head>
@@ -221,7 +218,6 @@
           <div class="dialog">
             <div class="panel">
               <p>1849년 10월 17일, 파리. 죽음을 앞둔 작곡가 쇼팽이 마지막 3시간 동안 꾸는 꿈속 세계를 여행하는 판타지 RPG를 이제 한국어로 즐겨 보세요.</p>
-              <span class="more" aria-hidden="true"></span>
             </div>
           </div>
           <div class="actions">
