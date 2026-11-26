@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>아메리칸 맥기의 앨리스 한글패치 (XBOX 360)</title>
+  <meta name="description" content="XBOX 360 「앨리스 매드니스 리턴즈」 초회판 DLC 「아메리칸 맥기의 앨리스」 한글패치. 대사 자막과 메뉴를 한글화하고, 본편 없이 단독으로 실행할 수 있는 ISO도 만들 수 있습니다.">
+  <link rel="canonical" href="https://rnrmfdlapdlf.github.io/xbox360-american-mcgees-alice-korean-pathcer/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="rnrmfdlapdlf의 프로젝트">
+  <meta property="og:title" content="아메리칸 맥기의 앨리스 한글패치">
+  <meta property="og:description" content="XBOX 360 「아메리칸 맥기의 앨리스」 DLC 한글패치. 자막·메뉴 한글화와 단독 실행 ISO 변환.">
+  <meta property="og:url" content="https://rnrmfdlapdlf.github.io/xbox360-american-mcgees-alice-korean-pathcer/">
+  <meta property="og:image" content="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample1.jpg">
+  <meta property="og:image:width" content="1280">
+  <meta property="og:image:height" content="720">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 29S3 20.5 3 11.5A7 7 0 0 1 16 8a7 7 0 0 1 13 3.5C29 20.5 16 29 16 29Z' fill='%23b3211b'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/assets/fonts/noto-sans-kr.css">
+  <style>
+    /* 장식은 게임 화면을 본떴습니다.
+       돌벽은 메인 메뉴의 정신병원 배경, 양피지 상자는 자막 창, 흑백 체크무늬는 타이틀 화면의 바닥에서 가져왔습니다.
+       글꼴은 패치와 같은 Noto Sans KR(/assets/fonts)입니다. */
+    :root {
+      color-scheme: dark;
+      --night:#0e0d0c; --stone:#1c1f22; --stone-2:#2a2f33; --iron:#3a3633;
+      --gold:#c9a15a; --gold-soft:#ecd3a0; --bronze:#8a6534;
+      --blood:#b3211b; --ember:#e2652a;
+      --bone:#efe6d2; --paper:#e9dcbd; --ink:#2a1a10; --sub:#bdb5a6;
+      --font:"Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+    }
+    * { box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body {
+      margin:0; color:var(--bone); font:500 1rem/1.8 var(--font); word-break:keep-all;
+      background:var(--night);
+    }
+    /* 돌벽을 깔고 위아래를 어둡게 */
+    body::before {
+      content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background:
+        radial-gradient(ellipse at 50% 0%, rgba(14,13,12,.15) 0%, rgba(14,13,12,.82) 70%),
+        linear-gradient(180deg, rgba(14,13,12,.4), rgba(14,13,12,.9)),
+        var(--stone) url(assets/wall.jpg) 0 0 / 256px 256px repeat;
+    }
+    a { color:inherit; text-decoration:none; }
+    button { font:inherit; color:inherit; cursor:pointer; }
+    img { max-width:100%; }
+    a:focus-visible, button:focus-visible, .album:focus-visible { outline:3px solid var(--gold); outline-offset:4px; }
+    .wrap { width:min(1120px, calc(100% - 32px)); margin-inline:auto; }
+    .icon { width:1em; height:1em; fill:currentColor; flex:none; }
+
+    /* 철과 금박 패널 */
+    .panel {
+      position:relative; border:1px solid var(--bronze); border-radius:6px;
+      background:linear-gradient(180deg, rgba(42,47,51,.92), rgba(20,20,20,.94));
+      box-shadow:inset 0 0 0 1px rgba(0,0,0,.6), inset 0 0 0 4px rgba(201,161,90,.12), 0 14px 30px rgba(0,0,0,.5);
+    }
+    .panel::before, .panel::after {
+      content:""; position:absolute; width:14px; height:14px; border:2px solid var(--gold); pointer-events:none;
+    }
+    .panel::before { top:5px; left:5px; border-right:0; border-bottom:0; }
+    .panel::after { bottom:5px; right:5px; border-left:0; border-top:0; }
+
+    /* 체크무늬 바닥 띠 */
+    .checker {
+      height:24px; border-block:1px solid var(--bronze);
+      background:
+        linear-gradient(180deg, rgba(179,33,27,.18), rgba(0,0,0,.25)),
+        repeating-conic-gradient(#d9cfbd 0 25%, #151312 0 50%) 0 0 / 24px 24px;
+    }
+
+    /* 상단 바 */
+    .topbar { position:sticky; top:0; z-index:10; background:rgba(14,13,12,.9); backdrop-filter:blur(8px); border-bottom:1px solid var(--bronze); }
+    .topbar-inner { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:56px; }
+    .logo-mini { display:flex; align-items:center; gap:8px; font-weight:800; color:var(--gold-soft); white-space:nowrap; letter-spacing:.02em; }
+    .logo-mini .icon { color:var(--blood); width:1.1em; height:1.1em; }
+    .btn-b { display:inline-flex; align-items:center; gap:8px; padding:4px 2px; border:0; background:none; font-weight:700; color:var(--bone); white-space:nowrap; }
+    .btn-b img { width:30px; height:30px; }
+    .btn-b:hover { transform:translateY(-2px); }
+
+    /* 히어로 */
+    .hero {
+      position:relative; padding:44px 0 56px; overflow:hidden;
+      background:radial-gradient(ellipse at 30% 110%, rgba(226,101,42,.28) 0%, rgba(179,33,27,.12) 35%, transparent 65%);
+    }
+    .hero-inner { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:40px; align-items:center; }
+    .logo { margin:0 0 10px; line-height:0; }
+    .logo img {
+      display:block; width:100%; height:auto; aspect-ratio:2/1; object-fit:cover; object-position:48% 42%;
+      -webkit-mask-image:radial-gradient(ellipse 58% 60% at 50% 50%, #000 62%, transparent 100%);
+      mask-image:radial-gradient(ellipse 58% 60% at 50% 50%, #000 62%, transparent 100%);
+    }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 18px; padding:0; list-style:none; }
+    .badges li { padding:2px 12px; border:1px solid var(--gold); border-radius:999px; font-size:.85rem; color:var(--gold-soft); background:rgba(14,13,12,.7); }
+
+    /* 자막 창 */
+    .dialog {
+      display:flex; align-items:center; gap:16px; padding:14px 18px 14px 14px; color:var(--ink);
+      border:2px solid var(--bronze); border-radius:14px;
+      background:var(--paper) url(assets/parchment.jpg) center / cover;
+      box-shadow:inset 0 0 0 2px rgba(255,240,200,.45), inset 0 0 24px rgba(90,55,20,.35), 0 12px 28px rgba(0,0,0,.55);
+    }
+    .dialog img { width:92px; height:92px; object-fit:cover; object-position:58% 30%; border-radius:50%; border:2px solid var(--bronze); flex:none; background:#000; }
+    .dialog p { margin:0; font-weight:600; }
+
+    .actions { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:12px; margin-top:22px; }
+    .pad-btn {
+      display:flex; align-items:center; justify-content:center; gap:10px; min-height:56px; padding:0 14px; border-radius:6px;
+      font-size:1.2rem; font-weight:800; color:var(--gold-soft); white-space:nowrap;
+      border:1px solid var(--gold); background:linear-gradient(180deg, #3b3632, #141312);
+      box-shadow:inset 0 0 0 3px rgba(201,161,90,.14), 0 6px 16px rgba(0,0,0,.5);
+    }
+    .pad-btn img { width:34px; height:34px; }
+    .pad-btn:hover { transform:translateY(-2px); border-color:var(--gold-soft); }
+
+    .album { padding:10px; }
+    .album-images { position:relative; aspect-ratio:16/9; overflow:hidden; border-radius:3px; background:#000; }
+    .album .slide { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity .6s ease; }
+    .album .slide.is-active { opacity:1; }
+    .dots { display:flex; justify-content:center; gap:10px; padding-top:10px; }
+    .dot { width:30px; height:30px; display:grid; place-items:center; padding:0; border:0; background:none; color:rgba(201,161,90,.35); }
+    .dot .icon { width:18px; height:18px; }
+    .dot.is-active { color:var(--blood); }
+
+    /* 섹션 */
+    .block { padding:56px 0; }
+    .section-title { display:flex; align-items:center; gap:12px; margin:0 0 6px; font-size:clamp(1.5rem, 4vw, 2rem); font-weight:900; line-height:1.3; color:var(--gold-soft); }
+    .section-title .icon { width:26px; height:26px; color:var(--blood); }
+    .section-lead { margin:0 0 26px; color:var(--sub); }
+
+    .features { display:grid; grid-template-columns:repeat(auto-fit, minmax(230px, 1fr)); gap:18px; margin:0; padding:0; list-style:none; }
+    .feature { padding:22px 20px 20px; }
+    .feature h3 { display:flex; align-items:center; gap:8px; margin:0 0 6px; font-size:1.15rem; font-weight:800; line-height:1.4; color:var(--gold-soft); }
+    .feature h3 .icon { width:22px; height:22px; color:var(--gold); }
+    .feature p { margin:0; font-size:.95rem; color:var(--bone); }
+
+    .steps { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:18px; margin:0 0 22px; padding:0; list-style:none; counter-reset:step; }
+    .step { padding:20px 20px 18px; counter-increment:step; }
+    .step h3 { display:flex; align-items:center; gap:10px; margin:0 0 6px; font-size:1.15rem; font-weight:800; line-height:1.4; color:var(--gold-soft); }
+    .step h3::before { content:counter(step); display:grid; place-items:center; width:32px; height:32px; border-radius:50%; font-weight:900; color:var(--bone); background:var(--blood); border:1px solid var(--gold); flex:none; }
+    .step p { margin:0; font-size:.95rem; }
+    .notes {
+      margin:0; padding:20px 24px 20px 42px; color:var(--ink); font-weight:600;
+      border:2px solid var(--bronze); border-radius:14px;
+      background:var(--paper) url(assets/parchment.jpg) center / cover;
+      box-shadow:inset 0 0 0 2px rgba(255,240,200,.45), inset 0 0 24px rgba(90,55,20,.35);
+    }
+    .notes li + li { margin-top:6px; }
+    .notes a { text-decoration:underline; text-underline-offset:3px; }
+    b { color:var(--gold-soft); }
+    .notes b { color:#8c1a14; }
+
+    footer { padding:34px 0 48px; font-size:.86rem; color:var(--sub); text-align:center; }
+    footer p { margin:4px 0; }
+    footer a { text-decoration:underline; text-underline-offset:3px; }
+
+    @media (max-width:860px) {
+      .hero-inner { grid-template-columns:1fr; gap:28px; }
+      .steps { grid-template-columns:1fr; }
+    }
+    @media (max-width:420px) {
+      .logo-mini span { display:none; }
+      .dialog { flex-direction:column; text-align:center; padding:16px; }
+      .pad-btn { font-size:1.05rem; gap:8px; }
+      .pad-btn img { width:28px; height:28px; }
+    }
+    @media (prefers-reduced-motion:reduce) {
+      html { scroll-behavior:auto; }
+      .album .slide { transition:none; }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 21.5S2 15 2 8.5A5 5 0 0 1 12 6a5 5 0 0 1 10 2.5C22 15 12 21.5 12 21.5Z"/></symbol>
+    <symbol id="i-spade" viewBox="0 0 24 24"><path d="M12 2s9 6.5 9 12a4.5 4.5 0 0 1-7.6 3.3L14.5 22h-5l1.1-4.7A4.5 4.5 0 0 1 3 14c0-5.5 9-12 9-12Z"/></symbol>
+    <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-5 4v-4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm3 6v2h2V9H7Zm4 0v2h2V9h-2Zm4 0v2h2V9h-2Z"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M3 4h18v4H3V4Zm0 6h18v4H3v-4Zm0 6h18v4H3v-4Z"/></symbol>
+    <symbol id="i-disc" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0 2a1 1 0 1 1 0 2 1 1 0 0 1 0-2Z"/></symbol>
+    <symbol id="i-blade" viewBox="0 0 24 24"><path d="M20.5 2 22 3.5 11 14.5l-1.6-1.6L20.5 2ZM8.7 13.6l1.7 1.7-1.1 1.1 1.6 1.6-1.4 1.4-1.6-1.6L5.2 20.5a1.6 1.6 0 0 1-2.2-2.2l2.7-2.7-1.6-1.6 1.4-1.4 1.6 1.6 1.6-1.6Z"/></symbol>
+  </svg>
+
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="logo-mini" href="#top" aria-label="맨 위로"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg><span>아메리칸 맥기의 앨리스 한글패치</span></a>
+      <a class="btn-b" href="/"><img src="assets/btn-b.png" alt="" width="64" height="64">다른 게임 보기</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="game-title">
+      <div class="wrap hero-inner">
+        <div>
+          <h1 class="logo" id="game-title"><img src="assets/title.jpg" alt="American McGee's Alice 아메리칸 맥기의 앨리스" width="1280" height="720" fetchpriority="high"></h1>
+          <ul class="badges" aria-label="지원 환경">
+            <li>XBOX 360</li><li>매드니스 리턴즈 DLC</li><li>Windows 10 이상</li>
+          </ul>
+          <div class="dialog">
+            <img src="assets/alice.jpg" alt="" width="256" height="224">
+            <p>화재로 가족을 잃고 정신병원에 갇힌 앨리스. 흰 토끼를 따라 뒤틀려 버린 이상한 나라로 돌아가 하트 여왕에 맞서는 다크 판타지 액션 어드벤처를 이제 한국어로 즐겨 보세요.</p>
+          </div>
+          <div class="actions">
+            <a class="pad-btn" href="https://github.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer" target="_blank" rel="noopener noreferrer" aria-label="GitHub 저장소 (새 탭)"><img src="assets/btn-y.png" alt="" width="64" height="64">GitHub</a>
+            <a class="pad-btn" href="https://github.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/releases" target="_blank" rel="noopener noreferrer" aria-label="다운로드 페이지 (새 탭)"><img src="assets/btn-a.png" alt="" width="64" height="64">다운로드</a>
+          </div>
+        </div>
+        <div class="album panel" role="group" aria-roledescription="슬라이드쇼" aria-label="한글패치 샘플 화면" tabindex="0">
+          <div class="album-images">
+            <img class="slide is-active" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample1.jpg" alt="한글패치 버전이 표시된 타이틀 화면" width="1280" height="720">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample2.jpg" alt="체셔 고양이의 대사가 한글 자막으로 나오는 장면" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample3.jpg" alt="보팔 검을 든 앨리스가 마을을 탐험하는 장면" width="1280" height="720" loading="lazy" aria-hidden="true">
+            <img class="slide" src="https://raw.githubusercontent.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer/main/samples/sample4.jpg" alt="나무 다리가 놓인 실내를 지나는 앨리스" width="1280" height="720" loading="lazy" aria-hidden="true">
+          </div>
+          <div class="dots" aria-label="샘플 선택">
+            <button class="dot is-active" type="button" aria-label="샘플 1 보기" aria-pressed="true"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button><button class="dot" type="button" aria-label="샘플 2 보기" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button><button class="dot" type="button" aria-label="샘플 3 보기" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button><button class="dot" type="button" aria-label="샘플 4 보기" aria-pressed="false"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="checker" aria-hidden="true"></div>
+
+    <section class="block wrap" aria-labelledby="features-title">
+      <h2 class="section-title" id="features-title"><svg class="icon" aria-hidden="true"><use href="#i-heart"/></svg>패치 기능</h2>
+      <p class="section-lead">매드니스 리턴즈에 들어 있는 DLC 파일에 한국어 번역을 넣어 다시 묶어 줍니다.</p>
+      <ul class="features">
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-chat"/></svg>대사 자막</h3><p>체셔 고양이를 비롯한 등장인물들의 대사를 한글 자막으로 보여 줍니다.</p></li>
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-menu"/></svg>메뉴·설정</h3><p>메인 메뉴, 저장·불러오기, 설정 화면과 안내 문구를 한글로 바꿨습니다.</p></li>
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-disc"/></svg>단독 실행</h3><p>스탠드 얼론 변환을 켜면 본편 없이 바로 실행되는 ISO로 만들어 줍니다.</p></li>
+        <li class="feature panel"><h3><svg class="icon" aria-hidden="true"><use href="#i-blade"/></svg>보팔 검 옵션</h3><p>원하면 보팔 검 투척의 재생 시간을 절반으로, 피해량을 2배로 바꿀 수 있습니다.</p></li>
+      </ul>
+    </section>
+
+    <section class="block wrap" id="how" aria-labelledby="how-title">
+      <h2 class="section-title" id="how-title"><svg class="icon" aria-hidden="true"><use href="#i-spade"/></svg>패치 방법</h2>
+      <p class="section-lead">Windows용 패처에 DLC 파일과 xextool을 끌어다 놓고 버튼 한 번이면 끝납니다.</p>
+      <ol class="steps">
+        <li class="step panel"><h3>패처 받기</h3><p>다운로드 페이지에서 zip을 받아 압축을 풀어 주세요. (Windows 10 이상)</p></li>
+        <li class="step panel"><h3>끌어다 놓기</h3><p>원본 DLC 파일과 <b>xextool.exe</b>를 패처 창에 놓고, 필요한 옵션을 고릅니다.</p></li>
+        <li class="step panel"><h3>패치 시작</h3><p>원본과 같은 폴더에 <b>원본 파일명_repacked</b>가 만들어집니다. 단독 실행을 켜면 ISO로 나옵니다.</p></li>
+      </ol>
+      <ul class="notes">
+        <li>게임 데이터는 들어 있지 않습니다. 직접 가지고 있는 <b>앨리스 매드니스 리턴즈</b>의 「아메리칸 맥기의 앨리스」 DLC 파일이 필요합니다.</li>
+        <li>xextool 6.3은 직접 준비해 주세요. (<a href="https://digiex.net/threads/xextool-6-3-download.9523/" target="_blank" rel="noopener noreferrer">다운로드</a>)</li>
+        <li>원본 DLC는 그대로 남습니다. 같은 이름의 결과물이 이미 있으면 뒤에 번호를 붙여 따로 저장합니다.</li>
+      </ul>
+    </section>
+  </main>
+
+  <div class="checker" aria-hidden="true"></div>
+
+  <footer>
+    <div class="wrap">
+      <p>비영리 팬 번역 프로젝트이며, 원작의 저작권은 권리자에게 있습니다. 패치 사용으로 생기는 문제에 대해 책임지지 않습니다.</p>
+      <p><a href="https://github.com/rnrmfdlapdlf/xbox360-american-mcgees-alice-korean-pathcer" target="_blank" rel="noopener noreferrer">MIT License</a></p>
+    </div>
+  </footer>
+
+  <script>
+    'use strict';
+    // 샘플 사진 슬라이드쇼 (5초마다 전환, 마우스를 올리거나 포커스 중에는 멈춤)
+    (() => {
+      const album = document.querySelector('.album');
+      const slides = Array.from(album.querySelectorAll('.slide'));
+      const dots = Array.from(album.querySelectorAll('.dot'));
+      let current = 0;
+      let paused = false;
+      const show = index => {
+        current = index;
+        slides.forEach((s, i) => { s.classList.toggle('is-active', i === index); s.setAttribute('aria-hidden', String(i !== index)); });
+        dots.forEach((d, i) => { d.classList.toggle('is-active', i === index); d.setAttribute('aria-pressed', String(i === index)); });
+      };
+      dots.forEach((d, i) => d.addEventListener('click', () => show(i)));
+      ['mouseenter', 'focusin'].forEach(e => album.addEventListener(e, () => { paused = true; }));
+      ['mouseleave', 'focusout'].forEach(e => album.addEventListener(e, () => { paused = false; }));
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.setInterval(() => { if (!paused && !document.hidden) show((current + 1) % slides.length); }, 5000);
+      }
+    })();
+  </script>
+</body>
+</html>
